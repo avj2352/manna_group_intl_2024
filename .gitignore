@@ -1,8 +1,17 @@
-*.js
-!jest.config.js
-*.d.ts
-node_modules
+# folders to ignore
+**/node_modules/
+**/venv/
+**/cdk.out/
+**/build/
+**/dist/
+**/.cdk.staging
+**/cdk.out/
+
+# files to ignore
+.DS_Store
+**/.DS_Store
+**/*.js
+**/!jest.config.js
+**/*.d.ts
 
 # CDK asset staging directory
-.cdk.staging
-cdk.out
