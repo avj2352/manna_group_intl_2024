@@ -17,3 +17,29 @@ This is the new version of the website
 - [Open source - free image generator AI](http://flowgpt.com/)
 - [Limited image gen AI](https://openart.ai)
 
+## Website Statistics
+
+The following provides a summary of website performance improvements and statistics
+
+### Current Website Statistics
+
+- Techstack: Php + Wordpress + Javascript libraries
+- Link: https://mannagroupintl.com
+- Avg Time taken to load (with cache disabled): 1.49 seconds
+- Resources loaded: 108
+- Size of loaded assets: 8.01 mb
+- Size of transferred assets: 5.55 mb
+- Avg time taken to load website: under 1 minute
+- Lighthouse (Google) score: 59
+
+### New Website Statistics
+
+- Techstack: React + AWS
+- Link: https://d2sjpgezzxd3c7.cloudfront.net (to be hosted)
+- Avg Time taken to load (with cache disabled): 277 milliseconds
+- Resources loaded: 18
+- Size of loaded assets: 1.5 mb
+- Size of transferred assets: 1.13 mb
+- Avg time taken to load website: under 33 milliseconds
+- Lighthouse (Google) score: 77
+

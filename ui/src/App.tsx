@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import { HashRouter } from "react-router-dom";
-import { Footer } from "@/components/Footer.tsx";
+import { Footer } from "@/components/navigation/Footer";
 import { ThemeToggler } from "@/components/ThemeToggler.tsx";
 import { Theme, useTheme } from "react-daisyui";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navigation/Navbar";
 import ClientRouter from "./router/ClientRouter";
+import { navList } from "./components/navigation/navigation.list";
 
 function App() {
   const { theme } = useTheme();
@@ -12,11 +13,11 @@ function App() {
   return (
     <Fragment>
       <Theme dataTheme={theme}>
-        <Navbar />
+        <Navbar navList={navList} />
         <HashRouter>
           <ClientRouter />
         </HashRouter>
-        <Footer />
+        <Footer navList={navList} />
         <ThemeToggler />
       </Theme>
     </Fragment>
