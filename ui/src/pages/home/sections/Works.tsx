@@ -1,5 +1,8 @@
 import mobile2Img from "@/assets/images/landing/mobile-2.png";
 import {
+  PhoneCall,
+  ShoppingCart,
+  CircleDollarSign,
   ArrowDownToLineIcon,
   ArrowRightIcon,
   ComponentIcon,
@@ -18,7 +21,7 @@ export const Works = () => {
             <div className="flex justify-center">
               <img alt="Mobile 2" className="h-[500px]" src={mobile2Img} />
             </div>
-            <div className="absolute left-8 top-[30%]">
+            <div className="absolute left-20 top-[30%]">
               <Card className="bg-base-100 shadow transition-all hover:shadow-lg">
                 <Card.Body className="flex flex-row items-center gap-3 p-3">
                   <div className="flex items-center justify-center rounded-full bg-primary p-2 text-primary-content">
@@ -36,16 +39,16 @@ export const Works = () => {
           <div className="col-span">
             <p className="text-xl font-semibold lg:text-3xl">How it works?</p>
             <p className="mt-3 text-base">
-              AI app defines goals, processes data, trains a model, predicts
-              outputs, integrates user feedback for improvement, and interacts
-              with external systems for comprehensive functionality.
+              When you purchase our product on MANNA website, you also can sign
+              up to be a continued valued customer with us, keeping upto date
+              with our products &amp; new offers!
             </p>
             <div className="mt-8 grid grid-cols-2 gap-8">
               <div className="flex items-center gap-5">
                 <div className="inline-flex p-2 items-center justify-center rounded bg-primary/20 font-medium text-primary">
-                  <ArrowDownToLineIcon size={20} />
+                  <ShoppingCart size={20} />
                 </div>
-                <p className="text-base">Download the latest app from store</p>
+                <p className="text-base">Purchase one of our products</p>
               </div>
               <div className="flex items-center gap-5">
                 <div className="inline-flex p-2 items-center justify-center rounded bg-primary/20 font-medium text-primary">
@@ -59,13 +62,15 @@ export const Works = () => {
                 <div className="inline-flex p-2 items-center justify-center rounded bg-primary/20 font-medium text-primary">
                   <RefreshCcwDotIcon size={20} />
                 </div>
-                <p className="text-base">Syncing all your data</p>
+                <p className="text-base">
+                  Keep upto date info on our features &amp; products
+                </p>
               </div>
               <div className="flex items-center gap-5">
                 <div className="inline-flex p-2 items-center justify-center rounded bg-primary/20 font-medium text-primary">
-                  <PackagePlusIcon size={20} />
+                  <PhoneCall size={20} />
                 </div>
-                <p className="text-base">Ready to generate AI content</p>
+                <p className="text-base">Reach out for assistance!</p>
               </div>
             </div>
             <Button color={"ghost"} size={"sm"} className="mt-8">

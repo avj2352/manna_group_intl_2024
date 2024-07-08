@@ -34,44 +34,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          <div className="flex flex-col gap-5">
-            <h2 className="text-xl font-medium">Features</h2>
-            <div className="space-y-2">
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Overview
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Automation
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Intelligent Personalization
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Predictive Analytics
-                </a>
-              </div>
-            </div>
-          </div>
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <div className="flex flex-col gap-5">
             <h2 className="text-xl font-medium">Solutions</h2>
             <div className="space-y-2">
@@ -80,7 +43,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Use Cases
+                  Our Products
                 </a>
               </div>
               <div>
@@ -88,36 +51,20 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Case Studies
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Integrations
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Forum
+                  Dietory Supplements
                 </a>
               </div>
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <h2 className="text-xl font-medium">Resources</h2>
+            <h2 className="text-xl font-medium">About</h2>
             <div className="space-y-2">
               <div>
                 <a
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Blog
+                  Our Mission
                 </a>
               </div>
               <div>
@@ -125,7 +72,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Whitepapers
+                  Our Vision
                 </a>
               </div>
               <div>
@@ -133,15 +80,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Webinars
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Newsroom
+                  Our Values
                 </a>
               </div>
             </div>
@@ -154,7 +93,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Landing
+                  Gallery
                 </a>
               </div>
               <div>
@@ -162,7 +101,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Our Team
+                  Management Team
                 </a>
               </div>
               <div>
@@ -170,7 +109,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Blogs
+                  Collaboration and R&amp;D
                 </a>
               </div>
               <div>
@@ -178,15 +117,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  FAQs
-                </a>
-              </div>
-              <div>
-                <a
-                  className="text-base transition-all duration-500 hover:text-primary"
-                  href="#"
-                >
-                  Contact
+                  Business Division
                 </a>
               </div>
             </div>
@@ -199,7 +130,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Features
+                  Contact Us
                 </a>
               </div>
               <div>
@@ -207,7 +138,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Pricing
+                  Send Inquiry
                 </a>
               </div>
               <div>
@@ -215,7 +146,7 @@ export const Footer = () => {
                   className="text-base transition-all duration-500 hover:text-primary"
                   href="#"
                 >
-                  Products
+                  Careers
                 </a>
               </div>
             </div>
