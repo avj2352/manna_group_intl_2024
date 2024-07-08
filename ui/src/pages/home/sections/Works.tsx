@@ -2,11 +2,8 @@ import mobile2Img from "@/assets/images/landing/mobile-2.png";
 import {
   PhoneCall,
   ShoppingCart,
-  CircleDollarSign,
-  ArrowDownToLineIcon,
   ArrowRightIcon,
   ComponentIcon,
-  PackagePlusIcon,
   RefreshCcwDotIcon,
   ScanFaceIcon,
 } from "lucide-react";
