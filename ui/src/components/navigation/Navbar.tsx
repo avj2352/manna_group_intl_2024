@@ -1,4 +1,5 @@
 import { Fragment, FC } from "react";
+import { Link } from "react-router-dom";
 import { Button, Drawer, Menu, Navbar as Nav } from "react-daisyui";
 import { Menu as MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -120,7 +121,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                         .filter((item: INavItem) => item.category === "about")
                         .map((item: INavItem, idx: number) => (
                           <li key={idx + 1}>
-                            <a href={item.link}>{item.label}</a>
+                            <Link to={item.link}>{item.label}</Link>
                           </li>
                         ))}
                     </ul>

@@ -14,37 +14,37 @@ export type INavItem = {
 export const navList: INavItem[] = [
   {
     label: "Who we are",
-    link: "#",
+    link: "/about",
     section: undefined,
     category: "about",
   },
   {
     label: "Vision & Mission",
-    link: "#",
+    link: "/about",
     section: undefined,
     category: "about",
   },
   {
     label: "Our Value",
-    link: "#",
+    link: "/about",
     section: undefined,
     category: "about",
   },
   {
     label: "Quality & Affordability",
-    link: "#",
+    link: "/about",
     section: undefined,
     category: "about",
   },
   {
     label: "Collaboration and R&D",
-    link: "#",
+    link: "/about",
     section: undefined,
     category: "about",
   },
   {
     label: "Management Team",
-    link: "#",
+    link: "/about",
     section: undefined,
     category: "about",
   },

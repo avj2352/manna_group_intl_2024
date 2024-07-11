@@ -13,12 +13,12 @@ function App() {
   return (
     <Fragment>
       <Theme dataTheme={theme}>
-        <Navbar navList={navList} />
         <HashRouter>
+          <Navbar navList={navList} />
           <ClientRouter />
+          <ThemeToggler />
+          <Footer navList={navList} />
         </HashRouter>
-        <Footer navList={navList} />
-        <ThemeToggler />
       </Theme>
     </Fragment>
   );
