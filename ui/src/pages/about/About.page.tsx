@@ -3,6 +3,8 @@ import WhoWeAre from "./sections/WhoWeAre";
 import ValueAndMission from "./sections/ValueAndMission";
 import OurValue from "./sections/OurValue";
 import Quality from "./sections/Quality";
+import CollaborationRD from "./sections/Collaboration";
+import Management from "./sections/Management";
 
 const AboutPage: FC = () => {
   return (
@@ -11,6 +13,8 @@ const AboutPage: FC = () => {
       <ValueAndMission />
       <OurValue />
       <Quality />
+      <CollaborationRD />
+      <Management />
     </Fragment>
   );
 };

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import {
   DribbbleIcon,
   FacebookIcon,
@@ -49,12 +50,12 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                 .filter((item: INavItem) => item.category === "about")
                 .map((item: INavItem, idx: number) => (
                   <div key={idx + 1}>
-                    <a
+                    <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href={item.link}
+                      to={item.link}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   </div>
                 ))}
               {/* endloop */}
@@ -68,12 +69,12 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                 .filter((item: INavItem) => item.category === "products")
                 .map((item: INavItem, idx: number) => (
                   <div key={idx + 1}>
-                    <a
+                    <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href={item.link}
+                      to={item.link}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   </div>
                 ))}
               {/* endloop */}
@@ -87,12 +88,12 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                 .filter((item: INavItem) => item.category === "company")
                 .map((item: INavItem, idx: number) => (
                   <div key={idx + 1}>
-                    <a
+                    <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href={item.link}
+                      to={item.link}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   </div>
                 ))}
               {/* endloop */}
@@ -106,12 +107,12 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                 .filter((item: INavItem) => item.category === "contact")
                 .map((item: INavItem, idx: number) => (
                   <div key={idx + 1}>
-                    <a
+                    <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href={item.link}
+                      to={item.link}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   </div>
                 ))}
               {/* endloop */}
