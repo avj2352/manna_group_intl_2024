@@ -168,33 +168,51 @@ export const people: IManagementPeople[] = [
     `,
   },
   {
-    name: "",
+    name: "Dr.Scott Chapman",
     title: "",
-    description: ``,
+    description: `
+    Dr.  Scott brings proven leadership, marketing and management expertise of more than  25 years. He has vast experience from the Middle East, Europe and the US makes  him a real veteran to handle any corporate challenge.
+    He  is highly experienced in strategy, client relationship building,  marketing/sales techniques, and capable of utilizing a business perspective  towards inclusive participation across world-wide offices and  practices/industries.
+    An  expert in Developing and nurturing relationships to enable practice/industry  groups to understand, define, implement and evaluate business development and  marketing endeavors.
+    `,
   },
   {
-    name: "",
+    name: "Engr.Simon Awofesobi",
     title: "",
-    description: ``,
+    description: `
+   	Engr.  Simon Awofesobi is Chairman/Managing Director of NISULT Ltd; a general  construction &amp; Supply company with years of building and road construction,  material and equipment and supply experience.
+    He  is Ex-Chief Engineer for Exxon-Mobil Nigeria Plc with experience spanning from  many gas stations construction across Nigeria, Aviation Depot construction,  Warehouse and Plastic Plant construction. Lube Oil blending Plant Engineer.  Nuclear Design of Pipe Hangers for ITT Grinnell, Rhode Island.
+    He is also Chairman Managing Director of West  African Sea Food Company Ltd. Owner of Fishing Trawlers with depot at 2nd  Phase Kirikiri, Lagos. Co-Director of Krapy Shoe Manufacturing Company, Opebi  Lagos. He will advise and support technical infrastructure for MANNA.
+    `,
   },
   {
-    name: "",
+    name: "Lauren Pennisi",
     title: "",
-    description: ``,
+    description: `
+   	Lauren Pennisi, with 16 years of Mortgage Banking experience who is specialized in  Property Assessment and Placement will be a big plus to support MANNA in Property acquisitions and implementations.  Currently an Assistant Director of Patient Financial Services; Bachelor of Science, with a concentration in Healthcare Administration and demonstrated history of working in the hospital & health care industry. Lauren is also a NYS licensed Real Estate Sales Agent.
+    `,
   },
   {
-    name: "",
+    name: "Olajide Ojolo",
     title: "",
-    description: ``,
+    description: `
+   	Olajide Ojolo is an Agricultural Economist with emphasis in Finance and Marketing. He has his MBA from one of the foremost Universities in Nigeria, Obafemi Awolowo University.
+    In 1984, he was attached to Chad Basin and Rural Development Authority in Borno State, Nigeria for national service. Between 1985 and 1987, he served as the Agricultural Officer/Teacher at Government Girls College, Kura, Kano State in Nigeria. He established a flourishing Micro Finance Company in Nigeria in 1988. He was once the Assistant Farm Manager, Institute of Agricultural Research and Training, Moore Plantation, Ibadan at Operations site located at the Research Farm of Obafemi Awolowo University.
+    He relocated to USA in 2004. In 2005, he started and ran Blessed Companion Care LLC. Now he is the CEO of Arise Africa America Forum; a human capital development company.
+    `,
   },
   {
-    name: "",
+    name: "Dr. PeaceVal Osinachi Ekweghariri",
     title: "",
-    description: ``,
+    description: `
+   	Rev. Dr. PeaceVal Osinachi Ekweghariri, is the senior Pastor of Christian Charismatic Pilgrims Mission since 2003 till date. A Leader and spiritual Mentor. An Educationist and instructor on anger Management. An International Chaplain, a first respondent to crisis and a Prayer Warrior. I have worked as an Entrepreneur for over twenty-three years in area of Home Improvement and now a contractor in Homes and commercial remodeling. To Manna Group Intl, I am bringing in years of leadership and managerial expertise to get work done. To God be all glory. I am married and blessed with three children who have been the pillar of my support in Ministry. Through me God founded Christian Charismatic Pilgrims Mission since 2003 here in new Jersey.
+    `,
   },
   {
-    name: "",
+    name: "Dennis Daisi",
     title: "",
-    description: ``,
+    description: `
+   	Dennis Daisi is a dynamic detailed-oriented driven professional with over 18years of leadership in the areas of Finance & Strategic Planning, Financial Governance & Reporting, Personal and Corporate Accounting with Operational Excellence with integrity. Managing multiple projects in a fast-paced deadline-driven environment. Strong Collaboration skill and facilitation of business deal effectively alongside individuals from diverse backgrounds with a great team spirit.  He is very strong in economic and financial Management and Principles..
+    `,
   },
 ];
