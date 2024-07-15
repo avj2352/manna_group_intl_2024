@@ -7,7 +7,7 @@
 export type INavItem = {
   label: string;
   link: string;
-  section: string | undefined;
+  offSetYAxis: number | undefined;
   category: "about" | "products" | "company" | "contact";
 };
 
@@ -15,97 +15,85 @@ export const navList: INavItem[] = [
   {
     label: "Who we are",
     link: "/about",
-    section: undefined,
+    offSetYAxis: 2,
     category: "about",
   },
   {
     label: "Vision & Mission",
     link: "/about",
-    section: undefined,
+    offSetYAxis: 220,
     category: "about",
   },
   {
     label: "Our Value",
     link: "/about",
-    section: undefined,
+    offSetYAxis: 490,
     category: "about",
   },
   {
     label: "Quality & Affordability",
     link: "/about",
-    section: undefined,
+    offSetYAxis: 700,
     category: "about",
   },
   {
     label: "Collaboration and R&D",
     link: "/about",
-    section: undefined,
+    offSetYAxis: 950,
     category: "about",
   },
   {
     label: "Management Team",
     link: "/about",
-    section: undefined,
+    offSetYAxis: 1300,
     category: "about",
   },
   {
     label: "Shop Products NOW!",
     link: "#",
-    section: undefined,
+    offSetYAxis: 2,
     category: "products",
   },
   {
-    label: "Dietory Supplements",
-    link: "#",
-    section: undefined,
-    category: "products",
-  },
-  {
-    label: "Events",
-    link: "#",
-    section: undefined,
-    category: "company",
-  },
-  {
-    label: "Careers",
-    link: "#",
-    section: undefined,
+    label: "Gallery",
+    link: "/company",
+    offSetYAxis: 1,
     category: "company",
   },
   {
     label: "Business Division",
-    link: "#",
-    section: undefined,
+    link: "/company",
+    offSetYAxis: 2,
     category: "company",
   },
   {
     label: "USA & International",
-    link: "#",
-    section: undefined,
+    link: "/company",
+    offSetYAxis: 2,
     category: "company",
   },
   {
     label: "Contract Manufacturing",
-    link: "#",
-    section: undefined,
+    link: "/company",
+    offSetYAxis: 2,
     category: "company",
   },
   {
     label: "Contact Us",
     link: "#",
-    section: undefined,
+    offSetYAxis: undefined,
     category: "contact",
   },
   {
     label: "Send Inquiry",
     link: "#",
-    section: undefined,
+    offSetYAxis: undefined,
     category: "contact",
   },
   {
     label: "Careers",
     link: "#",
-    section: undefined,
+    offSetYAxis: undefined,
     category: "contact",
   },
 ];

@@ -12,14 +12,15 @@
   "dependencies": {
     "card3d": "^2.6.5",
     "daisyui": "^4.4.19",
-    "embla-carousel-react": "8.1.6",
     "embla-carousel": "8.1.6",
     "embla-carousel-class-names": "8.1.6",
+    "embla-carousel-react": "8.1.6",
     "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-daisyui": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
+    "react-simple-maps": "^3.0.0",
     "swiper": "^11.0.6"
   },
   "devDependencies": {

@@ -12,7 +12,7 @@ import {
   useDotButton,
 } from "@/components/carousels/EmblaCarouselDotButtons";
 import "../carousel-default.css";
-import { IManagementPeople, people } from "./data";
+import { IGallery } from "./data";
 
 const ManagementCarousel: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [ClassNames()]);
@@ -30,7 +30,7 @@ const ManagementCarousel: FC = () => {
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {people.map((item: IManagementPeople, index: number) => (
+          {[].map((item: IGallery, index: number) => (
             <div className="embla__slide embla__class-names" key={index}>
               <p className="mt-2 font-bold text-lg">{item.name}</p>
               <p className="mt-2 text-base">{item.title}</p>
@@ -50,7 +50,7 @@ const ManagementCarousel: FC = () => {
         </div>
 
         <div className="embla__dots">
-          {people.map((_: IManagementPeople, index: number) => (
+          {[].map((_: IGallery, index: number) => (
             <DotButton
               key={index}
               onClick={() => onDotButtonClick(index)}

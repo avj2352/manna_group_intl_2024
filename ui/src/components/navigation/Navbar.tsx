@@ -121,7 +121,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                         .filter((item: INavItem) => item.category === "about")
                         .map((item: INavItem, idx: number) => (
                           <li key={idx + 1}>
-                            <Link to={item.link}>{item.label}</Link>
+                            <Link
+                              className="text-base transition-all duration-500 hover:text-primary"
+                              to={`${item.link}${
+                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
                           </li>
                         ))}
                     </ul>
@@ -141,7 +148,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                         )
                         .map((item: INavItem, idx: number) => (
                           <li key={idx + 1}>
-                            <a href={item.link}>{item.label}</a>
+                            <Link
+                              className="text-base transition-all duration-500 hover:text-primary"
+                              to={`${item.link}${
+                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
                           </li>
                         ))}
                     </ul>
@@ -159,7 +173,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                         .filter((item: INavItem) => item.category === "company")
                         .map((item: INavItem, idx: number) => (
                           <li key={idx + 1}>
-                            <a href={item.link}>{item.label}</a>
+                            <Link
+                              className="text-base transition-all duration-500 hover:text-primary"
+                              to={`${item.link}${
+                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
                           </li>
                         ))}
                     </ul>
