@@ -8,6 +8,8 @@ import {
   MailIcon,
 } from "lucide-react";
 import { INavItem } from "@/components/navigation/navigation.list";
+import logoImg from "@/assets/images/logo-img.png";
+import fdaRegisteredImg from "@/assets/images/fda_registered.png";
 
 type IFooterProps = {
   navList: INavItem[];
@@ -21,6 +23,16 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
     >
       <div className="container py-12">
         <p className="text-2xl font-bold">MANNA Group International</p>
+        <section className="flex justify-start lg:justify-end">
+          <img width="300px" height="auto" src={logoImg} alt="logo-image" />
+          <img
+            src={fdaRegisteredImg}
+            alt="fda-image"
+            width="100px"
+            height="auto"
+            className="rounded-lg"
+          />
+        </section>
         <div className="mt-8 flex flex-wrap items-center justify-between gap-6">
           <div className="inline-flex gap-3">
             <div className="cursor-pointer rounded border border-base-content/10 p-2 transition-all hover:bg-base-content/10">
@@ -73,9 +85,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={`${item.link}${
-                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                      }`}
+                      to={item.link}
                     >
                       {item.label}
                     </Link>
@@ -115,9 +125,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={`${item.link}${
-                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                      }`}
+                      to={item.link}
                     >
                       {item.label}
                     </Link>

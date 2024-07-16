@@ -156,9 +156,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                           <li key={idx + 1}>
                             <Link
                               className="text-base transition-all duration-500 hover:text-primary"
-                              to={`${item.link}${
-                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                              }`}
+                              to={item.link}
                             >
                               {item.label}
                             </Link>
@@ -210,7 +208,12 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                         .filter((item: INavItem) => item.category === "contact")
                         .map((item: INavItem, idx: number) => (
                           <li key={idx + 1}>
-                            <a href={item.link}>{item.label}</a>
+                            <Link
+                              className="text-base transition-all duration-500 hover:text-primary"
+                              to={item.link}
+                            >
+                              {item.label}
+                            </Link>
                           </li>
                         ))}
                     </ul>

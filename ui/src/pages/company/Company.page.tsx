@@ -6,6 +6,7 @@ import { BusinessUSASection } from "./sections/BusinessUSA";
 import { InternationalSection } from "./sections/International";
 import { ContractManufacturingSection } from "./sections/ContractManufacturing";
 import { scrollToOffset } from "@/util/helper";
+import { PromoVideoSection } from "./sections/Video";
 
 const CompanyPage: FC = () => {
   window.scrollTo();
@@ -21,6 +22,7 @@ const CompanyPage: FC = () => {
   return (
     <Fragment>
       <GallerySection />
+      <PromoVideoSection />
       <BusinessUSASection />
       <InternationalSection />
       <ContractManufacturingSection />

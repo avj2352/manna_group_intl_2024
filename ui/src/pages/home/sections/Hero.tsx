@@ -1,5 +1,6 @@
 import bgGradientImg from "@/assets/images/landing/bg-gradient.png";
 import familyImg from "@/assets/images/landing/family.jpg";
+import logoImg from "@/assets/images/logo-img.png";
 import { StarIcon } from "lucide-react";
 import { Card } from "react-daisyui";
 import Keypoints from "./Keypoints";
@@ -14,6 +15,7 @@ export const Hero = () => {
       <div className="container relative z-10">
         <div className="mt-16 grid items-center gap-12 lg:grid-cols-2 xl:gap-36">
           <div className="order-2 lg:order-1">
+            <img src={logoImg} className="rounded-xl" />
             <h1 className="text-center text-3xl/tight font-bold leading-10 tracking-tight sm:text-start lg:text-4xl/tight">
               <span className="text-brand-gradient">
                 MANNA Group International

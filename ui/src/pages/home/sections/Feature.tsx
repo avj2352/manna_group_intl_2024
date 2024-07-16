@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { Button, Card } from "react-daisyui";
 import {
   ArrowRightIcon,
   Syringe,
@@ -5,9 +7,9 @@ import {
   CheckIcon,
   UserRoundCogIcon,
 } from "lucide-react";
-import { Button, Card } from "react-daisyui";
 
 export const Feature = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-8 lg:py-24" id="features">
       <div className="container">
@@ -57,8 +59,13 @@ export const Feature = () => {
                 <p className="mt-2 text-base-content/90">
                   Check out our supplements product list
                 </p>
-                <Button color={"ghost"} size={"sm"} className="mt-8">
-                  Read More
+                <Button
+                  onClick={() => navigate("/products")}
+                  color={"ghost"}
+                  size={"sm"}
+                  className="mt-8"
+                >
+                  Shop Now!
                   <ArrowRightIcon size={16} />
                 </Button>
               </div>
@@ -72,8 +79,13 @@ export const Feature = () => {
                 <p className="mt-2 text-base-content/80">
                   We also specialize in contract manufacturing services.
                 </p>
-                <Button color={"ghost"} size={"sm"} className="mt-8">
-                  Reach out
+                <Button
+                  onClick={() => navigate("/company/900")}
+                  color={"ghost"}
+                  size={"sm"}
+                  className="mt-8"
+                >
+                  Read More
                   <ArrowRightIcon size={16} />
                 </Button>
               </div>
@@ -86,8 +98,13 @@ export const Feature = () => {
                   Personalized counselling that learns from you, tailoring
                   content and courses unique to you.
                 </p>
-                <Button color={"ghost"} size={"sm"} className="mt-8">
-                  Read More
+                <Button
+                  onClick={() => navigate("/contact")}
+                  color={"ghost"}
+                  size={"sm"}
+                  className="mt-8"
+                >
+                  Reach out
                   <ArrowRightIcon size={16} />
                 </Button>
               </div>
