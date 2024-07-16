@@ -32,7 +32,6 @@ const ManagementCarousel: FC = () => {
         <div className="embla__container">
           {[].map((item: IGallery, index: number) => (
             <div className="embla__slide embla__class-names" key={index}>
-              <p className="mt-2 font-bold text-lg">{item.name}</p>
               <p className="mt-2 text-base">{item.title}</p>
               <p className="mt-4 text-base h-40 overflow-y-scroll">
                 {" "}

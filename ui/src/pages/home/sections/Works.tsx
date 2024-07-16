@@ -8,8 +8,10 @@ import {
   ScanFaceIcon,
 } from "lucide-react";
 import { Button, Card } from "react-daisyui";
+import { useNavigate } from "react-router-dom";
 
 export const Works = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-8 lg:py-24" id="how-it-works">
       <div className="container">
@@ -70,8 +72,13 @@ export const Works = () => {
                 <p className="text-base">Reach out for assistance!</p>
               </div>
             </div>
-            <Button color={"ghost"} size={"sm"} className="mt-8">
-              Read More
+            <Button
+              onClick={() => navigate("/products")}
+              color={"ghost"}
+              size={"sm"}
+              className="mt-8"
+            >
+              Shop NOW!
               <ArrowRightIcon size={16} />
             </Button>
           </div>

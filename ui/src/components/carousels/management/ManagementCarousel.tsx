@@ -27,7 +27,7 @@ const ManagementCarousel: FC = () => {
   } = usePrevNextButtons(emblaApi);
 
   return (
-    <div className="embla">
+    <div className="embla max-w-sm overflow-x-clip lg:max-w-lg">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {people.map((item: IManagementPeople, index: number) => (
@@ -49,7 +49,7 @@ const ManagementCarousel: FC = () => {
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
 
-        <div className="embla__dots">
+        <div className="embla__dots invisible md:visible">
           {people.map((_: IManagementPeople, index: number) => (
             <DotButton
               key={index}

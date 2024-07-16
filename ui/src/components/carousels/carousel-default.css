@@ -1,8 +1,10 @@
 .embla {
+  position: relative;
+  overflow-x: scroll;
   /* border: 1px solid red; */
   text-align: justify;
   min-width: 200px;
-  width: 100%;
+  width: inherit;
   margin: auto;
   --slide-height: 19rem;
   --slide-spacing: 1rem;
