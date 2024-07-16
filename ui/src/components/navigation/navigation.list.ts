@@ -63,19 +63,19 @@ export const navList: INavItem[] = [
   {
     label: "Business Division",
     link: "/company",
-    offSetYAxis: 2,
+    offSetYAxis: 100,
     category: "company",
   },
   {
     label: "USA & International",
     link: "/company",
-    offSetYAxis: 2,
+    offSetYAxis: 400,
     category: "company",
   },
   {
     label: "Contract Manufacturing",
     link: "/company",
-    offSetYAxis: 2,
+    offSetYAxis: 600,
     category: "company",
   },
   {

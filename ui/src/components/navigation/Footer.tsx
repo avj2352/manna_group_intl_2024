@@ -73,7 +73,9 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={item.link}
+                      to={`${item.link}${
+                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
+                      }`}
                     >
                       {item.label}
                     </Link>
@@ -92,7 +94,9 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={item.link}
+                      to={`${item.link}${
+                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
+                      }`}
                     >
                       {item.label}
                     </Link>
@@ -111,7 +115,9 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={item.link}
+                      to={`${item.link}${
+                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
+                      }`}
                     >
                       {item.label}
                     </Link>

@@ -10,7 +10,10 @@ const GallerySection: FC = () => {
             <div className="flex justify-center">{/* Gallery Section */}</div>
           </div>
           <div className="col-span">
-            <p className="mt-3 font-semibold text-xl">
+            <h1 className="text-center text-3xl/tight font-bold leading-10 tracking-tight sm:text-start lg:text-4xl/tight">
+              Gallery
+            </h1>
+            <p className="mt-3 font-semibold text-brand-gradient text-xl">
               MANNA Get together 2022
             </p>
             <p className="mt-3 text-base">
@@ -24,7 +27,7 @@ const GallerySection: FC = () => {
             <div className="flex justify-center">{/* Gallery Section */}</div>
           </div>
           <div className="col-span">
-            <p className="mt-3 font-semibold text-xl">
+            <p className="mt-3 font-semibold text-xl text-brand-gradient">
               Press conference with Mayor of Trenton, NJ
             </p>
             <p className="mt-3 text-base">
@@ -39,7 +42,7 @@ const GallerySection: FC = () => {
             <div className="flex justify-center">{/* Gallery Section */}</div>
           </div>
           <div className="col-span">
-            <p className="mt-3 font-semibold text-xl">
+            <p className="mt-3 font-semibold text-xl text-brand-gradient">
               Launch Meeting at Hotel Ramada, East Orange, NJ
             </p>
             <p className="mt-3 text-base">
@@ -54,7 +57,7 @@ const GallerySection: FC = () => {
             <div className="flex justify-center">{/* Gallery Section */}</div>
           </div>
           <div className="col-span">
-            <p className="mt-3 font-semibold text-xl">
+            <p className="mt-3 font-semibold text-xl text-brand-gradient">
               Launch Meeting at RCCG Dominion Cathedral Orange, NJ
             </p>
             <p className="mt-3 text-base">
@@ -69,7 +72,7 @@ const GallerySection: FC = () => {
             <div className="flex justify-center">{/* Gallery Section */}</div>
           </div>
           <div className="col-span">
-            <p className="mt-3 font-semibold text-xl">
+            <p className="mt-3 font-semibold text-xl text-brand-gradient">
               First Launch Meeting with Investors at Morris Avenue, Union
               office, NJ
             </p>

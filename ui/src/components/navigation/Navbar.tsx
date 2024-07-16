@@ -110,11 +110,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
 
             <Nav.End className="hidden lg:flex w-full">
               <Menu horizontal size="sm" className="gap-2 px-1 items-center">
-                <Menu.Item className="font-medium">
+                <Menu.Item className="font-medium dropdown">
                   <details>
-                    <summary>About</summary>
+                    <summary tabIndex={0} role="button">
+                      About
+                    </summary>
                     <ul
-                      className="p-2 bg-base-100 rounded-t-none"
+                      tabIndex={0}
+                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -135,11 +138,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                   </details>
                 </Menu.Item>
 
-                <Menu.Item className="font-medium">
+                <Menu.Item className="font-medium dropdown">
                   <details>
-                    <summary>Products</summary>
+                    <summary tabIndex={1} role="button">
+                      Products
+                    </summary>
                     <ul
-                      className="p-2 bg-base-100 rounded-t-none"
+                      tabIndex={1}
+                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -162,11 +168,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                   </details>
                 </Menu.Item>
 
-                <Menu.Item className="font-medium">
+                <Menu.Item className="font-medium dropdown">
                   <details>
-                    <summary>Company</summary>
+                    <summary tabIndex={2} role="button">
+                      Company
+                    </summary>
                     <ul
-                      className="p-2 bg-base-100 rounded-t-none"
+                      tabIndex={2}
+                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -187,11 +196,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                   </details>
                 </Menu.Item>
 
-                <Menu.Item className="font-medium">
+                <Menu.Item className="font-medium dropdown">
                   <details>
-                    <summary>Contact</summary>
+                    <summary tabIndex={3} role="button">
+                      Contact
+                    </summary>
                     <ul
-                      className="p-2 bg-base-100 rounded-t-none"
+                      tabIndex={3}
+                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList

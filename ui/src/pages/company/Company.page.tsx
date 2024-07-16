@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import GallerySection from "./sections/Gallery";
 import { BusinessUSASection } from "./sections/BusinessUSA";
 import { InternationalSection } from "./sections/International";
+import { ContractManufacturingSection } from "./sections/ContractManufacturing";
 import { scrollToOffset } from "@/util/helper";
 
 const CompanyPage: FC = () => {
@@ -22,6 +23,7 @@ const CompanyPage: FC = () => {
       <GallerySection />
       <BusinessUSASection />
       <InternationalSection />
+      <ContractManufacturingSection />
     </Fragment>
   );
 };
