@@ -5,9 +5,9 @@ export type IManagementPeople = {
 };
 export const people: IManagementPeople[] = [
   {
-    name: "Dr. George Varghese",
+    name: "Dr.George Varges",
     title: "",
-    description: `Dr. Varghese brings more than 30 years of Corporate leadership
+    description: `Dr.George Varges brings more than 30 years of Corporate leadership
         & management expertise especially with more than 15 years in the Pharmaceutical manufacturing.
         A comprehensive knowledge of import-export procedure and of financial operations, which has enabled
         him to work in fast-paced, highly diversified environments, orchestating international
