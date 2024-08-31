@@ -1,26 +1,34 @@
 import * as cdk from "aws-cdk-lib";
 import { Template } from "aws-cdk-lib/assertions";
+import { AppDnsStack } from "../lib/dns/dns-stack";
 import { AppSiteStack } from "../lib/site/site-stack";
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/manna_grp_intl-stack.ts
-describe("Resource Created", () => {
-  // ..test cloudfront
-  test(`Expect cloudfront distribution to contain -
-      1 S3 bucket,
-      1 Cloudfront Distribution,
-      1 Lambdas
-    `, () => {
-    const app = new cdk.App();
 
-    const uiStack = new AppSiteStack(app, "MyTestAppSiteStack", {
-      env: { account: "544935803992", region: "us-east-1" },
-    });
-
-    const uiTemplate = Template.fromStack(uiStack);
-
-    // ..assert tests
-    uiTemplate.resourceCountIs("AWS::S3::Bucket", 1);
-    uiTemplate.resourceCountIs("AWS::CloudFront::Distribution", 1);
-    uiTemplate.resourceCountIs("AWS::Lambda::Function", 1);
+test(`Expect Stack to contain -
+    1 HostedZone,
+    1 S3 bucket
+    1 CloudFront Distribution`, () => {
+  // ARRANGE
+  const app = new cdk.App();
+  // ACT
+  const dnsStack = new AppDnsStack(app, "MyTestDnsStack", {
+    env: { account: "533935803992", region: "us-east-1" },
+    apexDomain: "test.com",
   });
+
+  const uiStack = new AppSiteStack(app, "MyTestStack", {
+    env: { account: "533935803992", region: "us-east-1" },
+    dnsName: "testdomain.com",
+    hostedZone: dnsStack.hostedZone,
+    certificate: dnsStack.certificate,
+  });
+
+  const dnsTemplate = Template.fromStack(dnsStack);
+  const uiTemplate = Template.fromStack(uiStack);
+
+  // ASSERT - DNS Stack
+  dnsTemplate.resourceCountIs("AWS::Route53::HostedZone", 1);
+
+  // ASSERT - Site Stack
+  uiTemplate.resourceCountIs("AWS::S3::Bucket", 1);
+  uiTemplate.resourceCountIs("AWS::CloudFront::Distribution", 1);
 });

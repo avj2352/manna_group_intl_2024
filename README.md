@@ -7,6 +7,7 @@ This is the new version of the website
 
 ## Important Links
 
+- [Javascript - Console Log alternatives](https://dev.to/alishgiri/say-no-to-consolelog-556n?ref=dailydev)
 - [Cloudfront URL](https://d2sjpgezzxd3c7.cloudfront.net)
 - [Miro planning board](https://miro.com/app/board/uXjVKM2zjnA=/)
 - [DaisyUI - Template for React Manna Website](https://daisyui.com)
@@ -16,6 +17,7 @@ This is the new version of the website
 - [React Tailwind Layout](https://www.radix-ui.com)
 - [Open source - free image generator AI](http://flowgpt.com/)
 - [Limited image gen AI](https://openart.ai)
+- [Animated guide around the website / web-app](https://driverjs.com)
 
 ## Website Statistics
 
@@ -43,3 +45,12 @@ The following provides a summary of website performance improvements and statist
 - Avg time taken to load website: under 33 milliseconds
 - Lighthouse (Google) score: 77
 
+### Mannagroup international transfer from GoDaddy to AWS
+
+The following are the Nameservers to Wordpress Site:
+
+```bash
+# domain name servers
+ns8267.hostgator.com
+ns8268.hostgator.com
+```

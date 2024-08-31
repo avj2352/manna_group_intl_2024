@@ -13,6 +13,9 @@ import {
 import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
 import * as path from "path";
+import { ARecord, IPublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53";
+import { ICertificate } from "aws-cdk-lib/aws-certificatemanager";
+import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
 
 /**
  * PAJ - Stack to create
@@ -21,12 +24,18 @@ import * as path from "path";
  * Cloudfront
  */
 
-interface IAppSiteStackProps extends StackProps {}
+interface IAppSiteStackProps extends StackProps {
+  dnsName: string;
+  hostedZone: IPublicHostedZone;
+  certificate: ICertificate;
+};
 
 export class AppSiteStack extends Stack {
   constructor(scope: Construct, id: string, props: IAppSiteStackProps) {
     super(scope, id, props);
 
+    const { dnsName, hostedZone, certificate } = props;
+    
     // ..create S3 bucket
     const websiteBucket = new Bucket(this, "MannaAppSiteBucket", {
       websiteIndexDocument: "index.html",
@@ -42,6 +51,8 @@ export class AppSiteStack extends Stack {
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       httpVersion: HttpVersion.HTTP2,
+      domainNames: [dnsName],
+      certificate: certificate,
     });
 
     // ..create bucket deployment
@@ -51,6 +62,13 @@ export class AppSiteStack extends Stack {
       distribution: cloudFront,
       distributionPaths: ["/*"],
     });
+
+    // create ARecord to porint cloudFront to dns
+    new ARecord(this, "MannaGroupIntlSiteARecordApex", {
+      zone: hostedZone,
+      target: RecordTarget.fromAlias(new CloudFrontTarget(cloudFront)),
+    });
+
 
     // ..create output for S3 deployment process
     new CfnOutput(this, "MannaAppSiteBucketNameExport", {
