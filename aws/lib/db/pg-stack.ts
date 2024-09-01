@@ -30,7 +30,7 @@ export class MannaGrpDBStack extends Stack {
 
     // postgresql configuration
     const engine = DatabaseInstanceEngine.postgres({
-      version: PostgresEngineVersion.VER_13_7,
+      version: PostgresEngineVersion.VER_15_2,
     });
     const instanceType = InstanceType.of(InstanceClass.T3, InstanceSize.MICRO);
     const port = 5432;
@@ -66,14 +66,14 @@ export class MannaGrpDBStack extends Stack {
     dbSg.addIngressRule(
       Peer.anyIpv4(),
       Port.tcp(22),
-      "Local Development - SSH frm anywhere",
+      "Local Development - SSH frm anywhere"
     );
 
     // Add Inbound rule - allow port connection only within VPC
     dbSg.addIngressRule(
       Peer.ipv4(vpc.vpcCidrBlock),
       Port.tcp(port),
-      `Allow port ${port} for database connection from only within the VPC (${vpc.vpcId})`,
+      `Allow port ${port} for database connection from only within the VPC (${vpc.vpcId})`
     );
 
     // create RDS instance (PostgreSQL)
