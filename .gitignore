@@ -1,6 +1,7 @@
 # folders to ignore
 **/node_modules/
 **/venv/
+**/__pycache__/
 **/cdk.out/
 **/build/
 **/dist/

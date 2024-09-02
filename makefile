@@ -17,9 +17,14 @@ clean:
 	cd ui && rm -rf dist
 	cd aws && rm -rf build
 	@echo 'cleanup dist and build!'
-	
-# spin up application in dev mode
-dev:
+
+# start server
+server:
+	@echo 'Starting backend server...'
+	cd api && zsh run.sh
+		
+# spin up ui in dev mode
+ui:
 	@echo 'Starting develop instance..'
 	cd ui && npm run dev
 	open http://localhost:5173
