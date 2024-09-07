@@ -30,6 +30,10 @@ ui:
 	cd ui && npm run dev
 	open http://localhost:5173
 
+test:
+	@echo 'Test CDK resources..'
+	cd aws && npm run test
+
 # build application
 build:
 	cd ui && npm run build

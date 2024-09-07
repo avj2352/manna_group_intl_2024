@@ -24,7 +24,7 @@ import {
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 
-export class MannaGrpDBStack extends Stack {
+export class DBStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 

@@ -3,7 +3,8 @@ import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import { AppSiteStack } from "../lib/site/site-stack";
 import { AppDnsStack } from "../lib/dns/dns-stack";
-import { MannaGrpDBStack } from "../lib/db/pg-stack";
+import { DBStack } from "../lib/db/pg-stack";
+import { AssetsStack } from "../lib/storage/s3-stack";
 
 const app = new cdk.App();
 
@@ -17,6 +18,7 @@ const env = {
 
 const PRODUCT_NAME = "MannaGroupIntl";
 
+//..stack to map to dns and create hostedzones
 const { hostedZone, certificate } = new AppDnsStack(
   app,
   `${PRODUCT_NAME}AppDnsStack`,
@@ -26,6 +28,7 @@ const { hostedZone, certificate } = new AppDnsStack(
   },
 );
 
+//..stack to deploy react ui, create cloudfront instance
 new AppSiteStack(app, `${PRODUCT_NAME}AppSiteStack`, {
   env: { ...env },
   hostedZone,
@@ -33,6 +36,12 @@ new AppSiteStack(app, `${PRODUCT_NAME}AppSiteStack`, {
   dnsName: apexDomain,
 });
 
-new MannaGrpDBStack(app, `${PRODUCT_NAME}DBStack`, {
+//..stack to create postgresql rds instance
+new DBStack(app, `${PRODUCT_NAME}DBStack`, {
   env: { ...env },
+});
+
+//..stack to create 2 s3 buckets
+new AssetsStack(app, `${PRODUCT_NAME}AssetStack`, {
+  env: { ...env},
 });

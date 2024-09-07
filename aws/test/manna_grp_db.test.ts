@@ -2,7 +2,7 @@ import { App, Stack } from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as rds from "aws-cdk-lib/aws-rds";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
-import { MannaGrpDBStack } from "../lib/db/pg-stack";
+import { DBStack } from "../lib/db/pg-stack";
 
 describe("MannaGrpDBStack", () => {
   let app: App;
@@ -10,7 +10,7 @@ describe("MannaGrpDBStack", () => {
 
   beforeAll(() => {
     app = new App();
-    stack = new MannaGrpDBStack(app, "TestStack");
+    stack = new DBStack(app, "TestStack");
   });
 
   test("Stack should be created", () => {
