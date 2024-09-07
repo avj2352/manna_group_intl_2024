@@ -30,7 +30,7 @@ export class MannaGrpDBStack extends Stack {
 
     // postgresql configuration
     const engine = DatabaseInstanceEngine.postgres({
-      version: PostgresEngineVersion.VER_15_2,
+      version: PostgresEngineVersion.VER_15,
     });
     const instanceType = InstanceType.of(InstanceClass.T3, InstanceSize.MICRO);
     const port = 5432;
@@ -40,6 +40,13 @@ export class MannaGrpDBStack extends Stack {
     // Create a VPC and subnet for the DB instance
     const vpc = new Vpc(this, "MannaGrpDBVpc", {
       maxAzs: 2,
+      subnetConfiguration: [
+        {
+          cidrMask: 24,
+          name: "Public",
+          subnetType: SubnetType.PUBLIC,
+        },
+      ],
     });
 
     // Create a Secrets Manager secret to store the database credentials
@@ -55,26 +62,28 @@ export class MannaGrpDBStack extends Stack {
       },
     });
 
-    // Create a Security Group
+    // Create a Security Group that allows inbond traffic on the database port
     const dbSg = new SecurityGroup(this, "MannaGrpDBSecurityGroup", {
       securityGroupName: "MannaGrpDBSecurityGroup",
-      allowAllOutbound: true,
       vpc,
+      allowAllOutbound: true,
+      description: "Security Group for RDS instance",
     });
 
-    // Add Inbound rule - for dev, ssh from anywhere
+    // Add Inbound rule - for dev, allo inbound traffic on the database port
     dbSg.addIngressRule(
       Peer.anyIpv4(),
-      Port.tcp(22),
-      "Local Development - SSH frm anywhere"
+      Port.tcp(port),
+      "Local Development - connect frm anywhere"
     );
 
     // Add Inbound rule - allow port connection only within VPC
-    dbSg.addIngressRule(
-      Peer.ipv4(vpc.vpcCidrBlock),
-      Port.tcp(port),
-      `Allow port ${port} for database connection from only within the VPC (${vpc.vpcId})`
-    );
+    // Setup while going to production
+    // dbSg.addIngressRule(
+    //   Peer.ipv4(vpc.vpcCidrBlock),
+    //   Port.tcp(port),
+    //   `Allow port ${port} for database connection from only within the VPC (${vpc.vpcId})`
+    // );
 
     // create RDS instance (PostgreSQL)
     const dbInstance = new DatabaseInstance(this, "MannaGrpDBRDSInstance", {

@@ -7,6 +7,7 @@ This is the new version of the website
 
 ## Important Links
 
+- [Rust workbook](https://francescociulla.gumroad.com/l/rustworkbook?_gl=1*en7586*_ga*MTgyMjgzNzI4LjE3MjU1NDU3ODc.*_ga_6LJN6D94N6*MTcyNTU0NTc4Ny4xLjEuMTcyNTU0NTgzMC4wLjAuMA..)
 - [Javascript - Console Log alternatives](https://dev.to/alishgiri/say-no-to-consolelog-556n?ref=dailydev)
 - [Cloudfront URL](https://d2sjpgezzxd3c7.cloudfront.net)
 - [Miro planning board](https://miro.com/app/board/uXjVKM2zjnA=/)

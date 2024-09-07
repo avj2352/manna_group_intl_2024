@@ -14,5 +14,6 @@
 **/*.js
 **/!jest.config.js
 **/*.d.ts
+**/*.sh
 
 # CDK asset staging directory

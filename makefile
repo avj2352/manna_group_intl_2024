@@ -16,6 +16,7 @@ help:
 clean:
 	cd ui && rm -rf dist
 	cd aws && rm -rf build
+	cd aws && mkdir build
 	@echo 'cleanup dist and build!'
 
 # start server
@@ -41,5 +42,5 @@ verify:
 # deploy to aws
 deploy:
 	cd ui && npm run build
-	cd ui && mv dist ../aws/build
+	cd ui && mv build ../aws/
 	@echo 'deploy complete!'
