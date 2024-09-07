@@ -5,69 +5,107 @@
 
 -- User table is managed by Auth0
 CREATE TABLE "User" (
-    "user_id" int   NOT NULL,
+    "_id" int   NOT NULL,
     "name" string   NOT NULL,
     "email" string   NOT NULL,
     "vendor" string   NOT NULL,
     "photo_url" string   NULL,
     CONSTRAINT "pk_User" PRIMARY KEY (
-        "user_id"
+        "_id"
      )
 );
 
--- Product table for handling products
 CREATE TABLE "Product" (
-    "product_id" int   NOT NULL,
-    "title" string   NOT NULL,
-    "amount" string NOT NULL,
-    "currency" string NOT NULL,
-    "user_id" int   NOT NULL,
-    "description" string   NULL,    
+    "_id" int   NOT NULL,
+    "name" string   NOT NULL,
+    "description" string   NULL,
+    "content" string   NOT NULL,
+    "created_by" int   NOT NULL,
     "created_date" string   NOT NULL,
-    "link" string   NULL,
-    "*idx" string   NOT NULL,
-    CONSTRAINT "pk_Timer" PRIMARY KEY (
-        "timer_id"
-    )
+    "price" string   NOT NULL,
+    "quantity" int   NOT NULL,
+    -- USD / EUR / INR
+    "currency" string   NOT NULL,
+    CONSTRAINT "pk_Product" PRIMARY KEY (
+        "_id"
+     )
 );
 
--- Join table for many_to_many mappings
-CREATE TABLE "TimerTag" (
-    "timer_id" int   NOT NULL,
-    "tag_id" int   NOT NULL,
-    "created_date" string   NOT NULL
+CREATE TABLE "Asset" (
+    "_id" int   NOT NULL,
+    "position" int   NOT NULL,
+    -- product / gallery / thumbnail / other
+    "type" string   NOT NULL,
+    "link" string   NOT NULL,
+    CONSTRAINT "pk_Asset" PRIMARY KEY (
+        "_id"
+     )
 );
 
+CREATE TABLE "AssetProduct" (
+    "_id" int   NOT NULL,
+    "asset_id" int   NOT NULL,
+    "product_id" int   NOT NULL,
+    CONSTRAINT "pk_AssetProduct" PRIMARY KEY (
+        "_id"
+     )
+);
 
-ALTER TABLE "Timer" ADD CONSTRAINT "fk_Timer_user_id" FOREIGN KEY("user_id")
-REFERENCES "User" ("user_id");
+CREATE TABLE "Order" (
+    "_id" int   NOT NULL,
+    "created_by" int   NOT NULL,
+    "stripe_invoice" string   NOT NULL,
+    "order_date" string   NOT NULL,
+    -- on-delivery / online
+    "order_type" string   NOT NULL,
+    -- pending / shipped / delivered
+    "order_status" string   NOT NULL,
+    "products" int   NOT NULL,
+    "shipping_address" string   NOT NULL,
+    "billing_address" string   NOT NULL,
+    CONSTRAINT "pk_Order" PRIMARY KEY (
+        "_id"
+     )
+);
 
-ALTER TABLE "TimerTag" ADD CONSTRAINT "fk_TimerTag_timer_id" FOREIGN KEY("timer_id")
-REFERENCES "Timer" ("timer_id");
+CREATE TABLE "Gallery" (
+    "_id" int   NOT NULL,
+    "group" string   NOT NULL,
+    "title" string   NOT NULL,
+    "description" string   NOT NULL,
+    "position" int   NOT NULL,
+    CONSTRAINT "pk_Gallery" PRIMARY KEY (
+        "_id"
+     )
+);
 
-ALTER TABLE "TimerTag" ADD CONSTRAINT "fk_TimerTag_tag_id" FOREIGN KEY("tag_id")
-REFERENCES "Tag" ("tag_id");
+CREATE TABLE "AssetGallery" (
+    "_id" int   NOT NULL,
+    "asset_id" int   NOT NULL,
+    "gallery_id" int   NOT NULL,
+    CONSTRAINT "pk_AssetGallery" PRIMARY KEY (
+        "_id"
+     )
+);
 
-ALTER TABLE "Credential" ADD CONSTRAINT "fk_Credential_user_id" FOREIGN KEY("user_id")
-REFERENCES "User" ("user_id");
+ALTER TABLE "Product" ADD CONSTRAINT "fk_Product_created_by" FOREIGN KEY("created_by")
+REFERENCES "User" ("_id");
 
-ALTER TABLE "Credential" ADD CONSTRAINT "fk_Credential_timer_id" FOREIGN KEY("timer_id")
-REFERENCES "Timer" ("timer_id");
+ALTER TABLE "AssetProduct" ADD CONSTRAINT "fk_AssetProduct_asset_id" FOREIGN KEY("asset_id")
+REFERENCES "Asset" ("_id");
 
-ALTER TABLE "CredentialTag" ADD CONSTRAINT "fk_CredentialTag_credential_id" FOREIGN KEY("credential_id")
-REFERENCES "Credential" ("credential_id");
+ALTER TABLE "AssetProduct" ADD CONSTRAINT "fk_AssetProduct_product_id" FOREIGN KEY("product_id")
+REFERENCES "Product" ("_id");
 
-ALTER TABLE "CredentialTag" ADD CONSTRAINT "fk_CredentialTag_tag_id" FOREIGN KEY("tag_id")
-REFERENCES "Tag" ("tag_id");
+ALTER TABLE "Order" ADD CONSTRAINT "fk_Order_created_by" FOREIGN KEY("created_by")
+REFERENCES "User" ("_id");
 
-ALTER TABLE "Task" ADD CONSTRAINT "fk_Task_timer_id" FOREIGN KEY("timer_id")
-REFERENCES "Timer" ("timer_id");
+ALTER TABLE "Order" ADD CONSTRAINT "fk_Order_products" FOREIGN KEY("products")
+REFERENCES "Product" ("_id");
 
-ALTER TABLE "Task" ADD CONSTRAINT "fk_Task_user_id" FOREIGN KEY("user_id")
-REFERENCES "User" ("user_id");
+ALTER TABLE "AssetGallery" ADD CONSTRAINT "fk_AssetGallery_asset_id" FOREIGN KEY("asset_id")
+REFERENCES "Asset" ("_id");
 
-ALTER TABLE "TaskTag" ADD CONSTRAINT "fk_TaskTag_task_id" FOREIGN KEY("task_id")
-REFERENCES "Task" ("task_id");
+ALTER TABLE "AssetGallery" ADD CONSTRAINT "fk_AssetGallery_gallery_id" FOREIGN KEY("gallery_id")
+REFERENCES "Gallery" ("_id");
 
-ALTER TABLE "TaskTag" ADD CONSTRAINT "fk_TaskTag_tag_id" FOREIGN KEY("tag_id")
-REFERENCES "Tag" ("tag_id");

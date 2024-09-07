@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 # custom
 from util.helper import is_part_of_list
 
@@ -15,7 +15,7 @@ class UserCreateModel (BaseModel):
     role: str = Field(title="user role", description="user role in power ministry - admin", default="admin")
     
     # custom validation
-    @validator("vendor")
+    @field_validator("vendor")
     def reg_type_check(cls, v):
         if not is_part_of_list(v, ['google-oauth2', 'facebook']):
             raise ValueError('value must be of type - google-oauth2 | facebook')
