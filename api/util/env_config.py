@@ -13,6 +13,8 @@ AUTH0_AUDIENCE = os.environ.get('AUTH0_AUDIENCE') or None
 # database related
 SQL_CONN = os.environ.get('SQL_CONN') or None
 DB_NAME = os.environ.get('DB_NAME') or None
+DB_USERNAME = os.environ.get('DB_USERNAME') or None
+DB_PASSWORD = os.environ.get('DB_PASSWORD') or None
 MAX_DB_CONN = os.environ.get('MAX_DB_CONN') or None
 
 # stripe related

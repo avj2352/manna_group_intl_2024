@@ -9,19 +9,20 @@ import logging
 from typing import Union, List
 from psycopg2.pool import SimpleConnectionPool
 from psycopg2.extras import DictCursor, RealDictRow
-from util.env_config import SQL_CONN, DB_NAME, MAX_DB_CONN
+from util.env_config import SQL_CONN, DB_NAME, MAX_DB_CONN, DB_PASSWORD, DB_USERNAME
 
-if SQL_CONN is None or DB_NAME is None or MAX_DB_CONN is None:
+if SQL_CONN is None or DB_NAME is None or MAX_DB_CONN is None or DB_USERNAME is None or DB_PASSWORD is None:
     raise BaseException('Missing db env variables')
 
 class Database:
     def __init__(self):
         self._connection_pool = SimpleConnectionPool(minconn=1,
-            maxconn=MAX_DB_CONN, dsn=f"{SQL_CONN}/{DB_NAME}")
+            maxconn=MAX_DB_CONN, dsn=f"postgres://{DB_USERNAME}:{DB_PASSWORD}@{SQL_CONN}/{DB_NAME}")
 
     def execute_query(self, query, params: Union[List, None]=None):
             conn = self._connection_pool.getconn()
             cursor = conn.cursor(cursor_factory=DictCursor)
+            logging.debug(f"execute query: {query}")
             try:
                 if params and len(params) > 0:
                     cursor.execute(query, tuple(params))

@@ -5,7 +5,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 # ..custom
-from resources.auth import auth
+# from resources.auth import auth
+from migration.product_migration import init
 
 
 # logging configuration
@@ -17,6 +18,10 @@ logging.basicConfig(
 
 # Create the APP
 app = FastAPI()
+
+# create migrations
+init()
+
 
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
@@ -59,4 +64,4 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 # add routes
-app.mount('/auth', auth)
+# app.mount('/auth', auth)
