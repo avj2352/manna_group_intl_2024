@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 # ..custom
 # from resources.auth import auth
-from migration.product_migration import init
 
 
 # logging configuration
@@ -19,8 +18,7 @@ logging.basicConfig(
 # Create the APP
 app = FastAPI()
 
-# create migrations
-init()
+
 
 
 # Allow CORS

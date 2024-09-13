@@ -19,6 +19,7 @@ class Database:
         self._connection_pool = SimpleConnectionPool(minconn=1,
             maxconn=MAX_DB_CONN, dsn=f"postgres://{DB_USERNAME}:{DB_PASSWORD}@{SQL_CONN}/{DB_NAME}")
 
+    # to execute crud statements
     def execute_query(self, query, params: Union[List, None]=None):
             conn = self._connection_pool.getconn()
             cursor = conn.cursor(cursor_factory=DictCursor)
@@ -36,7 +37,7 @@ class Database:
                 cursor.close()
                 self._connection_pool.putconn(conn) # release connection to pool connections
 
-
+    # to execute sql queries with single response
     def execute_query_result(self, query, params: Union[List, None]=None) -> Union[RealDictRow, None]:
         conn = self._connection_pool.getconn()
         cursor = conn.cursor(cursor_factory=DictCursor)
@@ -56,6 +57,7 @@ class Database:
             cursor.close()
             self._connection_pool.putconn(conn) # release connection to pool connections
 
+    # to execute sql queries with series of response
     def execute_query_results(self, query, params: Union[List, None]=None) -> Union[List, None]:
         conn = self._connection_pool.getconn()
         cursor = conn.cursor(cursor_factory=DictCursor)
