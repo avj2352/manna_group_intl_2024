@@ -19,8 +19,6 @@ logging.basicConfig(
 app = FastAPI()
 
 
-
-
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
 

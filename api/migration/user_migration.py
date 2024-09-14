@@ -35,8 +35,7 @@ def _create_table():
             "_id" SERIAL UNIQUE PRIMARY KEY,
             "name" VARCHAR UNIQUE NOT NULL,
             "email" VARCHAR UNIQUE NOT NULL,
-            "vendor" VARCHAR NOT NULL,
-            "photo_url" VARCHAR            
+            "vendor" VARCHAR NOT NULL            
         );
         """)
 

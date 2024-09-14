@@ -12,7 +12,6 @@ class UserCreateModel (BaseModel):
     name: str = Field(title="user name", description="name is required and must be 1-50")
     email: str = Field(title="user email", description="email is required")
     vendor: str = Field(title="oauth vendor", description="3rd party vendor - google-oauth2, facebook", default="facebook")    
-    role: str = Field(title="user role", description="user role in power ministry - admin", default="admin")
     
     # custom validation
     @field_validator("vendor")
@@ -33,16 +32,14 @@ def user_entity(item) -> dict:
         "id": str(item["_id"]),
         "name": item["name"],
         "email": item["email"],
-        "vendor": item["vendor"],        
-        "role": item["role"]
+        "vendor": item["vendor"]        
     }
 
 def user_response_entity(item) -> dict:
-    return {        
+    return {
         "name": item["name"],
         "email": item["email"],
-        "vendor": item["vendor"],        
-        "role": item["role"]
+        "vendor": item["vendor"]        
     }
     
 # find_all()

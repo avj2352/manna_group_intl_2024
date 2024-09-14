@@ -7,6 +7,7 @@ This is the new version of the website
 
 ## Important Links
 
+- [Github Reference project for SQL](https://github.com/avj2352/time-travel-v3/tree/feature/sql)
 - [AWS RDS JDBC Drivers](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-rds.html#java-rds-drivers)
 - [Rust workbook](https://francescociulla.gumroad.com/l/rustworkbook?_gl=1*en7586*_ga*MTgyMjgzNzI4LjE3MjU1NDU3ODc.*_ga_6LJN6D94N6*MTcyNTU0NTc4Ny4xLjEuMTcyNTU0NTgzMC4wLjAuMA..)
 - [Javascript - Console Log alternatives](https://dev.to/alishgiri/say-no-to-consolelog-556n?ref=dailydev)
