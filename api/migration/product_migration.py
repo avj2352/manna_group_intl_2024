@@ -49,6 +49,7 @@ def _create_table():
     db_instance.execute_query(f"""
         CREATE TABLE IF NOT EXISTS products (
             "_id" SERIAL UNIQUE PRIMARY KEY,
+            "product_id" VARCHAR UNIQUE NOT NULL,
             "name" VARCHAR UNIQUE NOT NULL,
             "description" VARCHAR,
             "content" VARCHAR NOT NULL,
@@ -70,6 +71,12 @@ def _add_search_column():
             ) STORED
         """)
 
+def _drop_products_search_idx():
+    logging.info("3. drop index - product_search_idx")
+    db_instance.execute_query(f"""
+        DROP INDEX product_search_idx
+    """)
+
 def _create_products_search_idx():
     logging.info("4. create index - product_search_idx")
     db_instance.execute_query(f"""
@@ -87,7 +94,7 @@ def _create_products_search_fn():
     db_instance.execute_query(f"""
         CREATE OR REPLACE FUNCTION product_search_fn(term text)
         RETURNS TABLE(
-            "_id" INT,
+            "product_id" VARCHAR,
             "name" text,
             "description" text,
             "rank" REAL
@@ -95,7 +102,7 @@ def _create_products_search_fn():
         AS
         $$
 
-        SELECT "_id", "name", "description",
+        SELECT "product_id", "name", "description",
             ts_rank(search, websearch_to_tsquery('english', term)) +
             ts_rank(search, websearch_to_tsquery('simple', term)) as rank
             FROM products
@@ -124,6 +131,7 @@ def init():
     # _add_search_column()
 
     # Step 4: Create index "products_search_idx"
+    # _drop_products_search_idx()
     # _create_products_search_idx()
 
     # Step 5: Create function "search_products"

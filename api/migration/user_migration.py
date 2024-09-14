@@ -33,6 +33,7 @@ def _create_table():
     db_instance.execute_query(f"""
         CREATE TABLE IF NOT EXISTS users (
             "_id" SERIAL UNIQUE PRIMARY KEY,
+            "user_id" VARCHAR UNIQUE NOT NULL,
             "name" VARCHAR UNIQUE NOT NULL,
             "email" VARCHAR UNIQUE NOT NULL,
             "vendor" VARCHAR NOT NULL            
@@ -48,7 +49,7 @@ def init():
     # logging.info("1. check if users table exists -> {}".format(_check_table_exists()))
 
     # Step 2: Create users table
-    _create_table()
+    # _create_table()
     # Step 2.b: Check if users table exists
     logging.info("2.b. check if users table exists -> {}".format(_check_table_exists()))     
     # pass  

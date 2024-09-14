@@ -33,10 +33,10 @@ def _create_table():
     db_instance.execute_query(f"""
         CREATE TABLE IF NOT EXISTS asset_galleries (
             "_id" SERIAL UNIQUE PRIMARY KEY,
-            "asset_id" INTEGER NOT NULL,
-            "gallery_id" INTEGER NOT NULL,
-            FOREIGN KEY (asset_id) REFERENCES assets(_id),
-            FOREIGN KEY (gallery_id) REFERENCES galleries(_id) 
+            "asset_id" VARCHAR NOT NULL,
+            "gallery_id" VARCHAR NOT NULL,
+            FOREIGN KEY (asset_id) REFERENCES assets(asset_id),
+            FOREIGN KEY (gallery_id) REFERENCES galleries(gallery_id) 
         );
         """)
 
@@ -49,10 +49,9 @@ def init():
     # logging.info("1. check if asset_galleries table exists -> {}".format(_check_table_exists()))
 
     # Step 2: Create asset_galleries table
-    _create_table()
+    # _create_table()
     # Step 2.b: Check if asset_galleries table exists
     logging.info("2.b. check if asset_galleries table exists -> {}".format(_check_table_exists()))     
-    # pass  
 
 # if need to run independently
 if __name__ == "__main__":

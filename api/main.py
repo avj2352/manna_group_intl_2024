@@ -7,7 +7,6 @@ from fastapi.responses import JSONResponse
 # ..custom
 # from resources.auth import auth
 
-
 # logging configuration
 logging.basicConfig(
         level=logging.DEBUG,

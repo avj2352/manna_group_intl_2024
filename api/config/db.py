@@ -5,6 +5,7 @@ for scalability, performance & for handling DB connections
 for multi-threaded requests
 """
 import psycopg2
+import uuid
 import logging
 from typing import Union, List
 from psycopg2.pool import SimpleConnectionPool
@@ -76,5 +77,14 @@ class Database:
             cursor.close()
             self._connection_pool.putconn(conn) # release connection to pool connections
 
+# reusable - generate random uuid
+def generate_random_uuid() -> str:
+    return str(uuid.uuid4())
+
+
 # Singleton instance
 db_instance = Database()
+
+if __name__ == "__main__":
+    result = generate_random_uuid()
+    print(f"Random uuid: {result} and type is: {type(result)}")

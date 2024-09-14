@@ -49,6 +49,7 @@ def _create_table():
     db_instance.execute_query(f"""
         CREATE TABLE IF NOT EXISTS assets (
             "_id" SERIAL UNIQUE PRIMARY KEY,
+            "asset_id" VARCHAR UNIQUE NOT NULL,
             "position" INTEGER NOT NULL,
             "type" VARCHAR NOT NULL,
             "description" VARCHAR,
@@ -83,7 +84,7 @@ def _create_assets_search_fn():
     db_instance.execute_query(f"""
         CREATE OR REPLACE FUNCTION asset_search_fn(term text)
         RETURNS TABLE(
-            "_id" INT,
+            "asset_id" VARCHAR,
             "link" text,
             "description" text,
             "rank" REAL
@@ -91,7 +92,7 @@ def _create_assets_search_fn():
         AS
         $$
 
-        SELECT "_id", "link", "description",
+        SELECT "asset_id", "link", "description",
             ts_rank(search, websearch_to_tsquery('english', term)) +
             ts_rank(search, websearch_to_tsquery('simple', term)) as rank
             FROM assets
@@ -107,12 +108,12 @@ def init():
     # Step 1.a: DROP Table - assets
     # _drop_table()
     # Step 1.b: Check if assets table exists
-    logging.info("1. check if assets table exists -> {}".format(_check_table_exists()))
+    # logging.info("1. check if assets table exists -> {}".format(_check_table_exists()))
 
     # Step 2: Create assets table
-    # _create_table()
+    #_create_table()
     # Step 2.b: Check if assets table exists
-    # logging.info("2.b. check if assets table exists -> {}".format(_check_table_exists()))
+    logging.info("2.b. check if assets table exists -> {}".format(_check_table_exists()))
     #
     # Step 3.a: Check "search" column exists
     # logging.info("3. check if search column exists -> {}".format(_check_search_column_exists()))

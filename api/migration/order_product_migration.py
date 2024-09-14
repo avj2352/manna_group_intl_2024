@@ -33,10 +33,10 @@ def _create_table():
     db_instance.execute_query(f"""
         CREATE TABLE IF NOT EXISTS order_products (
             "_id" SERIAL UNIQUE PRIMARY KEY,
-            "order_id" INTEGER NOT NULL,
-            "product_id" INTEGER NOT NULL,
-            FOREIGN KEY (order_id) REFERENCES orders(_id),
-            FOREIGN KEY (product_id) REFERENCES products(_id) 
+            "order_id" VARCHAR NOT NULL,
+            "product_id" VARCHAR NOT NULL,
+            FOREIGN KEY (order_id) REFERENCES orders(order_id),
+            FOREIGN KEY (product_id) REFERENCES products(product_id) 
         );
         """)
 
@@ -49,10 +49,9 @@ def init():
     # logging.info("1. check if order_products table exists -> {}".format(_check_table_exists()))
 
     # Step 2: Create order_products table
-    _create_table()
+    # _create_table()
     # Step 2.b: Check if order_products table exists
     logging.info("2.b. check if order_products table exists -> {}".format(_check_table_exists()))     
-    # pass  
 
 # if need to run independently
 if __name__ == "__main__":

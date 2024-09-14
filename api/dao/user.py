@@ -5,7 +5,7 @@ related queries
 from typing import Union, List
 from psycopg2.extras import RealDictRow
 from models.user import UserCreateModel
-from config.db import db_instance
+from config.db import db_instance, generate_random_uuid
 import psycopg2
 import logging
 
@@ -13,6 +13,13 @@ def get_users():
     table_name = "users"
     query = f"SELECT * from {table_name}"
     return db_instance.execute_query_results(query)
+
+def get_by_user_id(id: str):
+    table_name = "users"
+    query = f"SELECT * FROM {table_name} WHERE user_id=%s"
+    logging.debug(f"Query to be executed: {query}")
+    return db_instance.execute_query_results(query, [id])
+
 
 def get_by_user_email(email: str):
     table_name = "users"
@@ -22,8 +29,9 @@ def get_by_user_email(email: str):
 
 def add_user_record(users: UserCreateModel) -> Union[dict, None]:   
     table_name = "users" 
-    columns = ["name", "email", "vendor"]
-    values = [users.name, users.email, users.vendor]
+    user_id = generate_random_uuid()
+    columns = ["user_id", "name", "email", "vendor"]
+    values = [user_id, users.name, users.email, users.vendor]
     insert_query = f"""
             INSERT INTO {table_name} ({','.join(columns)}) VALUES ({','.join(['%s' for _ in range(len(columns))])})
             RETURNING *

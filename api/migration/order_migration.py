@@ -49,6 +49,7 @@ def _create_table():
     db_instance.execute_query(f"""
         CREATE TABLE IF NOT EXISTS orders (
             "_id" SERIAL UNIQUE PRIMARY KEY,
+            "order_id" VARCHAR UNIQUE NOT NULL,
             "name" VARCHAR NOT NULL,
             "email" VARCHAR NOT NULL,
             "stripe_invoice" VARCHAR NOT NULL,
@@ -91,7 +92,7 @@ def _create_orders_search_fn():
     db_instance.execute_query(f"""
         CREATE OR REPLACE FUNCTION order_search_fn(term text)
         RETURNS TABLE(
-            "_id" INT,
+            "order_id" VARCHAR,
             "name" text,
             "email" text,
             "stripe_invoice" text,
@@ -102,7 +103,7 @@ def _create_orders_search_fn():
         AS
         $$
 
-        SELECT "_id", "name", "email", "stripe_invoice",  
+        SELECT "order_id", "name", "email", "stripe_invoice",  
             "shipping_address", "billing_address",
             ts_rank(search, websearch_to_tsquery('english', term)) +
             ts_rank(search, websearch_to_tsquery('simple', term)) as rank
@@ -124,7 +125,7 @@ def init():
     # Step 2: Create orders table
     # _create_table()
     # Step 2.b: Check if orders table exists
-    # logging.info("2.b. check if orders table exists -> {}".format(_check_table_exists()))
+    logging.info("2.b. check if orders table exists -> {}".format(_check_table_exists()))
     #
     # Step 3.a: Check "search" column exists
     # logging.info("3. check if search column exists -> {}".format(_check_search_column_exists()))
@@ -137,7 +138,7 @@ def init():
 
     # Step 5: Create function "search_orders"
     # _drop_orders_search_fn()
-    _create_orders_search_fn()    
+    # _create_orders_search_fn()    
 
 # if need to run independently
 if __name__ == "__main__":
