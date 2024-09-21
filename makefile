@@ -25,7 +25,7 @@ server:
 	cd api && zsh run.sh
 		
 # spin up ui in dev mode
-ui:
+client:
 	@echo 'Starting develop instance..'
 	cd ui && npm run dev
 	open http://localhost:5173

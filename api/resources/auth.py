@@ -30,7 +30,7 @@ async def add_admin_user(model: UserCreateModel, user: Auth0User = Security(auth
 def test_secure_route(user: Auth0User = Security(auth_lib.get_user)):
     user_details = f"{user}"
     logging.debug("User details are {}".format(user_details))
-    result = auth_service.parse_email_vendor(user_details)
+    result = auth_service.check_user_is_admin(user_details)
     return {"message": result}
 
 @auth.get("/admin", dependencies=[Depends(auth_lib.implicit_scheme)])

@@ -2,6 +2,7 @@ import { Fragment, FC } from "react";
 import { Link } from "react-router-dom";
 import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 // ..custom
 import { INavItem } from "@/components/navigation/navigation.list";
 import MobileNavbar from "./mobile/MobileNav";
@@ -11,6 +12,7 @@ type INavbarProps = {
 };
 
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
@@ -38,14 +40,14 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
 
               <a
                 href="#"
-                className="text-brand-gradient text-2xl font-bold tracking-tighter"
+                className="text-2xl font-bold tracking-tighter text-brand-gradient"
               >
                 MANNA Group International
               </a>
             </Nav.Start>
 
-            <Nav.End className="hidden lg:flex w-full">
-              <Menu horizontal size="sm" className="gap-2 px-1 items-center">
+            <Nav.End className="hidden w-full lg:flex">
+              <Menu horizontal size="sm" className="items-center gap-2 px-1">
                 <Menu.Item className="font-medium dropdown">
                   <details>
                     <summary tabIndex={0} role="button">
@@ -53,7 +55,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     </summary>
                     <ul
                       tabIndex={0}
-                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
+                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -81,7 +83,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     </summary>
                     <ul
                       tabIndex={1}
-                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
+                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -109,7 +111,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     </summary>
                     <ul
                       tabIndex={2}
-                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
+                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -137,7 +139,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     </summary>
                     <ul
                       tabIndex={3}
-                      className="p-2 bg-base-100 rounded-t-none dropdown-content"
+                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
                       style={{ width: "200px" }}
                     >
                       {navList
@@ -160,9 +162,17 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                   href="https://daisyui.lemonsqueezy.com/checkout/buy/71f032e3-1a23-4b79-b74e-130ada4899f2"
                   target="_blank"
                 >
-                  <Button size={"sm"} color={"primary"}>
-                    Login
-                  </Button>
+                  { isAuthenticated ? (<Button
+                    onClick={() => logout()}
+                    size={"sm"} 
+                    color={"primary"}>
+                      Logout
+                  </Button>): (<Button
+                    onClick={() => loginWithRedirect()}
+                    size={"sm"} 
+                    color={"primary"}>
+                      Login
+                  </Button>)}                                    
                 </a>
               </Menu>
             </Nav.End>

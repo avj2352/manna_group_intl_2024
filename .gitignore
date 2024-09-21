@@ -10,6 +10,8 @@
 
 # files to ignore
 .DS_Store
+.env
+**/.env
 **/.DS_Store
 **/*.js
 **/!jest.config.js
