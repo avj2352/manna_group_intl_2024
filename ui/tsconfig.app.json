@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "bundler",
+      "jsx": "react-jsx",
+      "composite": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ]
+      }      
+    }
+  }
+  

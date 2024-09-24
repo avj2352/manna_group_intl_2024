@@ -30,6 +30,10 @@ client:
 	cd ui && npm run dev
 	open http://localhost:5173
 
+shadcn:
+	@echo 'Add Shadcn component'
+	cd ui && npx shadcn@latest add
+
 test:
 	@echo 'Test CDK resources..'
 	cd aws && npm run test

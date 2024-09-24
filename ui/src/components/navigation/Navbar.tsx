@@ -3,16 +3,18 @@ import { Link } from "react-router-dom";
 import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ChevronDown } from "lucide-react";
 // ..custom
 import { INavItem } from "@/components/navigation/navigation.list";
 import MobileNavbar from "./mobile/MobileNav";
+import UserProfileDropdownWrapper from "./dropdown/UserProfileDropdown";
 
 type INavbarProps = {
   navList: INavItem[];
 };
 
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
@@ -158,22 +160,17 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                   </details>
                 </Menu.Item>
 
-                <a
-                  href="https://daisyui.lemonsqueezy.com/checkout/buy/71f032e3-1a23-4b79-b74e-130ada4899f2"
-                  target="_blank"
-                >
-                  { isAuthenticated ? (<Button
-                    onClick={() => logout()}
-                    size={"sm"} 
-                    color={"primary"}>
-                      Logout
-                  </Button>): (<Button
+                <Menu.Item className="font-medium dropdown">
+                  { isAuthenticated ? (<UserProfileDropdownWrapper>
+                     {user.name} <ChevronDown/>
+                    </UserProfileDropdownWrapper>): (<Button
                     onClick={() => loginWithRedirect()}
                     size={"sm"} 
                     color={"primary"}>
                       Login
                   </Button>)}                                    
-                </a>
+                </Menu.Item>
+                
               </Menu>
             </Nav.End>
           </Nav>

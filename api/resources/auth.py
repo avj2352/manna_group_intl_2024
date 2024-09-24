@@ -14,27 +14,20 @@ auth = FastAPI()
 
 @auth.get('/public')
 def test_public_route():
+    """
+        api call to check if endpoint can be called
+        without a valid session token
+    """
     return {"message": "Anonymous User"}
 
-@auth.post("/add", dependencies=[Depends(auth_lib.implicit_scheme)])
-async def add_admin_user(model: UserCreateModel, user: Auth0User = Security(auth_lib.get_user)):
-    await auth_service.validate_admin(f"{user}")
-    await auth_service.create_user(user=UserModel(name=model.name,
-                                                  email=model.email,
-                                                  vendor=model.vendor,
-                                                  image='',
-                                                  role='admin'))
-    return {"message": "OK"}
 
-@auth.get("/secure", dependencies=[Depends(auth_lib.implicit_scheme)])
+@auth.get("/check-admin", dependencies=[Depends(auth_lib.implicit_scheme)])
 def test_secure_route(user: Auth0User = Security(auth_lib.get_user)):
+    """
+        this function validates session token & returns
+        payload if the user is admin or not
+    """
     user_details = f"{user}"
     logging.debug("User details are {}".format(user_details))
     result = auth_service.check_user_is_admin(user_details)
     return {"message": result}
-
-@auth.get("/admin", dependencies=[Depends(auth_lib.implicit_scheme)])
-async def check_user_is_admin(user: Auth0User = Security(auth_lib.get_user)):
-    user_details = f"{user}"
-    response: bool = await auth_service.check_user_is_admin(user_details)
-    return {"message": True} if response else {"message": False}
