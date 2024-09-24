@@ -52,3 +52,9 @@ deploy:
 	cd ui && npm run build
 	cd ui && mv build ../aws/
 	@echo 'deploy complete!'
+
+docker:
+	cd api && rm dockerfile
+	@echo 'creating dockerfile'
+	cd api && cp dockerfile_bkp dockerfile
+	cd api && docker build -t manna_image . && docker run -d --name manna_container -p 8000:8000 manna_image
