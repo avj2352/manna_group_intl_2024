@@ -15,9 +15,11 @@ help:
 # cleanup dist and aws/build
 clean:
 	cd ui && rm -rf dist
+	cd ui && rm -rf node_modules
 	cd aws && rm -rf build
 	cd aws && mkdir build
-	@echo 'cleanup dist and build!'
+	cd api && rm -rf venv
+	@echo 'cleanup ui and api cache!'
 
 # start server
 server:
