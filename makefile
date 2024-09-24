@@ -14,10 +14,15 @@ help:
 
 # cleanup dist and aws/build
 clean:
+	@echo 'cleanup ui'
 	cd ui && rm -rf dist
 	cd ui && rm -rf node_modules
+	@echo 'cleanup aws'
+	cd aws && rm -rf node_modules
+	cd aws && rm -rf cdk.out
 	cd aws && rm -rf build
 	cd aws && mkdir build
+	@echo 'cleanup api'
 	cd api && rm -rf venv
 	@echo 'cleanup ui and api cache!'
 
