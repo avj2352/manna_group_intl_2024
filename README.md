@@ -3,7 +3,8 @@
 MANNA International Corp. is introducing products in healthcare areas like Nutraceutical Supplements, OTC pharmaceuticals & Essential Oils.
 This is the new version of the website
 
-[Current Website](https://mannagroupintl.com/)
+- [Current Website](https://mannagroupintl.com/)
+- [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
 
