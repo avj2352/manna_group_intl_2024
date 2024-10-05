@@ -9,7 +9,7 @@ import Navbar from "@/components/navigation/Navbar";
 import ClientRouter from "@/router/ClientRouter";
 import { navList } from "@/components/navigation/navigation.list";
 import { useAppDispatch } from "@/common/state/store";
-import { fetchUserAdminDetailsAPI, setUserDetails } from "@/common/state/features/auth/auth.slice";
+import { fetchUserAdminDetailsAPI, setUserDetails, setToken } from "@/common/state/features/auth/auth.slice";
 
 function App() {
   // ..states
@@ -36,8 +36,10 @@ function App() {
         profilePic: user.picture,
       })
     );
-    console.log("Access Token is: ", accessToken);
-    if (accessToken) dispatch(fetchUserAdminDetailsAPI({token: accessToken as string}));
+    if (accessToken) {
+      dispatch(setToken(accessToken));
+      dispatch(fetchUserAdminDetailsAPI({token: accessToken as string}));
+    }
   }, [getAccessTokenSilently, isAuthenticated, user]);
 
   useEffect(() => {
