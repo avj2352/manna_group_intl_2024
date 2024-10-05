@@ -56,9 +56,19 @@ verify:
 
 # deploy to aws
 deploy:
+	@echo 'cleanup..'
+	cd ui && rm -rf build
+	cd aws && rm -rf build
+	cd aws && mkdir build
+	@echo 'build ui bundle..'
 	cd ui && npm run build
+	@echo 'deploy..'
 	cd ui && mv build ../aws/
 	@echo 'deploy complete!'
+
+runBuild:
+	@echo 'run AWS build..'
+	cd aws/build && npx http-server . -p 5173
 
 docker:
 	cd api && rm dockerfile

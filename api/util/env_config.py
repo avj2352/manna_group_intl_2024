@@ -17,19 +17,22 @@ DB_USERNAME = os.environ.get('DB_USERNAME') or None
 DB_PASSWORD = os.environ.get('DB_PASSWORD') or None
 MAX_DB_CONN = os.environ.get('MAX_DB_CONN') or None
 
-# stripe related
-STRIPE_PUB_KEY = os.environ.get('STRIPE_PUB_KEY') or None
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY') or None
-
-
 # Email admin details
 EMAIL_SENDER = os.environ.get('EMAIL_SENDER') or "intlpowerministries@gmail.com"
 EMAIL_CC = os.environ.get('EMAIL_CC') or None
-SERVICE_NAME = os.environ.get('SERVICE_NAME') or "s3"
 REGION_NAME = os.environ.get('REGION_NAME') or "us-east-1"
 
 # AWS related
-S3_ACCESS_KEY = os.environ.get('S3_ACCESS_KEY') or None
+AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY') or None
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY') or None
+MANNA_IMAGES_BUCKET = os.environ.get('MANNA_IMAGES_BUCKET') or None
+MANNA_FILES_BUCKET = os.environ.get('MANNA_FILES_BUCKET') or None
+
+# Cache related
+CACHE_TTL = os.environ.get('CACHE_TTL') or None
+CACHE_TTL_DB = os.environ.get('CACHE_TTL_DB') or None
+CACHE_MAX_SIZE = os.environ.get('CACHE_MAX_SIZE') or None
+
 
 # get cc recipients list
 def get_email_cc_list() -> list:

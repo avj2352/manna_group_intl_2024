@@ -1,21 +1,26 @@
 {
   "compilerOptions": {
-    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
     "esModuleInterop": true,
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "noEmit": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -28,9 +33,15 @@
       ]
     }
   },
-  "include": ["src"],
+  "include": [    
+    "src",
+  ],
   "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.app.json" },
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
   ]
 }

@@ -6,6 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 # ..custom
 from resources.auth import auth
+from resources.files import files
+from util.about import config, description
+
 
 # logging configuration
 logging.basicConfig(
@@ -15,7 +18,12 @@ logging.basicConfig(
 
 
 # Create the APP
-app = FastAPI()
+app = FastAPI(
+    title = config.title,
+    version = config.version,
+    description = description,
+    openapi_tags = config.tags_metadata
+)
 
 
 # Allow CORS
@@ -34,10 +42,10 @@ app.add_middleware(
 async def root():
     return {
         "health": "OK",
-        "version": "0.1.0",
+        "version": "0.1.2",
         "swagger": {
             "auth": "/auth/docs",            
-            "assets": "/assets/docs",
+            "assets": "/files/docs",
         }
     }
 
@@ -60,3 +68,4 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 # add routes
 app.mount('/auth', auth)
+app.mount('/files', files)

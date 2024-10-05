@@ -11,9 +11,16 @@ from typing import Union, List
 from psycopg2.pool import SimpleConnectionPool
 from psycopg2.extras import DictCursor, RealDictRow
 from util.env_config import SQL_CONN, DB_NAME, MAX_DB_CONN, DB_PASSWORD, DB_USERNAME
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 if SQL_CONN is None or DB_NAME is None or MAX_DB_CONN is None or DB_USERNAME is None or DB_PASSWORD is None:
     raise BaseException('Missing db env variables')
+
+# get sqlalchemy connection
+engine = create_engine(f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{SQL_CONN}/{DB_NAME}")
+Session = sessionmaker(bind=engine)
+
 
 class Database:
     def __init__(self):

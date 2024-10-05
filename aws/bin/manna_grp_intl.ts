@@ -5,6 +5,7 @@ import { AppSiteStack } from "../lib/site/site-stack";
 import { AppDnsStack } from "../lib/dns/dns-stack";
 import { DBStack } from "../lib/db/pg-stack";
 import { AssetsStack } from "../lib/storage/s3-stack";
+import { ApiEcsStack } from "../lib/containers/fastapi-ecs-stack";
 
 const app = new cdk.App();
 
@@ -44,4 +45,9 @@ new DBStack(app, `${PRODUCT_NAME}DBStack`, {
 //..stack to create 2 s3 buckets
 new AssetsStack(app, `${PRODUCT_NAME}AssetStack`, {
   env: { ...env},
+});
+
+//..create ecs deployment
+new ApiEcsStack(app, `${PRODUCT_NAME}ApiEcsStack`, {
+  env: { ...env },
 });

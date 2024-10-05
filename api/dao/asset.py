@@ -4,7 +4,7 @@ related queries
 """
 from typing import Optional
 from psycopg2.extras import RealDictRow
-from api.config.db import generate_random_uuid
+from config.db import generate_random_uuid
 from models.asset import AssetModel
 from config.db import db_instance
 import psycopg2

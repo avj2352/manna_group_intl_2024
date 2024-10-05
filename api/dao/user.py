@@ -4,15 +4,27 @@ related queries
 """
 from typing import Optional, Dict
 from psycopg2.extras import RealDictRow
-from models.user import UserCreateModel
-from config.db import db_instance, generate_random_uuid
 import psycopg2
 import logging
+from sqlalchemy import select
+# ..custom
+from models.user import UserCreateModel
+from config.db import db_instance, generate_random_uuid, Session
+from dao.sql.sql_alchemy_models import User
 
 def get_users():
-    table_name = "users"
-    query = f"SELECT * from {table_name}"
-    return db_instance.execute_query_results(query)
+    logging.debug("DAO - get all admins")
+    try:
+        session = Session()
+        stmt = select(User)
+        result = session.execute(stmt)
+        users = result.scalars().all()
+        return users
+    except Exception as err:
+        logging.info(f"Error querying SQL alchemy {err}")
+    finally:
+        session.close()
+            
 
 def get_by_user_id(user_id: str):
     table_name = "users"

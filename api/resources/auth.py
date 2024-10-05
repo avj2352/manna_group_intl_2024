@@ -5,11 +5,17 @@ from fastapi_auth0 import Auth0User
 from models.user import UserCreateModel, UserModel
 # custom
 from services.auth import AuthService, auth_lib
+from util.about import config, description
 
 # TODO: Move to service layer
 auth_service = AuthService()
 
-auth = FastAPI()
+auth = FastAPI(
+    title = config.title,
+    version = config.version,
+    description = description,
+    openapi_tags = config.tags_metadata
+)
     
 
 @auth.get('/public')
