@@ -22,7 +22,7 @@ class GlobalConfig(BaseSettings):
     tags_metadata: List[Any]  = [
         {
             "name": "Manna Group Intl API",
-            "description": "Manna Group Internationl E-commerce API"
+            "description": "Manna Group International E-commerce API"
         },
     ]
     title: str = "Manna Group Intl API"

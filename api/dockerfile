@@ -1,18 +1,11 @@
-# Dockerfile for AWS ECS deployment
-FROM python:3.11
+# https://hub.docker.com/_/python
+FROM python:3.11-slim-bullseye
 
-# init
-RUN mkdir -p /app
-RUN touch /app/__init__.py
+ENV PYTHONUNBUFFERED True
+ENV APP_HOME /api
+WORKDIR $APP_HOME
+COPY . ./
 
-# create workspace
-WORKDIR /app
-COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
-
-# RUN cat /app/main.py
-
-# start uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

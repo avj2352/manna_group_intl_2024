@@ -5,10 +5,9 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 # ..custom
-from resources.auth import auth
-from resources.files import files
+from resources.auth import auth_router
+from resources.files import files_router
 from util.about import config, description
-
 
 # logging configuration
 logging.basicConfig(
@@ -25,6 +24,8 @@ app = FastAPI(
     openapi_tags = config.tags_metadata
 )
 
+# Create tables
+
 
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
@@ -36,18 +37,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# root api, with swagger doc links
-@app.get('/')
-async def root():
-    return {
-        "health": "OK",
-        "version": "0.1.2",
-        "swagger": {
-            "auth": "/auth/docs",            
-            "assets": "/files/docs",
-        }
-    }
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -67,5 +56,5 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 # add routes
-app.mount('/auth', auth)
-app.mount('/files', files)
+app.include_router(router=auth_router, prefix='/auth', tags=["authentication"])
+app.include_router(router=files_router, prefix='/files', tags=["s3"])

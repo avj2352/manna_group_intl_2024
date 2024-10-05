@@ -1,22 +1,19 @@
 import logging
 # fastapi
-from fastapi import FastAPI
+from fastapi import APIRouter
 # custom
 from services.s3_file import FileService
 from util.about import config, description
 
-
-# TODO: Move to service layer
+# s3 file service
 file_service = FileService()
 
-files = FastAPI(
-    title = config.title,
-    version = config.version,
-    description = description,
-    openapi_tags = config.tags_metadata
-)
+files_router = APIRouter()
 
-@files.get('/')
+@files_router.get('/')
 def get_file_list(bucket_name: str):
+    """
+    api endpoint to get list of all assets from s3 bucket    
+    """
     logging.debug(f"Querying s3 bucket")
     return file_service.list_s3_files(bucket_name)

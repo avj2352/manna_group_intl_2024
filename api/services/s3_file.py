@@ -55,6 +55,7 @@ class FileService:
         """
         List all files in an S3 bucket
         """
+        # logging.debug(f"AWS Credentials are: {AWS_ACCESS_KEY}, {AWS_SECRET_KEY}")
         try:
             result = []
             logging.debug(f"bucket name: {bucket_name}")

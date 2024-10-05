@@ -1,6 +1,6 @@
 import logging
 # fastapi
-from fastapi import FastAPI, Depends, Security
+from fastapi import APIRouter, Depends, Security
 from fastapi_auth0 import Auth0User
 from models.user import UserCreateModel, UserModel
 # custom
@@ -10,15 +10,10 @@ from util.about import config, description
 # TODO: Move to service layer
 auth_service = AuthService()
 
-auth = FastAPI(
-    title = config.title,
-    version = config.version,
-    description = description,
-    openapi_tags = config.tags_metadata
-)
+auth_router = APIRouter()
     
 
-@auth.get('/public')
+@auth_router.get('/public')
 def test_public_route():
     """
         api call to check if endpoint can be called
@@ -27,11 +22,11 @@ def test_public_route():
     return {"message": "Anonymous User"}
 
 
-@auth.get("/check-admin", dependencies=[Depends(auth_lib.implicit_scheme)])
+@auth_router.get("/check-admin", dependencies=[Depends(auth_lib.implicit_scheme)])
 def test_secure_route(user: Auth0User = Security(auth_lib.get_user)):
     """
-        this function validates session token & returns
-        payload if the user is admin or not
+        api to validate session token & check
+        if the user is admin or not
     """
     user_details = f"{user}"
     logging.debug("User details are {}".format(user_details))

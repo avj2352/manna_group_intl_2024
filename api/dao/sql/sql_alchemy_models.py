@@ -33,9 +33,9 @@ class User(Base):
 
     _id = Column(Integer, primary_key=True)    
     user_id = Column(String(50), unique=True, nullable=False)
-    name = Column(String(50), unique=True, nullable=False)
+    name = Column(String(50), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
-    vendor = Column(String(120), unique=True, nullable=False)
+    vendor = Column(String(120), nullable=False)
 
     def __repr__(self):
         return f"<User(id={self.id}, \
