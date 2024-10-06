@@ -4,6 +4,7 @@ import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ChevronDown } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // ..custom
 import { INavItem } from "@/components/navigation/navigation.list";
 import MobileNavbar from "./mobile/MobileNav";
@@ -90,7 +91,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     >
                       {navList
                         .filter(
-                          (item: INavItem) => item.category === "products",
+                          (item: INavItem) => item.category === "products"
                         )
                         .map((item: INavItem, idx: number) => (
                           <li key={idx + 1}>
@@ -161,16 +162,24 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                 </Menu.Item>
 
                 <Menu.Item className="font-medium dropdown">
-                  { isAuthenticated ? (<UserProfileDropdownWrapper>
-                     {user.name} <ChevronDown/>
-                    </UserProfileDropdownWrapper>): (<Button
-                    onClick={() => loginWithRedirect()}
-                    size={"sm"} 
-                    color={"primary"}>
+                  {isAuthenticated ? (
+                    <UserProfileDropdownWrapper>
+                      <Avatar>
+                        <AvatarImage src={user.picture} />
+                        <AvatarFallback>{user.name?.substring(0,1).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                      <ChevronDown />
+                    </UserProfileDropdownWrapper>
+                  ) : (
+                    <Button
+                      onClick={() => loginWithRedirect()}
+                      size={"sm"}
+                      color={"primary"}
+                    >
                       Login
-                  </Button>)}                                    
+                    </Button>
+                  )}
                 </Menu.Item>
-                
               </Menu>
             </Nav.End>
           </Nav>
