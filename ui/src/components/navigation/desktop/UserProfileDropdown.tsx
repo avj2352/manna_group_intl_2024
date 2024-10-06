@@ -36,10 +36,10 @@ const UserProfileDropdownWrapper: FC<{ children: ReactNode }> =({children}) => {
         <div>{children}</div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{user.name} {authSate.isAdmin ? `(Admin)` : ''}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.name} {authSate?.isAdmin ? `(Admin)` : ''}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-        {authSate.isAdmin && <DropdownMenuItem disabled>
+        {authSate?.isAdmin && <DropdownMenuItem disabled>
           <Ribbon className="w-4 h-4 mr-2" />
           <span>Role: Admin*</span>
         </DropdownMenuItem>}
