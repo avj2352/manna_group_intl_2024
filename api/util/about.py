@@ -5,7 +5,7 @@ from fastapi.security import HTTPBasic
 from pydantic_settings import BaseSettings
 from typing import List, Any
 
-API_VERSION: str = "0.5.0"
+API_VERSION: str = "0.5.1"
 
 description: str = f"""
 This API microservice serves as an e-commerce system & content management system 

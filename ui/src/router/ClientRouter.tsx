@@ -18,8 +18,8 @@ const ClientRouter: FC = () => {
         { element: <HomePage />, index: true },
         { element: <AboutPage />, path: "/about/:offset" },
         { element: <CompanyPage />, path: "/company/:offset" },
-        { element: <ProductPage />, path: "/products" },
-        { element: <ContactPage />, path: "/contact" },
+        { element: <ProductPage />, path: "/products/:offset" },
+        { element: <ContactPage />, path: "/contact/:offset" },
       ],
     },
     {

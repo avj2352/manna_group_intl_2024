@@ -21,8 +21,7 @@ function App() {
 
   // lifecycle
   const checkUserDetails = useCallback(async () => {
-    if (!isAuthenticated) return;
-    console.log("User details is: ", user);
+    if (!isAuthenticated) return;    
     const accessToken = await getAccessTokenSilently({
       authorizationParams: {
         audience,

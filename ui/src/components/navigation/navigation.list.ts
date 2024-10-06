@@ -51,7 +51,7 @@ export const navList: INavItem[] = [
   {
     label: "Shop Products NOW!",
     link: "/products",
-    offSetYAxis: 2,
+    offSetYAxis: 100,
     category: "products",
   },
   {

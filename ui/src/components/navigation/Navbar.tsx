@@ -7,8 +7,9 @@ import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // ..custom
 import { INavItem } from "@/components/navigation/navigation.list";
+import UserProfileDropdownWrapper from "./desktop/UserProfileDropdown";
 import MobileNavbar from "./mobile/MobileNav";
-import UserProfileDropdownWrapper from "./dropdown/UserProfileDropdown";
+import NavbarDropdown from "./desktop/NavbarDropdown";
 
 type INavbarProps = {
   navList: INavItem[];
@@ -40,135 +41,42 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
           <Nav className="px-0">
             <Nav.Start className="gap-2" style={{ width: "100%" }}>
               <MobileNavbar navItems={navList} />
-
               <a
                 href="#"
-                className="text-2xl font-bold tracking-tighter text-brand-gradient"
-              >
+                className="text-2xl font-bold tracking-tighter text-brand-gradient">
                 MANNA Group International
               </a>
             </Nav.Start>
 
             <Nav.End className="hidden w-full lg:flex">
               <Menu horizontal size="sm" className="items-center gap-2 px-1">
+                {/* About us */}
                 <Menu.Item className="font-medium dropdown">
-                  <details>
-                    <summary tabIndex={0} role="button">
-                      About
-                    </summary>
-                    <ul
-                      tabIndex={0}
-                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
-                      style={{ width: "200px" }}
-                    >
-                      {navList
-                        .filter((item: INavItem) => item.category === "about")
-                        .map((item: INavItem, idx: number) => (
-                          <li key={idx + 1}>
-                            <Link
-                              className="text-base transition-all duration-500 hover:text-primary"
-                              to={`${item.link}${
-                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                              }`}
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
+                 <NavbarDropdown label="About" filter="about"/>
                 </Menu.Item>
-
+                {/* Products */}
                 <Menu.Item className="font-medium dropdown">
-                  <details>
-                    <summary tabIndex={1} role="button">
-                      Products
-                    </summary>
-                    <ul
-                      tabIndex={1}
-                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
-                      style={{ width: "200px" }}
-                    >
-                      {navList
-                        .filter(
-                          (item: INavItem) => item.category === "products"
-                        )
-                        .map((item: INavItem, idx: number) => (
-                          <li key={idx + 1}>
-                            <Link
-                              className="text-base transition-all duration-500 hover:text-primary"
-                              to={item.link}
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
-                </Menu.Item>
-
+                 <NavbarDropdown label="Products" filter="products"/>
+                </Menu.Item>                
+                {/* Company */}
                 <Menu.Item className="font-medium dropdown">
-                  <details>
-                    <summary tabIndex={2} role="button">
-                      Company
-                    </summary>
-                    <ul
-                      tabIndex={2}
-                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
-                      style={{ width: "200px" }}
-                    >
-                      {navList
-                        .filter((item: INavItem) => item.category === "company")
-                        .map((item: INavItem, idx: number) => (
-                          <li key={idx + 1}>
-                            <Link
-                              className="text-base transition-all duration-500 hover:text-primary"
-                              to={`${item.link}${
-                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                              }`}
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
+                  <NavbarDropdown label="Company" filter="company"/>
                 </Menu.Item>
-
+                {/* Contact */}
                 <Menu.Item className="font-medium dropdown">
-                  <details>
-                    <summary tabIndex={3} role="button">
-                      Contact
-                    </summary>
-                    <ul
-                      tabIndex={3}
-                      className="p-2 rounded-t-none bg-base-100 dropdown-content"
-                      style={{ width: "200px" }}
-                    >
-                      {navList
-                        .filter((item: INavItem) => item.category === "contact")
-                        .map((item: INavItem, idx: number) => (
-                          <li key={idx + 1}>
-                            <Link
-                              className="text-base transition-all duration-500 hover:text-primary"
-                              to={item.link}
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </details>
+                  <NavbarDropdown label="Contact Us" filter="contact"/>
                 </Menu.Item>
-
+                {/* UserProfile */}
                 <Menu.Item className="font-medium dropdown">
                   {isAuthenticated ? (
                     <UserProfileDropdownWrapper>
+                      <Fragment>
                       <Avatar>
                         <AvatarImage src={user.picture} />
                         <AvatarFallback>{user.name?.substring(0,1).toUpperCase()}</AvatarFallback>
                       </Avatar>
                       <ChevronDown />
+                      </Fragment>
                     </UserProfileDropdownWrapper>
                   ) : (
                     <Button

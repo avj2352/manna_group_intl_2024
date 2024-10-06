@@ -9,8 +9,7 @@ export const fetchUserAdminDetailsAPI = createAsyncThunk(
   'auth/fetchUserAdminDetailsAPI',
   async ({token}: {token: string}): Promise<any> => {
     const authClient = new AuthAPIClient(token, baseURL);
-    const response = await authClient.checkIsAdmin();
-    console.log('AuthSlice API: Response is: ', response);
+    const response = await authClient.checkIsAdmin();    
     return await response?.data;
   }
 );
