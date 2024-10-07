@@ -5,7 +5,7 @@ import { Card } from "react-daisyui";
 
 const Quality: FC = () => {
   return (
-    <section className="py-8 lg:py-24" id="organize">
+    <section className="py-8 lg:py-24" id="quality-affordability">
       <div className="container">
         <div className="grid gap-16 lg:grid-cols-2 xl:gap-24">
           <div className="order-2 lg:order-1">
@@ -39,13 +39,13 @@ const Quality: FC = () => {
               />
             </div>
             <div className="absolute end-10 top-[70%]">
-              <Card className="bg-base-100 shadow transition-all hover:shadow-lg">
+              <Card className="transition-all shadow bg-base-100 hover:shadow-lg">
                 <Card.Body className="flex flex-row items-center gap-3 p-3">
-                  <div className="flex items-center justify-center rounded-full bg-primary p-2">
+                  <div className="flex items-center justify-center p-2 rounded-full bg-primary">
                     <ComponentIcon className="size-6 text-primary-content" />
                   </div>
                   <div>
-                    <p className="text-xl/none font-semibold">Best in</p>
+                    <p className="font-semibold text-xl/none">Best in</p>
                     <p className="">Quality &amp; Affordability</p>
                   </div>
                 </Card.Body>

@@ -30,9 +30,7 @@ const NavbarDropdown: FC<INavbarDropdownProps> = ({ label, filter }) => {
             <DropdownMenuItem key={idx + 1}>
               <Link 
                 className="flex"
-                to={`${item.link}${
-                                item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                              }`}>
+                to={`${item.link}/${item.scrollId}`}>
                 <Pin className="w-4 h-4 mr-2" />
                 <span>{item.label}</span>
               </Link>

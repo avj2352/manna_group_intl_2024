@@ -21,7 +21,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
 
   useEffect(() => {
     const onWindowScroll = () => {
-      setAtTop(window.pageYOffset < 30);
+      setAtTop(window.scrollY < 30);
     };
     window.addEventListener("scroll", onWindowScroll);
     onWindowScroll();
@@ -72,8 +72,8 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     <UserProfileDropdownWrapper>
                       <Fragment>
                       <Avatar>
-                        <AvatarImage src={user.picture} />
-                        <AvatarFallback>{user.name?.substring(0,1).toUpperCase()}</AvatarFallback>
+                        <AvatarImage src={user?.picture} />
+                        <AvatarFallback>{user?.name?.substring(0,1).toUpperCase()}</AvatarFallback>
                       </Avatar>
                       <ChevronDown />
                       </Fragment>

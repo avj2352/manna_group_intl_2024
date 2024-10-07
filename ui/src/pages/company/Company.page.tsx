@@ -1,23 +1,25 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // ..custom
 import GallerySection from "./sections/Gallery";
 import { BusinessUSASection } from "./sections/BusinessUSA";
 import { InternationalSection } from "./sections/International";
 import { ContractManufacturingSection } from "./sections/ContractManufacturing";
-import { scrollToOffset } from "@/util/helper";
 import { PromoVideoSection } from "./sections/Video";
 
 const CompanyPage: FC = () => {
-  window.scrollTo();
-
-  const { offset } = useParams();
-  if (offset && Number(offset)) {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      scrollToOffset(Number(offset));
-    }, 1000);
-  }
+  const { id } = useParams();
+  
+  useEffect(()=>{
+    if (Boolean(id) && id !== "") {
+      console.log('Found id element: ', document.getElementById(id));
+      document.getElementById(id)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });    
+    }
+  },[id]);
 
   return (
     <Fragment>

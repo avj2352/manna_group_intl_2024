@@ -4,7 +4,7 @@ import { Card } from "react-daisyui";
 
 const CollaborationRD = () => {
   return (
-    <section className="py-8 lg:py-24" id="how-it-works">
+    <section className="py-8 lg:py-24" id="collaboration-rd">
       <div className="container">
         <div className="grid gap-16 lg:grid-cols-2 xl:gap-24">
           <div className="relative">
@@ -16,13 +16,13 @@ const CollaborationRD = () => {
               />
             </div>
             <div className="absolute top-[70%]">
-              <Card className="bg-base-100 shadow transition-all hover:shadow-lg">
+              <Card className="transition-all shadow bg-base-100 hover:shadow-lg">
                 <Card.Body className="flex flex-row items-center gap-3 p-3">
-                  <div className="flex items-center justify-center rounded-full bg-primary p-2 text-primary-content">
+                  <div className="flex items-center justify-center p-2 rounded-full bg-primary text-primary-content">
                     <ComponentIcon size={24} />
                   </div>
                   <div>
-                    <p className="text-xl/none font-semibold">Collaboration</p>
+                    <p className="font-semibold text-xl/none">Collaboration</p>
                     <p className="">Research &amp; Development</p>
                   </div>
                 </Card.Body>

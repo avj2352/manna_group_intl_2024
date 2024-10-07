@@ -4,7 +4,7 @@ import { Card } from "react-daisyui";
 
 const WhoWeAre = () => {
   return (
-    <section className="py-8 lg:py-24" id="how-it-works">
+    <section id="who-we-are" className="py-8 lg:py-24">
       <div className="container">
         <div className="grid gap-16 lg:grid-cols-2 xl:gap-24">
           <div className="relative">
@@ -16,13 +16,13 @@ const WhoWeAre = () => {
               />
             </div>
             <div className="absolute top-[70%]">
-              <Card className="bg-base-100 shadow transition-all hover:shadow-lg">
+              <Card className="transition-all shadow bg-base-100 hover:shadow-lg">
                 <Card.Body className="flex flex-row items-center gap-3 p-3">
-                  <div className="flex items-center justify-center rounded-full bg-primary p-2 text-primary-content">
+                  <div className="flex items-center justify-center p-2 rounded-full bg-primary text-primary-content">
                     <ComponentIcon size={24} />
                   </div>
                   <div>
-                    <p className="text-xl/none font-semibold">30+ yrs</p>
+                    <p className="font-semibold text-xl/none">30+ yrs</p>
                     <p className="">Experience</p>
                   </div>
                 </Card.Body>
@@ -32,7 +32,7 @@ const WhoWeAre = () => {
 
           <div className="col-span">
             <p className="text-xl font-semibold lg:text-3xl">Who we are?</p>
-            <p className="mt-3 font-semibold text-xl">
+            <p className="mt-3 text-xl font-semibold">
               Aiming To Serve People With Healthcare Products For Their Overall
               Day-to-day Good Health
             </p>

@@ -5,7 +5,7 @@ import { Card } from "react-daisyui";
 
 const ValueAndMission: FC = () => {
   return (
-    <section className="py-8 lg:py-24" id="organize">
+    <section className="py-8 lg:py-24" id="vision-mission">
       <div className="container">
         <div className="grid gap-16 lg:grid-cols-2 xl:gap-24">
           <div className="order-2 lg:order-1">
@@ -43,13 +43,13 @@ const ValueAndMission: FC = () => {
               />
             </div>
             <div className="absolute end-10 top-[70%]">
-              <Card className="bg-base-100 shadow transition-all hover:shadow-lg">
+              <Card className="transition-all shadow bg-base-100 hover:shadow-lg">
                 <Card.Body className="flex flex-row items-center gap-3 p-3">
-                  <div className="flex items-center justify-center rounded-full bg-primary p-2">
+                  <div className="flex items-center justify-center p-2 rounded-full bg-primary">
                     <ComponentIcon className="size-6 text-primary-content" />
                   </div>
                   <div>
-                    <p className="text-xl/none font-semibold">2025</p>
+                    <p className="font-semibold text-xl/none">2025</p>
                     <p className="">Health &amp; Wellness</p>
                   </div>
                 </Card.Body>

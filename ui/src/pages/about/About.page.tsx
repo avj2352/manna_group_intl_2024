@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import WhoWeAre from "./sections/WhoWeAre";
 import ValueAndMission from "./sections/ValueAndMission";
@@ -6,18 +6,20 @@ import OurValue from "./sections/OurValue";
 import Quality from "./sections/Quality";
 import CollaborationRD from "./sections/Collaboration";
 import Management from "./sections/Management";
-import { scrollToOffset } from "@/util/helper";
 
-const AboutPage: FC = () => {
-  window.scrollTo();
+const AboutPage: FC = () => {  
 
-  const { offset } = useParams();
-  if (offset && Number(offset)) {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      scrollToOffset(Number(offset));
-    }, 1000);
-  }
+  const { id } = useParams();
+  
+  useEffect(()=>{
+    if (Boolean(id) && id !== "") {      
+      document.getElementById(id)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });    
+    }
+  },[id]);
 
   return (
     <Fragment>

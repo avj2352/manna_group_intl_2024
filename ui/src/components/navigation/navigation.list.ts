@@ -7,7 +7,7 @@
 export type INavItem = {
   label: string;
   link: string;
-  offSetYAxis: number | undefined;
+  scrollId: string;
   category: "about" | "products" | "company" | "contact";
 };
 
@@ -15,91 +15,91 @@ export const navList: INavItem[] = [
   {
     label: "Who we are",
     link: "/about",
-    offSetYAxis: 2,
+    scrollId: "who-we-are",
     category: "about",
   },
   {
     label: "Vision & Mission",
     link: "/about",
-    offSetYAxis: 220,
+    scrollId: "vision-mission",
     category: "about",
   },
   {
     label: "Our Value",
     link: "/about",
-    offSetYAxis: 490,
+    scrollId: "our-value",
     category: "about",
   },
   {
     label: "Quality & Affordability",
     link: "/about",
-    offSetYAxis: 700,
+    scrollId: "quality-affordability",
     category: "about",
   },
   {
     label: "Collaboration and R&D",
     link: "/about",
-    offSetYAxis: 950,
+    scrollId: "collaboration-rd",
     category: "about",
   },
   {
     label: "Management Team",
     link: "/about",
-    offSetYAxis: 1300,
+    scrollId: "management-team",
     category: "about",
   },
   {
     label: "Shop Products NOW!",
     link: "/products",
-    offSetYAxis: 100,
+    scrollId: "shop-products",
     category: "products",
   },
   {
     label: "Gallery",
     link: "/company",
-    offSetYAxis: 1,
+    scrollId: "gallery-section",
     category: "company",
   },
   {
     label: "Video",
     link: "/company",
-    offSetYAxis: 100,
+    scrollId: "video-section",
     category: "company",
   },
   {
     label: "Business Division",
     link: "/company",
-    offSetYAxis: 400,
+    scrollId: "business-division",
     category: "company",
   },
   {
     label: "USA & International",
     link: "/company",
-    offSetYAxis: 600,
+    scrollId: "usa-international",
     category: "company",
   },
   {
     label: "Contract Manufacturing",
     link: "/company",
-    offSetYAxis: 900,
+    scrollId: "contract-manufacturing",
     category: "company",
   },
   {
     label: "Contact Us",
     link: "/contact",
-    offSetYAxis: undefined,
+    scrollId: "contact-us-section",
     category: "contact",
   },
   {
     label: "Send Inquiry",
     link: "/contact",
-    offSetYAxis: undefined,
+    scrollId: "send-inquiry",
     category: "contact",
   },
   {
     label: "Careers",
     link: "/contact",
-    offSetYAxis: undefined,
+    scrollId: "contact-us-section",
     category: "contact",
   },
 ];

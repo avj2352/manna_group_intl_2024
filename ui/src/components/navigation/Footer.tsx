@@ -33,27 +33,27 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
             className="rounded-lg"
           />
         </section>
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-6 mt-8">
           <div className="inline-flex gap-3">
-            <div className="cursor-pointer rounded border border-base-content/10 p-2 transition-all hover:bg-base-content/10">
+            <div className="p-2 transition-all border rounded cursor-pointer border-base-content/10 hover:bg-base-content/10">
               <FacebookIcon size={16} />
             </div>
 
-            <div className="cursor-pointer rounded border border-base-content/10 p-2 transition-all hover:bg-base-content/10">
+            <div className="p-2 transition-all border rounded cursor-pointer border-base-content/10 hover:bg-base-content/10">
               <InstagramIcon size={16} />
             </div>
-            <div className="cursor-pointer rounded border border-base-content/10 p-2 transition-all hover:bg-base-content/10">
+            <div className="p-2 transition-all border rounded cursor-pointer border-base-content/10 hover:bg-base-content/10">
               <DribbbleIcon size={16} />
             </div>
-            <div className="cursor-pointer rounded border border-base-content/10 p-2 transition-all hover:bg-base-content/10">
+            <div className="p-2 transition-all border rounded cursor-pointer border-base-content/10 hover:bg-base-content/10">
               <LinkedinIcon size={16} />
             </div>
-            <div className="cursor-pointer rounded border border-base-content/10 p-2 transition-all hover:bg-base-content/10">
+            <div className="p-2 transition-all border rounded cursor-pointer border-base-content/10 hover:bg-base-content/10">
               <MailIcon size={16} />
             </div>
           </div>
         </div>
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 mt-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <div className="flex flex-col gap-5">
             <h2 className="text-xl font-medium">About</h2>
             <div className="space-y-2">
@@ -64,9 +64,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={`${item.link}${
-                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                      }`}
+                      to={`${item.link}/${item.scrollId}`}
                     >
                       {item.label}
                     </Link>
@@ -85,7 +83,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={item.link}
+                      to={`${item.link}/${item.scrollId}`}
                     >
                       {item.label}
                     </Link>
@@ -104,9 +102,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={`${item.link}${
-                        item.offSetYAxis ? "/" + item.offSetYAxis : "/0"
-                      }`}
+                      to={`${item.link}/${item.scrollId}`}
                     >
                       {item.label}
                     </Link>
@@ -125,8 +121,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
                   <div key={idx + 1}>
                     <Link
                       className="text-base transition-all duration-500 hover:text-primary"
-                      to={item.link}
-                    >
+                      to={`${item.link}/${item.scrollId}`}>
                       {item.label}
                     </Link>
                   </div>
@@ -136,7 +131,7 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-8 py-4 text-center lg:px-40">
+      <div className="px-8 py-4 text-center border-t border-white/10 lg:px-40">
         2024 &copy; made by{" "}
         <a
           className="link-hover link"

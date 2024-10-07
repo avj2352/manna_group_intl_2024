@@ -16,10 +16,10 @@ const ClientRouter: FC = () => {
       ),
       children: [
         { element: <HomePage />, index: true },
-        { element: <AboutPage />, path: "/about/:offset" },
-        { element: <CompanyPage />, path: "/company/:offset" },
-        { element: <ProductPage />, path: "/products/:offset" },
-        { element: <ContactPage />, path: "/contact/:offset" },
+        { element: <AboutPage />, path: "/about/:id" },
+        { element: <CompanyPage />, path: "/company/:id" },
+        { element: <ProductPage />, path: "/products/:id" },
+        { element: <ContactPage />, path: "/contact/:id" },
       ],
     },
     {
