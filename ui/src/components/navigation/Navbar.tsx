@@ -37,9 +37,9 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
             : "border-base-content/10"
         }`}
       >
-        <div className="">
-          <Nav className="px-0">
-            <Nav.Start className="gap-2" style={{ width: "100%" }}>
+        <div className="navbar-container">
+          <Nav className="px-0 flex">
+            <Nav.Start className="gap-2 flex-1 min-w-[300px]" style={{ width: "100%" }}>
               <MobileNavbar navItems={navList} />
               <a
                 href="#"
@@ -48,7 +48,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
               </a>
             </Nav.Start>
 
-            <Nav.End className="hidden w-full lg:flex">
+            <Nav.End className="hidden w-full lg:flex flex-2">
               <Menu horizontal size="sm" className="items-center gap-2 px-1">
                 {/* About us */}
                 <Menu.Item className="font-medium dropdown">
