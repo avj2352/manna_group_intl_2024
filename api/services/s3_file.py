@@ -32,7 +32,7 @@ class FileService:
         )
 
     @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
-    def _create_presigned_url(
+    def create_presigned_url(
         self, bucket_name, object_name, expiration=3600
     ) -> Optional[str]:
         """

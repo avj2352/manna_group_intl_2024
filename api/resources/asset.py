@@ -11,10 +11,7 @@ from util.about import config, description
 # TODO: Move to service layer
 auth_service = AuthService()
 asset_service = AssetService()
-
 asset_router = APIRouter()
-    
-
 
 @asset_router.get("/", dependencies=[Depends(auth_lib.implicit_scheme)])
 def get_assets(user: Auth0User = Security(auth_lib.get_user)):
