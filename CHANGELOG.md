@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.5.2
+- 10/09/2024
+- Design Admin Dashboard page
+
+
 ## v0.5.1
 - 10/06/2024
 - Fix all navigation issues

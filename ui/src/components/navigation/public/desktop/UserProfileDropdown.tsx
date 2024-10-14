@@ -1,5 +1,6 @@
-import { ReactNode, FC } from "react";
+import { ReactNode, FC, Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 import {
   ShoppingCart,  
   CreditCard,  
@@ -29,6 +30,7 @@ import { useAppSelector } from "@/common/state/store";
 
 const UserProfileDropdownWrapper: FC<{ children: ReactNode }> =({children}) => {
   const { user, logout } = useAuth0();
+  const navigate = useNavigate();
   const authSate = useAppSelector(state => state.auth);
   return (
     <DropdownMenu>
@@ -48,12 +50,13 @@ const UserProfileDropdownWrapper: FC<{ children: ReactNode }> =({children}) => {
             <span>My Cart</span>            
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <CreditCard className="w-4 h-4 mr-2" />
+              <CreditCard className="w-4 h-4 mr-2" />
             <span>My Orders</span>            
           </DropdownMenuItem>                    
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        {authSate.isAdmin && <DropdownMenuGroup>          
+        {authSate.isAdmin && (<Fragment>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>                  
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Users className="w-4 h-4 mr-2" />
@@ -61,18 +64,22 @@ const UserProfileDropdownWrapper: FC<{ children: ReactNode }> =({children}) => {
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem>
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  <span>Admin Dashboard</span>
+                <DropdownMenuItem
+                  onClick={() => navigate('/admin')}>
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    <span>Admin Dashboard</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate('/')}>
                   <User className="w-4 h-4 mr-2" />
                   <span>Customer</span>
                 </DropdownMenuItem>                
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>          
-        </DropdownMenuGroup>}
+        </DropdownMenuGroup>
+        </Fragment>)
+        }
         <DropdownMenuSeparator />        
         <DropdownMenuItem>
           <LifeBuoy className="w-4 h-4 mr-2" />

@@ -8,14 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 // ..custom
-import { navList, INavItem } from "@/components/navigation/navigation.list";
+import { INavItem } from "@/common/interfaces";
 
 type INavbarDropdownProps = {
   label: string,
-  filter: string,
+  filter: Pick<INavItem, "category">,
+  navList: INavItem[],
 };
 
-const NavbarDropdown: FC<INavbarDropdownProps> = ({ label, filter }) => {
+const NavbarDropdown: FC<INavbarDropdownProps> = ({ label, filter, navList }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,7 +26,7 @@ const NavbarDropdown: FC<INavbarDropdownProps> = ({ label, filter }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="relative w-56 mt-2">
         {navList
-          .filter((item: INavItem) => item.category === filter)
+          .filter((item: INavItem) => (item.category) as string === filter as unknown as string)
           .map((item: INavItem, idx: number) => (
             <DropdownMenuItem key={idx + 1}>
               <Link 

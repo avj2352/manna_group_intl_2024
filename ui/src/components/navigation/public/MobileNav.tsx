@@ -4,8 +4,8 @@ import { Menu as MenuIcon, ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth0 } from "@auth0/auth0-react";
 // ..custom
-import { INavItem } from "@/components/navigation/navigation.list";
-import UserProfileDropdownWrapper from "../desktop/UserProfileDropdown";
+import { INavItem } from "@/common/interfaces/index";
+import UserProfileDropdownWrapper from "@/components/navigation/public/desktop/UserProfileDropdown";
 
 type IMobileNavbarProps = {
   navItems: INavItem[];

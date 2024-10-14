@@ -1,15 +1,5 @@
-/**
- * Nav List
- * to be used by
- * - Navbar
- * - Footer
- */
-export type INavItem = {
-  label: string;
-  link: string;
-  scrollId: string;
-  category: "about" | "products" | "company" | "contact";
-};
+import { INavItem } from "@/common/interfaces";
+
 
 export const navList: INavItem[] = [
   {

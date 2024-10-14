@@ -12,7 +12,19 @@ class AssetModel(BaseModel):
     position: int = Field(title="asset position", description="position is required and must be 1-50")
     asset_type: str = Field(title="asset type", description="asset type - gallery / product / other")
     description: str = Field(title="asset description", description="description of the asset")
-    link: str = Field(title="image link", description="link to the image in s3 bucket")    
+    asset_key: str = Field(title="image s3 key", description="link to the image in s3 bucket")    
+    
+    # custom validation
+    @field_validator("asset_type")
+    def reg_type_check(cls, v):
+        if not is_part_of_list(v, ['gallery', 'product', 'other']):
+            raise ValueError('value must be of type - gallery | product | other')
+        return v.title()
+    
+class AssetRequestModel(BaseModel):
+    asset_type: str = Field(title="asset type", description="asset type - gallery / product / other")
+    description: str = Field(title="asset description", description="description of the asset")
+    asset_key: str = Field(title="image s3 key", description="link to the image in s3 bucket")    
     
     # custom validation
     @field_validator("asset_type")
@@ -29,7 +41,7 @@ def asset_response_entity(item) -> Dict:
         "position": item["position"],
         "asset_type": item["asset_type"],
         "description": item["description"],
-        "link": item["link"]        
+        "asset_key": item["asset_key"]        
     }
 
 def assets_response_entity(entity) -> List:

@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 # ..custom
 from resources.auth import auth_router
+from resources.asset import asset_router
 from resources.files import files_router
 from util.about import config, description
 
@@ -25,7 +26,6 @@ app = FastAPI(
 )
 
 # Create tables
-
 
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
@@ -57,4 +57,5 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 # add routes
 app.include_router(router=auth_router, prefix='/auth', tags=["authentication"])
+app.include_router(router=asset_router, prefix='/assets', tags=["assets"])
 app.include_router(router=files_router, prefix='/files', tags=["s3"])

@@ -106,9 +106,9 @@ class Asset(Base):
     id = Column(Integer, primary_key=True)
     asset_id = Column(String, unique=True)
     position = Column(Integer)
-    type = Column(String)
+    asset_type = Column(String)
     description = Column(String)
-    link = Column(String)
+    asset_key = Column(String)
     
     def __repr__(self):
         return f"<Asset(id={self.id}, \
