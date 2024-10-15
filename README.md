@@ -3,13 +3,15 @@
 MANNA International Corp. is introducing products in healthcare areas like Nutraceutical Supplements, OTC pharmaceuticals & Essential Oils.
 This is the new version of the website
 
-![version](https://img.shields.io/badge/version-0.5.3-blue)
+![version](https://img.shields.io/badge/version-0.5.4-blue)
 
 - [Current Website](https://mannagroupintl.com/)
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
 
+- [SVG Backgrounds](https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/)
+- [Animated SVG loaders](https://www.svgbackgrounds.com/elements/animated-svg-preloaders/)
 - [Scalar - Next upgrade to Swagger docs](https://scalar.com)
 - [Github Reference project for SQL](https://github.com/avj2352/time-travel-v3/tree/feature/sql)
 - [AWS RDS JDBC Drivers](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-rds.html#java-rds-drivers)

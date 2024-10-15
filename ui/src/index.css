@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --color-brand-base: #ee4d14;
+    --color-brand-dark: #cc3c08;
+    --color-brand-light: #FC766A;
+}
+
 html {
     @apply scroll-smooth
 }
