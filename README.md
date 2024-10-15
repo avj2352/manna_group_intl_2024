@@ -10,6 +10,7 @@ This is the new version of the website
 
 ## Important Links
 
+- [Scalar - Next upgrade to Swagger docs](https://scalar.com)
 - [Github Reference project for SQL](https://github.com/avj2352/time-travel-v3/tree/feature/sql)
 - [AWS RDS JDBC Drivers](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-rds.html#java-rds-drivers)
 - [Rust workbook](https://francescociulla.gumroad.com/l/rustworkbook?_gl=1*en7586*_ga*MTgyMjgzNzI4LjE3MjU1NDU3ODc.*_ga_6LJN6D94N6*MTcyNTU0NTc4Ny4xLjEuMTcyNTU0NTgzMC4wLjAuMA..)
@@ -24,6 +25,33 @@ This is the new version of the website
 - [Open source - free image generator AI](http://flowgpt.com/)
 - [Limited image gen AI](https://openart.ai)
 - [Animated guide around the website / web-app](https://driverjs.com)
+
+# From Swagger to Scalar Documentation
+
+```bash
+pip install scalar-fastapi
+```
+
+```python
+# Integrate with FastAPI - Scalar docs client
+from fastapi import FastAPI
+from scalar_fastapi import get_scalar_api_reference
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+@app.get("/scalar", include_in_schema=False)
+async def scalar_html():
+    return get_scalar_api_reference(
+        openapi_url=app.openapi_url,
+        title=app.title,
+    )
+```
+
+
 
 # Data Model
 

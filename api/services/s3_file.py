@@ -9,7 +9,7 @@ from typing import List, Optional
 from fastapi import HTTPException, UploadFile, status
 import logging
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, NoCredentialsError
 from cachetools import cached, TTLCache
 # custom
 from util.env_config import (
@@ -39,13 +39,21 @@ class FileService:
         Generate a presigned URL to share an S3 object
         """
         try:
-            s3_client = boto3.client("s3")
+            session = boto3.Session(
+                region_name=REGION_NAME,
+                aws_access_key_id=AWS_ACCESS_KEY,
+                aws_secret_access_key=AWS_SECRET_KEY,
+            )
+            s3_client = session.client("s3")
             url = s3_client.generate_presigned_url(
                 "get_object",
                 Params={"Bucket": bucket_name, "Key": object_name},
                 ExpiresIn=expiration,
             )
             return url
+        except NoCredentialsError as err:
+            logging.error(f"Error creating presigned url: {err}")
+            return None
         except ClientError as e:
             logging.error(e)
             return None
@@ -63,7 +71,12 @@ class FileService:
                 raise ValueError("Invalid bucket name")
             # read files from s3 bucket
             logging.debug(f"reading files")
-            s3_client = boto3.client("s3")
+            session = boto3.Session(
+                region_name=REGION_NAME,
+                aws_access_key_id=AWS_ACCESS_KEY,
+                aws_secret_access_key=AWS_SECRET_KEY,
+            )
+            s3_client = session.client("s3")
             response = s3_client.list_objects_v2(Bucket=bucket_name)
             # logging.debug(f"response: {response}")
             if response is None or response["Contents"] is None:
@@ -90,6 +103,12 @@ class FileService:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="error unbound local error"
+            )
+        except NoCredentialsError as err:
+            logging.error(f"Error creating presigned url: {err}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="error creating session",
             )
         except Exception as err:
             logging.info(f"Error reading files: {err.__class__}")
