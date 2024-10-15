@@ -8,11 +8,16 @@ from util.helper import is_part_of_list
 
 
 class AssetModel(BaseModel):
-    asset_id: str = Field(title="asset id", description="asset id is required")
-    position: int = Field(title="asset position", description="position is required and must be 1-50")
-    asset_type: str = Field(title="asset type", description="asset type - gallery / product / other")
-    description: str = Field(title="asset description", description="description of the asset")
-    asset_key: str = Field(title="key name", description="key name of the asset")    
+    asset_id: str = Field(title="asset id", 
+                    description="asset id is required")
+    position: int = Field(title="asset position", 
+                    description="position is required and must be 1-50", min=1, max=50)
+    asset_type: str = Field(title="asset type", 
+                    description="asset type - gallery / product / other")
+    description: str = Field(title="asset description", 
+                    description="description of the asset")
+    asset_key: str = Field(title="key name", 
+                    description="key name of the asset")    
     
     # custom validation
     @field_validator("asset_type")
@@ -22,9 +27,16 @@ class AssetModel(BaseModel):
         return v.title()
     
 class AssetRequestModel(BaseModel):
-    asset_type: str = Field(title="asset type", description="asset type - gallery / product / other")
-    description: str = Field(title="asset description", description="description of the asset")
-    asset_key: str = Field(title="key name", description="key name of the asset")
+    asset_type: str = Field(title="asset type", 
+                            description="asset type - gallery / product / other")
+    position: Optional[int] = Field(default=None, 
+                                    title="asset position", 
+                                    description="position is optional and must be 1-50", 
+                                    min=1, max=50)
+    description: str = Field(title="asset description", 
+                             description="description of the asset")
+    asset_key: str = Field(title="key name", 
+                           description="key name of the asset")
     
     # custom validation
     @field_validator("asset_type")
@@ -34,21 +46,27 @@ class AssetRequestModel(BaseModel):
         return v.title()
 
 class AssetResponseModel(BaseModel):
-    asset_id: str = Field(title="asset id", description="asset id is required")
-    position: int = Field(title="asset position", description="position is required and must be 1-50")
-    asset_type: str = Field(title="asset type", description="asset type - gallery / product / other")
-    description: str = Field(title="asset description", description="description of the asset")
-    asset_key: str = Field(title="key name", description="key name of the asset")
-    url: str = Field(title="presigned url", description="link to the image in s3 bucket")
+    asset_id: str = Field(title="asset id", 
+                            description="asset id is required")
+    position: int = Field(title="asset position", 
+                            description="position is required and must be 1-50")
+    asset_type: str = Field(title="asset type", 
+                            description="asset type - gallery / product / other")
+    description: str = Field(title="asset description", 
+                            description="description of the asset")
+    asset_key: str = Field(title="key name", 
+                            description="key name of the asset")
+    url: str = Field(title="presigned url", 
+                            description="link to the image in s3 bucket")
 
 # for parsing
 def asset_response_entity(item) -> Dict:
     return {
         "asset_id": item["asset_id"],
-        "position": item["position"],
+        "position": item.get("position", 0),
         "asset_type": item["asset_type"],
         "description": item["description"],
-        "asset_key": item["asset_key"]        
+        "asset_key": item["asset_key"]
     }
 
 def assets_response_entity(entity) -> List:

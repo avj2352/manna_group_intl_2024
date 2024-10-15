@@ -1,5 +1,6 @@
 from re import sub
 import os
+import logging
 
 '''
 Collection of helper functions
@@ -27,3 +28,9 @@ def snake_case_validation(s: str) -> str:
 
 def is_part_of_list(s: str, options: list) -> bool:
     return s.lower() in options
+
+
+def config_logging(level):
+    FORMAT = "%(levelname)s: %(asctime)s [%(filename)s:%(lineno)s - %(funcName)s() ] - %(message)s"
+    DATE_FMT = "%Y-%m-%d %H:%M:%S"
+    logging.basicConfig(format=FORMAT, datefmt=DATE_FMT, level=level)

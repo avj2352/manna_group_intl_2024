@@ -2,27 +2,29 @@ import logging
 # fastapi
 from fastapi import APIRouter, Depends, Security
 from fastapi_auth0 import Auth0User
-from models.user import UserCreateModel, UserModel
 # custom
 from services.auth import AuthService, auth_lib
-from util.about import config, description
+from util.helper import config_logging
 
-# TODO: Move to service layer
+# logging configuration
+config_logging(logging.DEBUG)
+
 auth_service = AuthService()
 
 auth_router = APIRouter()
     
 
-@auth_router.get('/public')
+@auth_router.get('/public', tags=["authentication"])
 def test_public_route():
     """
         api call to check if endpoint can be called
         without a valid session token
     """
+    logging.debug("Public route")
     return {"message": "Anonymous User"}
 
 
-@auth_router.get("/check-admin", dependencies=[Depends(auth_lib.implicit_scheme)])
+@auth_router.get("/check-admin", tags=["authentication"], dependencies=[Depends(auth_lib.implicit_scheme)])
 def test_secure_route(user: Auth0User = Security(auth_lib.get_user)):
     """
         api to validate session token & check

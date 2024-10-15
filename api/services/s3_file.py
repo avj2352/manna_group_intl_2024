@@ -72,7 +72,7 @@ class FileService:
             for item in list(response["Contents"]):
                 record = {}
                 record["name"] = item["Key"]
-                record["url"] = self._create_presigned_url(bucket_name, item["Key"])
+                # record["url"] = self.create_presigned_url(bucket_name, item["Key"])
                 record["filesize"] = item["Size"]
                 result.append(record)
             return result

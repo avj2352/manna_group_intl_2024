@@ -15,39 +15,41 @@ from services.s3_file import FileService
 
 
 class AssetService:
-    def __init__(self):
-        logging.debug(f"Initialized AssetService")
+    def __init__(self):        
         self.file_service = FileService()
-    
-    @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
+        
     def get_assets(self) -> Optional[List[AssetResponseModel]]:
         logging.debug(f"Service: retrieving all asset records")
         records = get_assets()
+        logging.debug("returned list: {records}")
         try:
             return [AssetResponseModel(
-            asset_id=record["asset_id"],
-            position=record["position"],
-            asset_type=record["asset_type"],
-            description=record["description"],
-            asset_key=record["asset_key"],
-            url=self.file_service.create_presigned_url(MANNA_IMAGES_BUCKET, record["asset_key"])
+            asset_id=record.asset_id,
+            position=record.position,
+            asset_type=str(record.asset_type).lower(),
+            description=record.description,
+            asset_key=record.asset_key,
+            url=self.file_service.create_presigned_url(MANNA_IMAGES_BUCKET, record.asset_key)
             ) for record in records]
+        except ValueError as err:
+            logging.error(f"Service - ValueError retrieving record list: {err}")
+            return HTTPException(status_code=500, detail="Error retrieving record list")
         except Exception as err:
             logging.error(f"Service - Error retrieving record list: {err.__class__} - {err}")
             return HTTPException(status_code=500, detail="Error retrieving record list")
     
     @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
-    def get_asset_by_asset_id(self, asset_id: str) -> Optional[List[AssetModel]]:
+    def get_asset_by_asset_id(self, asset_id: str) -> Optional[List[AssetResponseModel]]:
         logging.debug(f"Service: retrieving record by asset_id: {asset_id}")
         records = get_asset_by_id(asset_id=asset_id)
         try:
             return [AssetResponseModel(
-            asset_id=record["asset_id"],
-            position=record["position"],
-            asset_type=record["asset_type"],
-            description=record["description"],
-            asset_key=record["asset_key"],
-            url=self.file_service.create_presigned_url(MANNA_IMAGES_BUCKET, record["asset_key"])
+            asset_id=record.asset_id,
+            position=record.position,
+            asset_type=str(record.asset_type).lower(),
+            description=record.description,
+            asset_key=record.asset_key,
+            url=self.file_service.create_presigned_url(MANNA_IMAGES_BUCKET, record.asset_key)
             ) for record in records]
         except Exception as err:
             logging.error(f"Service - Error retrieving record list: {err.__class__} - {err}")

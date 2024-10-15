@@ -1,20 +1,13 @@
-import os
 import logging
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 # ..custom
 from resources.auth import auth_router
 from resources.asset import asset_router
 from resources.files import files_router
 from util.about import config, description
-
-# logging configuration
-logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(asctime)s ~%(filename)s~ %(levelname)s:-%(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S")
 
 
 # Create the APP
@@ -38,6 +31,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# redirect to swagger docs
+@app.get("/", include_in_schema=False)
+async def root():
+    logging.debug("Redirecting to swagger docs")
+    return RedirectResponse(url='/docs')
+
+# flatten payload validations
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     errors = exc.errors()

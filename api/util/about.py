@@ -8,11 +8,17 @@ from typing import List, Any
 API_VERSION: str = "0.5.3"
 
 description: str = f"""
-This API microservice serves as an e-commerce system & content management system 
-for Manna Group International web application
-
-You can access the website at <b><a href="https://mannagroupintl.com" target="_blank">
-Manna Group International Website</a></b>
+<p>
+    This API microservice serves as an e-commerce system & content management system 
+    for Manna Group International web application
+</p>
+<p>
+    You can access the website at <b><a href="https://mannagroupintl.com" target="_blank">
+    Manna Group International Website</a></b>
+</p>
+<p>
+    version: <b>{API_VERSION}</b>
+</p>
 """
 
 class GlobalConfig(BaseSettings):
@@ -22,7 +28,7 @@ class GlobalConfig(BaseSettings):
     tags_metadata: List[Any]  = [
         {
             "name": "Manna Group Intl API",
-            "description": "Manna Group International E-commerce API"
+            "description": "Manna Group International E-commerce API",
         },
     ]
     title: str = "Manna Group Intl API"
