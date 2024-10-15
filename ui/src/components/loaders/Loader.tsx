@@ -24,7 +24,7 @@ const Loader: FC<ILoaderProps> = ({ text, display }) => {
             <circle
               fill="#EE4D14"
               stroke="#EE4D14"
-              stroke-width="15"
+              strokeWidth="15"
               r="15"
               cx="40"
               cy="100"
@@ -42,7 +42,7 @@ const Loader: FC<ILoaderProps> = ({ text, display }) => {
             <circle
               fill="#EE4D14"
               stroke="#EE4D14"
-              stroke-width="15"
+              strokeWidth="15"
               r="15"
               cx="100"
               cy="100"
@@ -60,7 +60,7 @@ const Loader: FC<ILoaderProps> = ({ text, display }) => {
             <circle
               fill="#EE4D14"
               stroke="#EE4D14"
-              stroke-width="15"
+              strokeWidth="15"
               r="15"
               cx="160"
               cy="100"
