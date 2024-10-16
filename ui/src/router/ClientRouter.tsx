@@ -9,6 +9,7 @@ export const AboutPage = lazy(() => import("@/pages/about/About.page"));
 export const CompanyPage = lazy(() => import("@/pages/company/Company.page"));
 export const ProductPage = lazy(() => import("@/pages/products/Products.page"));
 export const ContactPage = lazy(() => import("@/pages/contact/Contact.page"));
+export const NotFoundPage = lazy(() => import("@/pages/400/NotFound.page"));
 // ..admin
 export const AdminDashboardPage = lazy(
   () => import("@/pages/admin/AdminDashboard.page")
@@ -56,8 +57,12 @@ const ClientRouter: FC = () => {
       ],
     },
     {
+      path: "/404",
+      element: <NotFoundPage />,    
+    },
+    {
       path: "*",
-      element: <Navigate to="/" replace />,
+      element: <Navigate to="/404" replace />,
     },
   ]);
 

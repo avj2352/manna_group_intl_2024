@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Dropdown, Menu, useTheme } from 'react-daisyui'
-import { Airplay, ChevronUpIcon, Moon, Sun, Copy, Info } from 'lucide-react'
+import { Airplay, ChevronUpIcon, Moon, Sun, Copy, Info, BookOpenText } from 'lucide-react'
 import { useAuth0 } from "@auth0/auth0-react";
 //..custom
 import { APP_VERSION } from '@/common/state/store'; 
@@ -8,6 +8,7 @@ import { useAppSelector } from "@/common/state/store";
 import { copyToClipboard } from '@/util/helper';
 
 export const ThemeToggler = () => {
+  const API_URL = import.meta.env.VITE_SWAGGER_DOCS ?? 'https://manna-grp-intl-api.fly.dev/docs';
   const { setTheme } = useTheme();
   const { isAuthenticated } = useAuth0();
   const authSate = useAppSelector(state => state.auth);
@@ -18,8 +19,12 @@ export const ThemeToggler = () => {
     Promise.resolve(copyToClipboard(text));
   };
 
+  const handleSwaggerNavigate = () => {
+    window.open(API_URL);
+  }
+
   return (
-    <div className="fixed bottom-5 end-5 z-10 flex flex-col items-center">
+    <div className="fixed z-10 flex flex-col items-center bottom-5 end-5">
       <Dropdown className="dropdown-end dropdown-top">
         <Dropdown.Toggle>
           Theme
@@ -51,6 +56,13 @@ export const ThemeToggler = () => {
                 Dark
               </div>
             </Menu.Item>
+            <Menu.Item onClick={handleSwaggerNavigate}>
+              <div className="flex gap-3 text-sm">
+                  <BookOpenText className="h-5" />
+                    Swagger Docs
+              </div>
+            </Menu.Item>
+            {/* TODO: Remove / Comment these menu-items below when going LIVE */}
             { isAuthenticated ? <Menu.Item 
                 onClick={() => handleCopyToClipboard(authSate.token)}>
                   <div className="flex gap-3 text-sm">

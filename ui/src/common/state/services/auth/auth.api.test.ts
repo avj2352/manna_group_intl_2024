@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import axios from "axios";
 import AuthAPIClient from "./auth.api";
 
+
 vi.mock("axios");
 
 describe("AuthAPIClient", () => {

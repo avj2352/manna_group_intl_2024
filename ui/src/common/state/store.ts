@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 // ..custom
 import authReducer from "@/common/state/features/auth/auth.slice";
+import assetReducer from "@/common/state/features/assets/asset.slice";
+
 
 export type API_STATUS = "initial" | "pending" | "success" | "error";
 
@@ -20,6 +22,7 @@ export const API_URL = import.meta.env.VITE_API_URL;
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    asset: assetReducer,
   },
 });
 

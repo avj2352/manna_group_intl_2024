@@ -1,4 +1,29 @@
 /**
+ * ********** API RELATED ***************
+ */
+
+///////////// ASSETS //////////////////
+export type IAssetRequestPayload = {
+  asset_type: 'gallery' | 'product' | 'other',
+  position?: number,
+  description: string,
+  asset_key: string
+};
+
+export type IAssetRecord = {
+  asset_id: string;
+  position: number;
+  asset_type: 'gallery' | 'product' | 'other';
+  description: string;
+  asset_key: string;
+  url: string;
+}
+
+/**
+ * ********** UI RELATED ***************
+ */
+
+/**
  * Nav List
  * to be used by
  * - Navbar

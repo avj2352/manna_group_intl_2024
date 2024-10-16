@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import AuthAPIClient from "../../services/auth.api";
+import AuthAPIClient from "../../services/auth/auth.api";
 
 const baseURL = import.meta.env.VITE_AUTH_API_URL ?? 'http://localhost:8000/auth';
 
