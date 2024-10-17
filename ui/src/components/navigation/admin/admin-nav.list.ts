@@ -32,17 +32,17 @@ export const navList: INavItem[] = [
     category: "purchases",
   },
   {
-    label: "Manage Files",
-    link: "/admin/assets",
-    scrollId: "",
-    category: "assets",
-  },
-  {
     label: "Manage Assets",
     link: "/admin/assets",
     scrollId: "",
     category: "assets",
   },
+  {
+    label: "Manage Files",
+    link: "/admin/manage-files",
+    scrollId: "",
+    category: "assets",
+  },  
   {
     label: "Manage Gallery",
     link: "/admin/assets",

@@ -10,6 +10,7 @@ This is the new version of the website
 
 ## Important Links
 
+- [ShadCN Data Table documentation](https://ui.shadcn.com/docs/components/data-table)
 - [SVG Backgrounds](https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/)
 - [Animated SVG loaders](https://www.svgbackgrounds.com/elements/animated-svg-preloaders/)
 - [Scalar - Next upgrade to Swagger docs](https://scalar.com)

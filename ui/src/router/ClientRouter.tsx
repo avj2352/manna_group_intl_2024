@@ -3,6 +3,7 @@ import { Outlet, Navigate, useRoutes } from "react-router-dom";
 // ..layouts
 import AdminLayout from "@/layouts/AdminLayout";
 import CommonLayout from "@/layouts/CommonLayout";
+
 // ..pages
 export const HomePage = lazy(() => import("@/pages/home/Home.page"));
 export const AboutPage = lazy(() => import("@/pages/about/About.page"));
@@ -15,6 +16,7 @@ export const AdminDashboardPage = lazy(
   () => import("@/pages/admin/AdminDashboard.page")
 );
 export const AssetAdminPage = lazy(() => import("@/pages/admin/assets/Assets.admin.page"));
+export const ManageFilesAdminPage = lazy(() => import("@/pages/admin/assets/ManageFiles.page"));
 export const ProductAdminPage = lazy(() => import("@/pages/admin/products/Products.admin.page"));
 export const PromoAdminPage = lazy(() => import("@/pages/admin/promos/Promos.admin.page"));
 export const PurchaseAdminPage = lazy(() => import("@/pages/admin/purchases/Purchases.admin.page"));
@@ -51,6 +53,7 @@ const ClientRouter: FC = () => {
       children: [
         { element: <AdminDashboardPage />, index: true },
         { element: <AssetAdminPage />, path: "/admin/assets" },
+        { element: <ManageFilesAdminPage />, path: "/admin/manage-files" },
         { element: <ProductAdminPage />, path: "/admin/products"},
         { element: <PromoAdminPage />, path: "/admin/promos"},
         { element: <PurchaseAdminPage />, path: "/admin/purchases"},
