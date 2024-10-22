@@ -2,6 +2,7 @@ import { Fragment, useEffect, useCallback } from "react";
 import { HashRouter } from "react-router-dom";
 import { Footer } from "@/components/navigation/Footer";
 import { ThemeToggler } from "@/components/ThemeToggler";
+import { Toaster } from "@/components/ui/toaster"
 import { Theme, useTheme } from "react-daisyui";
 import { useAuth0 } from "@auth0/auth0-react";
 //..custom
@@ -48,8 +49,9 @@ function App() {
   return (
     <Fragment>
       <Theme dataTheme={theme}>
-        <HashRouter>          
+        <HashRouter>
           <ClientRouter />
+          <Toaster/>
           <ThemeToggler />
           <Footer navList={navList} />
         </HashRouter>

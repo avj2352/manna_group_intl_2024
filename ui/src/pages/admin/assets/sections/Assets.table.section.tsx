@@ -4,9 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchAssetListAPI } from "@/common/state/features/assets/asset.slice";
 import { AssetAdminDataTable } from "@/components/tables/assets/AssetAdmin.table";
 import { columns } from "@/components/tables/assets/manage-assets-table-column";
+import { useToast } from "@/hooks/use-toast";
 
 
 const AssetTableSection: FC = () => {
+    const { toast } = useToast();
     const dispatch = useAppDispatch();
     const authState = useAppSelector((state) => state.auth);
     const assetState = useAppSelector((state) => state.asset);
@@ -21,7 +23,12 @@ const AssetTableSection: FC = () => {
     },[]);
   
     useEffect(()=>{
-      if (assetState.asset_list.length === 0) return;      
+      if (assetState.asset_list.length === 0) return;  
+      toast({
+        variant: "success",
+        title: "Success",
+        description: `Loaded ${assetState.asset_list.length} assets!`,
+      });    
     },[assetState.asset_list]);
   
     const isLoading = assetState.asset_list_status === "initial" ||
@@ -32,7 +39,7 @@ const AssetTableSection: FC = () => {
           <Loader display={isLoading} text="loading assets"/>
           {!isLoading && <h3 className="mb-4 text-2xl">Your Assets</h3>}
           {!isLoading && <p className="mb-4">Contains list of Assets that can be mapped to Products or Gallery</p>}
-          <AssetAdminDataTable columns={columns} data={assetState.asset_list}/>
+          {!isLoading && <AssetAdminDataTable columns={columns} data={assetState.asset_list}/>}
         </div>
     </Fragment>);
 }; 
