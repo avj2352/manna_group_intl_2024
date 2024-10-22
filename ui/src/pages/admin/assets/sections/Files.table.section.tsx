@@ -20,8 +20,7 @@ const FileTableSection: FC = () => {
     },[]);
   
     useEffect(()=>{
-      if (fileState.files_list.length === 0) return;
-      console.log('Files: ', fileState.files_list);
+      if (fileState.files_list.length === 0) return;      
     },[fileState.files_list]);
   
     const isLoading = fileState.files_list_status === "initial" ||
@@ -29,7 +28,7 @@ const FileTableSection: FC = () => {
   
     return (<Fragment>
         <div className="flex flex-col text-base flex-start">
-          <Loader display={isLoading} text="loading assets"/>
+          <Loader display={isLoading} text="loading files"/>
           {!isLoading && <h3 className="mb-4 text-2xl">Your Uploaded Files</h3>}
           {!isLoading && <p className="mb-4">Contains list of all uploaded images to Manna Group International app</p>}
           {!isLoading && <ManageFilesAdminDataTable data={fileState.files_list} columns={columns}/>}

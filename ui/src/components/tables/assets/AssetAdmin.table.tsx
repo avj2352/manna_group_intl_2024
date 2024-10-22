@@ -1,48 +1,132 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useState } from "react";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// ..custom
-import { useAppSelector } from "@/common/state/store";
-import { IAssetRecord } from "@/common/interfaces";
+import { Button } from "react-daisyui";
+import { Input } from "@/components/ui/input"
 
-const AssetAdminTable: FC = () => {
-  // ..states
-  const assetState = useAppSelector((state) => state.asset);  
+interface IAssetAdminDataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
 
-  if (assetState.asset_list.length === 0) return <Fragment />;
-  else return (
-    <Table>      
-      <TableHeader>
-        <TableRow className="text-xl font-bold text-brand-base">
-          <TableHead className="font-bold text-brand-base">#</TableHead>
-          <TableHead className="font-bold text-brand-base">Key</TableHead>
-          <TableHead className="font-bold text-brand-base">Type</TableHead>
-          <TableHead className="font-bold text-brand-base">Position</TableHead>
-          <TableHead className="w-[100px] font-bold text-brand-base">Description</TableHead>
-          <TableHead className="font-bold text-brand-base">Image URL</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {assetState.asset_list.map((item: IAssetRecord, idx: number) => (
-          <TableRow key={item.asset_id} className="text-lg">
-            <TableCell className="font-medium">{idx+1}</TableCell>
-            <TableCell>{item.asset_key}</TableCell>
-            <TableCell>{item.asset_type}</TableCell>
-            <TableCell>{item.position}</TableCell>
-            <TableCell>{item.description}</TableCell>
-            <TableCell>{item.url}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+export function AssetAdminDataTable<TData, TValue>({
+  columns,
+  data,
+}: IAssetAdminDataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: { sorting, columnFilters },
+  });
+
+  return (
+    <Fragment>
+      {/* Search */}
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter Asset by Key..."
+          value={(table.getColumn("asset_key")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("asset_key")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
+      {/* Table */}
+      <div className="border rounded-md">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {/* Pagination */}
+      <div className="flex items-center justify-end py-4 space-x-2">
+        <Button
+          color="primary"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          color="primary"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
+    </Fragment>
   );
-};
-export default AssetAdminTable;
+}

@@ -2,7 +2,9 @@ import { FC, Fragment, useCallback, useEffect } from "react";
 import Loader from "@/components/loaders/Loader";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchAssetListAPI } from "@/common/state/features/assets/asset.slice";
-import AssetAdminTable from "@/components/tables/assets/AssetAdmin.table";
+import { AssetAdminDataTable } from "@/components/tables/assets/AssetAdmin.table";
+import { columns } from "@/components/tables/assets/manage-assets-table-column";
+
 
 const AssetTableSection: FC = () => {
     const dispatch = useAppDispatch();
@@ -19,8 +21,7 @@ const AssetTableSection: FC = () => {
     },[]);
   
     useEffect(()=>{
-      if (assetState.asset_list.length === 0) return;
-      console.log('Assets: ', assetState.asset_list);
+      if (assetState.asset_list.length === 0) return;      
     },[assetState.asset_list]);
   
     const isLoading = assetState.asset_list_status === "initial" ||
@@ -31,7 +32,7 @@ const AssetTableSection: FC = () => {
           <Loader display={isLoading} text="loading assets"/>
           {!isLoading && <h3 className="mb-4 text-2xl">Your Assets</h3>}
           {!isLoading && <p className="mb-4">Contains list of Assets that can be mapped to Products or Gallery</p>}
-          <AssetAdminTable/>
+          <AssetAdminDataTable columns={columns} data={assetState.asset_list}/>
         </div>
     </Fragment>);
 }; 

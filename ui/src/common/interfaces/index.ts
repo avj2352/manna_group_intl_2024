@@ -19,9 +19,9 @@ export type IAssetRequestPayload = {
 export type IAssetRecord = {
   asset_id: string;
   position: number;
+  asset_key: string;
   asset_type: 'gallery' | 'product' | 'other';
   description: string;
-  asset_key: string;
   url: string;
 }
 
