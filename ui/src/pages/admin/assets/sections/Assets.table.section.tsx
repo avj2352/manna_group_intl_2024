@@ -2,7 +2,7 @@ import { FC, Fragment, useCallback, useEffect } from "react";
 import Loader from "@/components/loaders/Loader";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchAssetListAPI } from "@/common/state/features/assets/asset.slice";
-import AssetAdminTable from "@/components/tables/AssetAdmin.table";
+import AssetAdminTable from "@/components/tables/assets/AssetAdmin.table";
 
 const AssetTableSection: FC = () => {
     const dispatch = useAppDispatch();

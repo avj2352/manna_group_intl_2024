@@ -1,11 +1,12 @@
 import { FC } from "react";
+import FileTableSection from "@/pages/admin/assets/sections/Files.table.section";
 
 const ManageFilesAdminPage: FC = () => {
   return (
     <section className="relative py-8 lg:py-24" id="asset-admin-page">
-      <div className="container relative z-10">        
-        Manage Files Page
-      </div>
+      <div className="container relative z-10">                
+        <FileTableSection/>
+      </div>      
     </section>
   );
 };

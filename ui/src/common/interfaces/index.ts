@@ -2,6 +2,12 @@
  * ********** API RELATED ***************
  */
 
+///////////// FILES //////////////////
+export type IFileResponseRecord = {
+  "name": string,
+  "filesize": number
+};
+
 ///////////// ASSETS //////////////////
 export type IAssetRequestPayload = {
   asset_type: 'gallery' | 'product' | 'other',

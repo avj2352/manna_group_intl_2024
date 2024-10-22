@@ -5,7 +5,7 @@ Requires the S3 bucket to be created in AWS and it's name...
 ...configured in Envronment files
 """
 
-from typing import List, Optional
+from typing import Dict, Optional
 from fastapi import HTTPException, UploadFile, status
 import logging
 import boto3
@@ -59,7 +59,7 @@ class FileService:
             return None
 
     @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
-    def list_s3_files(self, bucket_name: str) -> List:
+    def list_s3_files(self, bucket_name: str) -> Dict:
         """
         List all files in an S3 bucket
         """
@@ -88,7 +88,7 @@ class FileService:
                 # record["url"] = self.create_presigned_url(bucket_name, item["Key"])
                 record["filesize"] = item["Size"]
                 result.append(record)
-            return result
+            return {"status": 200, "message": result}
         except ClientError as e:
             return list(response["Contents"])
         except KeyError as err:
