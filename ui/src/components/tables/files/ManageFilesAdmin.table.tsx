@@ -47,7 +47,7 @@ export function ManageFilesAdminDataTable<TData, TValue>({
   return (
     <Fragment>
       {/* Search */}
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Filter File Key..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -56,6 +56,11 @@ export function ManageFilesAdminDataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Button
+          color="primary"
+          size="sm">
+          Upload a File
+        </Button>
       </div>
       {/* Table */}
       <div className="border rounded-md">

@@ -47,7 +47,7 @@ export function AssetAdminDataTable<TData, TValue>({
   return (
     <Fragment>
       {/* Search */}
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Filter Asset by Key..."
           value={(table.getColumn("asset_key")?.getFilterValue() as string) ?? ""}
@@ -56,6 +56,11 @@ export function AssetAdminDataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Button
+          color="primary"
+          size="sm">
+          Create New Asset
+        </Button>
       </div>
       {/* Table */}
       <div className="border rounded-md">
