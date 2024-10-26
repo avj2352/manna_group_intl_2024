@@ -44,7 +44,7 @@ export const FilesAutoComplete: FC<IFilesAutoCompleteProps> = ({title, onValueCh
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[300px] justify-between"
+          className="w-[500px] justify-between"
         >
           {value
             ? searchItems.find((item) => item.value === value)?.label
@@ -52,7 +52,7 @@ export const FilesAutoComplete: FC<IFilesAutoCompleteProps> = ({title, onValueCh
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] p-0">
+      <PopoverContent className="w-[500px] p-0">
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>

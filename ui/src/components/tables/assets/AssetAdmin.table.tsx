@@ -1,4 +1,5 @@
 import { FC, Fragment, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -30,6 +31,7 @@ export function AssetAdminDataTable<TData, TValue>({
   columns,
   data,
 }: IAssetAdminDataTableProps<TData, TValue>) {
+  const navigate = useNavigate();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -44,6 +46,10 @@ export function AssetAdminDataTable<TData, TValue>({
     state: { sorting, columnFilters },
   });
 
+  // ..evt handlers
+  const handleAddAsset = () => navigate("/admin/assets/add");
+  
+
   return (
     <Fragment>
       {/* Search */}
@@ -57,9 +63,10 @@ export function AssetAdminDataTable<TData, TValue>({
           className="max-w-sm"
         />
         <Button
+          onClick={handleAddAsset}
           color="primary"
           size="sm">
-          Create New Asset
+            Create New Asset
         </Button>
       </div>
       {/* Table */}

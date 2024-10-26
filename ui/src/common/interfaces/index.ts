@@ -25,6 +25,8 @@ export type IAssetRecord = {
   url: string;
 }
 
+export type IAssetRequestForm = Pick<IAssetRecord, 'asset_key' | 'description' | 'asset_type'>;
+
 /**
  * ********** UI RELATED ***************
  */

@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster"
 import { Theme, useTheme } from "react-daisyui";
 import { useAuth0 } from "@auth0/auth0-react";
 //..custom
-import Navbar from "@/components/navigation/public/Navbar";
 import ClientRouter from "@/router/ClientRouter";
 import { navList } from "@/components/navigation/public/navigation.list";
 import { useAppDispatch } from "@/common/state/store";

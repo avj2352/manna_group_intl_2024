@@ -9,7 +9,8 @@ This is the new version of the website
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
-
+- [Turso - SQLLite DB on cloud pricing](https://turso.tech/pricing)
+- [ShadCN - Form Builder](https://shadcn-form-build.vercel.app/playground)
 - [ShadCN Data Table documentation](https://ui.shadcn.com/docs/components/data-table)
 - [SVG Backgrounds](https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/)
 - [Animated SVG loaders](https://www.svgbackgrounds.com/elements/animated-svg-preloaders/)
