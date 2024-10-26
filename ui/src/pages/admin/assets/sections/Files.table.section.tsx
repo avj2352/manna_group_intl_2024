@@ -13,14 +13,10 @@ const FileTableSection: FC = () => {
     const fetchFilesListAPIHandler = useCallback(()=>{
       if (!Boolean(authState.token) || authState.token === "") return;
       dispatch(fetchFilesAPI({token:authState.token, bucket:MANNA_IMAGES_BUCKET}));
-    },[authState.token]);
+    },[authState.token]);    
   
     useEffect(()=>{
-      fetchFilesListAPIHandler();
-    },[]);
-  
-    useEffect(()=>{
-      if (fileState.files_list.length === 0) return;      
+      if (fileState.files_list.length === 0) fetchFilesListAPIHandler();      
     },[fileState.files_list]);
   
     const isLoading = fileState.files_list_status === "initial" ||

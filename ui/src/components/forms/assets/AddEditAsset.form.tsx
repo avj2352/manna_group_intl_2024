@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,9 +28,9 @@ import { FilesAutoComplete } from "@/components/autocomplete/FilesAutoComplete";
 
 const formSchema = z.object({
   asset_type: z.enum(["gallery", "product", "other"]),
-  asset_key: z.string(),
+  asset_key: z.string().min(1),
   position: z.number().min(0).max(500).optional(),
-  description: z.string(),
+  description: z.string().min(1),
 });
 
 type IAddEditAssetFormProps = {
@@ -54,9 +54,19 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
     resolver: zodResolver(formSchema),
   });
 
+  // ..evt handlers
+  const handleReset = () => {
+    console.log('Resetting form...!');
+    form.reset({
+      asset_key: "",
+      asset_type: data?.asset_type ?? "product",
+      position: data?.position ?? 0,
+      description: "",
+    });
+  };
+
   function onSubmit(values: z.infer < typeof formSchema > ) {
-    try {
-      console.log("Form to be submitted: ", values);      
+    try {      
       formSchema.safeParse(values);      
       onFormSubmit(values as IAssetRequestForm);
     } catch (error) {
@@ -65,11 +75,15 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
     }
   }
 
+  // on unmount, reset form
+  useEffect(()=>{return () => handleReset()},[]);
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="max-w-3xl py-10 space-y-8"
+        onReset={handleReset}
       >
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-6">
@@ -81,7 +95,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
                   <FormLabel>Asset Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    value={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -157,6 +171,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
           )}
         />
         <Button type="submit">Submit</Button>
+        <Button type="reset" variant="outline" className="mx-2">Cancel</Button>
       </form>
     </Form>
   );
