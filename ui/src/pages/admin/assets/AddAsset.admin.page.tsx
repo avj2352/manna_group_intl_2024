@@ -9,7 +9,7 @@ const AddAssetAdminPage: FC = () => {
             <p className="mb-4">Fill the form below to create a new asset record</p>
             <AddEditAssetForm
                 data={undefined} 
-                onSubmit={(data) => console.log(data)}
+                onFormSubmit={(data) => console.log(data)}
             />
         </div>
         </section>);
