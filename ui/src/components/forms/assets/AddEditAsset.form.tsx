@@ -25,25 +25,27 @@ import { Textarea } from "@/components/ui/textarea";
 import { IAssetRequestForm, IFileResponseRecord } from "@/common/interfaces";
 import { useAppSelector } from "@/common/state/store";
 import { FilesAutoComplete } from "@/components/autocomplete/FilesAutoComplete";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   asset_type: z.enum(["gallery", "product", "other"]),
   asset_key: z.string().min(1),
-  position: z.number().min(0).max(500).optional(),
+  position: z.coerce.number().min(0).max(500).optional(),
   description: z.string().min(1),
 });
 
 type IAddEditAssetFormProps = {
-  type: 'add' | 'edit';
+  formType: 'add' | 'edit';
   data: IAssetRequestForm | undefined;
   onFormSubmit: (data: IAssetRequestForm) => void;
 };
 
 const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
-  type,
+  formType,
   data,
   onFormSubmit,
 }) => {
+  const navigate = useNavigate();
   const fileState = useAppSelector((state) => state.files);
 
   const form = useForm< z.infer < typeof formSchema >>({
@@ -67,8 +69,8 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
   };
 
   function onSubmit(values: z.infer < typeof formSchema > ) {
-    try {      
-      // formSchema.safeParse(values);      
+    try {            
+      formSchema.safeParse(values);      
       onFormSubmit(values as IAssetRequestForm);
     } catch (error) {
       console.error("Form submission error", error);
@@ -132,7 +134,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
                 <FormItem>
                   <FormLabel>Asset Position</FormLabel>
                   <FormControl>
-                    <Input disabled={type === 'add'} type="number" {...field} />
+                    <Input disabled={formType === 'add'} {...field} type="number"/>
                   </FormControl>
                   <FormDescription>Update Asset Position</FormDescription>
                   <FormMessage />
@@ -146,13 +148,13 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
           control={form.control}
           name="asset_key"
           render={({ field }) => (
-            <FormItem>              
+            <FormItem>          
+              <FormLabel>Asset Key: </FormLabel>    
               <FormControl>
                 <FilesAutoComplete
                   title="Select File"                  
                   onValueChange={field.onChange}
-                  searchItems={fileState?.files_list?.map((item: IFileResponseRecord) => ({label: item.name, value: item.name})) ?? []}
-                  {...field}
+                  searchItems={fileState?.files_list?.map((item: IFileResponseRecord) => ({label: item.name, value: item.name})) ?? []}                  
                 />
               </FormControl>
               <FormDescription>Select a file from S3 bucket</FormDescription>
@@ -180,7 +182,9 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
           )}
         />
         <Button type="submit">Submit</Button>
-        <Button type="reset" variant="outline" className="mx-2">Cancel</Button>
+        <Button
+          onClick={() => navigate('/admin/assets')}
+          type="reset" variant="outline" className="mx-2">Cancel</Button>
       </form>
     </Form>
   );

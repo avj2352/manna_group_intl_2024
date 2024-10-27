@@ -40,7 +40,7 @@ const AddAssetAdminPage: FC = () => {
                 description: `New Asset record created!`,
             }); 
             dispatch(resetPost({}));
-            navigate("/admin/assets")           
+            navigate("/admin/assets");
         }
     },[assetState.asset_post_status]);
     
@@ -57,7 +57,7 @@ const AddAssetAdminPage: FC = () => {
             </p>
             )}
             <AddEditAssetForm
-                type="add"
+                formType="add"
                 data={undefined}
                 onFormSubmit={handleFormSubmit}/>
         </div>

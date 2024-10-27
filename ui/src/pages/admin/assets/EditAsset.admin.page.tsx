@@ -35,13 +35,13 @@ const EditAssetAdminPage: FC = () => {
             toast({
                 variant: "default",
                 title: "Error",
-                description: `Error creating Asset record!`,
+                description: `Error updating Asset record!`,
             });  
         } else {
             toast({
                 variant: "success",
                 title: "Success",
-                description: `New Asset record created!`,
+                description: `Asset record updated!`,
             }); 
             dispatch(resetUpdate({}));
             navigate("/admin/assets")           
@@ -70,7 +70,7 @@ const EditAssetAdminPage: FC = () => {
             </p>
             )}
             <AddEditAssetForm
-                type="edit"
+                formType="edit"
                 data={assetState.asset_detail_record}
                 onFormSubmit={handleFormSubmit}/>
         </div>

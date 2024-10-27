@@ -25,12 +25,7 @@ const AssetTableSection: FC = () => {
     },[]);
   
     useEffect(()=>{
-      if (assetState.asset_list.length === 0) return;  
-      toast({
-        variant: "success",
-        title: "Success",
-        description: `Loaded ${assetState.asset_list.length} assets!`,
-      });    
+      if (assetState.asset_list.length === 0) return;
     },[assetState.asset_list]);
   
     const isLoading = assetState.asset_list_status === "initial" ||
