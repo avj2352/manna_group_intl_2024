@@ -29,7 +29,7 @@ def get_assets(user: Auth0User = Security(auth_lib.get_user)):
     return {"message": result}
 
 
-@asset_router.get("/:asset_id", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
+@asset_router.get("/{asset_id}", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
 def get_asset_details_by_id(asset_id: str, user: Auth0User = Security(auth_lib.get_user)):
     """
         api to fetch asset details by id from table
@@ -55,7 +55,7 @@ def add_new_asset_record(payload: AssetRequestModel, user: Auth0User = Security(
     result = asset_service.add_asset_record(asset=payload)
     return {"message": result}
 
-@asset_router.put("/details/:asset_id", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
+@asset_router.put("/details/{asset_id}", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
 def update_asset_record_by_id(asset_id: str, payload: AssetRequestModel, user:Auth0User = Security(auth_lib.get_user)):
     """
         api to update asset record details by id
@@ -69,8 +69,8 @@ def update_asset_record_by_id(asset_id: str, payload: AssetRequestModel, user:Au
     return {"message": result}
 
 
-@asset_router.put("/position/:asset_id", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
-def update_asset_record_by_id(asset_id: str, position: int = Query(0, description="position of the asset", include_in_schema=True), user:Auth0User = Security(auth_lib.get_user)):
+@asset_router.put("/position/{asset_id}", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
+def update_asset_position_by_id(asset_id: str, position: int = Query(0, description="position of the asset", include_in_schema=True), user:Auth0User = Security(auth_lib.get_user)):
     """
         api to update asset record position by id
         for admin role
@@ -82,7 +82,7 @@ def update_asset_record_by_id(asset_id: str, position: int = Query(0, descriptio
     result = asset_service.update_asset_position_by_id(asset_id=asset_id, position=position)
     return {"message": result}
 
-@asset_router.delete("/:asset_id", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
+@asset_router.delete("/{asset_id}", tags=["assets"], dependencies=[Depends(auth_lib.implicit_scheme)])
 def delete_asset_record_by_id(asset_id: str, user:Auth0User = Security(auth_lib.get_user)):
     """
         api to delete asset record details by id

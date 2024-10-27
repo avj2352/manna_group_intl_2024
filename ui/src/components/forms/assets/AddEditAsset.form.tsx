@@ -34,11 +34,13 @@ const formSchema = z.object({
 });
 
 type IAddEditAssetFormProps = {
+  type: 'add' | 'edit';
   data: IAssetRequestForm | undefined;
   onFormSubmit: (data: IAssetRequestForm) => void;
 };
 
 const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
+  type,
   data,
   onFormSubmit,
 }) => {
@@ -48,26 +50,25 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
     defaultValues: {
       asset_key: data?.asset_key ?? undefined,
       asset_type: data?.asset_type ?? "product",
-      position: data?.position ?? 0,
+      position: data?.position ? Number(data?.position) : 0,
       description: data?.description ?? undefined,
     },
     resolver: zodResolver(formSchema),
   });
 
   // ..evt handlers
-  const handleReset = () => {
-    console.log('Resetting form...!');
+  const handleReset = () => {    
     form.reset({
       asset_key: "",
       asset_type: data?.asset_type ?? "product",
-      position: data?.position ?? 0,
+      position: data?.position ? Number(data?.position) : 0,
       description: "",
     });
   };
 
   function onSubmit(values: z.infer < typeof formSchema > ) {
     try {      
-      formSchema.safeParse(values);      
+      // formSchema.safeParse(values);      
       onFormSubmit(values as IAssetRequestForm);
     } catch (error) {
       console.error("Form submission error", error);
@@ -77,6 +78,14 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
 
   // on unmount, reset form
   useEffect(()=>{return () => handleReset()},[]);
+
+  useEffect(()=>{
+    if (!Boolean(data)) return;
+    form.setValue("asset_key", data.asset_key);
+    form.setValue("asset_type", data.asset_type);
+    form.setValue("position", Number(data.position));
+    form.setValue("description", data.description);
+  },[data]);
 
   return (
     <Form {...form}>
@@ -123,7 +132,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
                 <FormItem>
                   <FormLabel>Asset Position</FormLabel>
                   <FormControl>
-                    <Input placeholder="0" disabled type="number" {...field} />
+                    <Input disabled={type === 'add'} type="number" {...field} />
                   </FormControl>
                   <FormDescription>Update Asset Position</FormDescription>
                   <FormMessage />

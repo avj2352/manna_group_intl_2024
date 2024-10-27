@@ -1,6 +1,7 @@
 // Component to define columns
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,7 +18,17 @@ import { ArrowUpDown, Pencil, Eye, Trash, Link } from "lucide-react";
 export const columns: ColumnDef<IAssetRecord>[] = [
   {
     accessorKey: "position",
-    header: "#",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          #
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "asset_key",
@@ -89,7 +100,10 @@ export const columns: ColumnDef<IAssetRecord>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(record.asset_key)}
+              onClick={() => {
+                console.log('Navigate asset id: ', record.asset_id);
+                window.location.href = `#/admin/assets/edit/${record.asset_id}`;
+              }}
             >
               <Pencil className="w-4 h-4 mr-2" />
               Update Asset

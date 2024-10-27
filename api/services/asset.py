@@ -71,7 +71,7 @@ class AssetService:
         )
         return add_asset_record(record)
     
-    @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
+    
     def update_asset_record_by_id(self, asset: AssetRequestModel, asset_id: str, position: int):        
         # Step 2: update record
         logging.debug(f"Service: update record by id: {asset_id} and position: {position}")        
@@ -82,7 +82,7 @@ class AssetService:
             description=asset.description,
             asset_key=asset.asset_key
         )
-        return update_asset_record_by_id(record)
+        return update_asset_record_by_id(asset_id=asset_id, assets=record)
     
     
     def update_asset_position_by_id(self, position: int, asset_id: str):

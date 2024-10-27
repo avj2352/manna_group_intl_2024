@@ -55,10 +55,10 @@ export function AssetAdminDataTable<TData, TValue>({
       {/* Search */}
       <div className="flex items-center justify-between py-4">
         <Input
-          placeholder="Filter Asset by Key..."
-          value={(table.getColumn("asset_key")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter Asset by Description..."
+          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("asset_key")?.setFilterValue(event.target.value)
+            table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
