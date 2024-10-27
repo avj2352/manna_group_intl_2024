@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.5.5
+- 10/27/2024
+- Complete Asset CRUD page
+
 ## v0.5.2
 - 10/09/2024
 - Design Admin Dashboard page
