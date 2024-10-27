@@ -42,15 +42,26 @@ export const fetchAssetUpdateFormAPI = createAsyncThunk(
   }
 );
 
+export const fetchAssetDeleteAPI = createAsyncThunk(
+  "asset/fetchAssetDeleteAPI",
+  async ({ token, id }: { token: string, id: string }): Promise<any> => {
+    const assetClient = new AssetAPIClient(token, baseURL);
+    const response = await assetClient.deleteAssetById(id);    
+    return await response?.data;
+  }
+);
+
 export type IAssetState = {
   asset_list_status: "initial" | "pending" | "fulfilled" | "rejected";
   asset_details_status: "initial" | "pending" | "fulfilled" | "rejected";
   asset_post_status: "initial" | "pending" | "fulfilled" | "rejected";
   asset_update_status: "initial" | "pending" | "fulfilled" | "rejected";
+  asset_delete_status: "initial" | "pending" | "fulfilled" | "rejected";
   asset_detail_record: IAssetRecord | undefined;
   asset_details_response: string;
   asset_post_response: string;
   asset_update_response: string;
+  asset_delete_response: string;
   asset_list: IAssetRecord[];
 };
 
@@ -59,10 +70,12 @@ export const initialState: IAssetState = {
   asset_details_status: "initial",
   asset_post_status: "initial",
   asset_update_status: "initial",
+  asset_delete_status: "initial",
   asset_detail_record: undefined,
   asset_details_response: "",
   asset_post_response: "",
   asset_update_response: "",
+  asset_delete_response: "",
   asset_list: []
 };
 
@@ -90,6 +103,10 @@ export const AssetSlice = createSlice({
       state.asset_details_status = "initial";
       state.asset_detail_record = undefined;
       state.asset_details_response = "";
+    },
+    resetDelete: (state, _: PayloadAction<{}>) => {
+      state.asset_delete_status = "initial";
+      state.asset_delete_response = "";
     },
   },
   extraReducers: (builder) => {
@@ -141,8 +158,20 @@ export const AssetSlice = createSlice({
       state.asset_update_status = "rejected";
       state.asset_update_response = (action.payload as unknown as any)?.message ?? "Error updating asset record!";
     });
+    // fetchAssetDeleteAPI
+    builder.addCase(fetchAssetDeleteAPI.pending, (state, _) => {
+      state.asset_delete_status = "pending";
+    });
+    builder.addCase(fetchAssetDeleteAPI.fulfilled, (state, _) => {
+      state.asset_delete_status = "fulfilled";
+      state.asset_delete_response = "Asset record delete successfully!";
+    });
+    builder.addCase(fetchAssetDeleteAPI.rejected, (state, action) => {
+      state.asset_delete_status = "rejected";
+      state.asset_delete_response = (action.payload as unknown as any)?.message ?? "Error deleting asset record!";
+    });
   },
 });
 
 export default AssetSlice.reducer;
-export const { reset, resetPost, resetUpdate } = AssetSlice.actions;
+export const { reset, resetPost, resetUpdate, resetDelete } = AssetSlice.actions;

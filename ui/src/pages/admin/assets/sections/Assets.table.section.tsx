@@ -1,5 +1,5 @@
 import { FC, Fragment, useCallback, useEffect } from "react";
-import { fetchAssetListAPI } from "@/common/state/features/assets/asset.slice";
+import { fetchAssetListAPI, resetDelete } from "@/common/state/features/assets/asset.slice";
 import { AssetAdminDataTable } from "@/components/tables/assets/AssetAdmin.table";
 import { columns } from "@/components/tables/assets/manage-assets-table-column";
 import { useToast } from "@/hooks/use-toast";
@@ -27,9 +27,30 @@ const AssetTableSection: FC = () => {
     useEffect(()=>{
       if (assetState.asset_list.length === 0) return;
     },[assetState.asset_list]);
+
+    useEffect(()=>{
+      if (assetState.asset_delete_status === "fulfilled") {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: `Asset record has been deleted!`,
+        });
+        dispatch(resetDelete({}));
+        fetchAssetListAPIHandler();         
+      }
+      if (assetState.asset_delete_status === "rejected") {
+        toast({
+          variant: "danger",
+          title: "Error",
+          description: `Error deleting asset record!`,
+        });
+        dispatch(resetDelete({}));
+      }
+    },[assetState.asset_delete_status]);
   
     const isLoading = assetState.asset_list_status === "initial" ||
-                      assetState.asset_list_status === "pending";
+                      assetState.asset_list_status === "pending" ||
+                      assetState.asset_delete_status === "pending";
   
     const sortedList: IAssetRecord[] = [...assetState.asset_list].sort((a, b) => a.position - b.position);
     
