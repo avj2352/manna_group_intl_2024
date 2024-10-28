@@ -1,13 +1,16 @@
-import { FC, useCallback, useEffect } from "react";
-import AssetTableSection from "./assets/sections/Assets.table.section";
+import { FC, Fragment, useCallback, useEffect } from "react";
+// ..custom
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchFilesAPI, MANNA_IMAGES_BUCKET } from "@/common/state/features/assets/file.slice";
+import AssetTableSection from "@/pages/admin/assets/sections/Assets.table.section";
+import AssetPreviewSection from "@/pages/admin/assets/sections/Asset.preview.section";
 
 const AdminDashboardPage: FC = () => {
 
   const dispatch = useAppDispatch();
     const authState = useAppSelector((state) => state.auth);
     const fileState = useAppSelector((state) => state.files);
+    const assetState = useAppSelector(state => state.asset);
   
     const fetchFilesListAPIHandler = useCallback(()=>{
       if (!Boolean(authState.token) || authState.token === "") return;
@@ -20,8 +23,11 @@ const AdminDashboardPage: FC = () => {
 
   return (
     <section className="relative py-8 mt-12 lg:mt-2 lg:py-24" id="admin-dashboard">
-      <div className="container relative z-10">
+      <div className="container relative z-10">        
         <AssetTableSection/>
+        {Boolean(assetState.asset_detail_record) ? <AssetPreviewSection 
+          imageSource={assetState.asset_detail_record.url}
+          imageDescription={assetState.asset_detail_record.description}/> : <Fragment/>}
       </div>
     </section>
   );

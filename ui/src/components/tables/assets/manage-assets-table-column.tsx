@@ -12,10 +12,10 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { IAssetRecord } from "@/common/interfaces";
-import { ArrowUpDown, Pencil, Eye, Trash, Link } from "lucide-react";
+import { ArrowUpDown, Pencil, Eye, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchAssetDeleteAPI } from "@/common/state/features/assets/asset.slice";
+import { fetchAssetDeleteAPI, fetchAssetDetailsByIdAPI } from "@/common/state/features/assets/asset.slice";
 
 // This type is used to define the shape of our data.
 export const columns: ColumnDef<IAssetRecord>[] = [
@@ -69,10 +69,17 @@ export const columns: ColumnDef<IAssetRecord>[] = [
     accessorKey: "url",
     header: "URL",
     cell: ({ row }) => {
-      const _: IAssetRecord = row.original;
+      const item: IAssetRecord = row.original;
+      const dispatch = useAppDispatch();
+      const authState = useAppSelector((state) => state.auth);
       return (
-        <Button variant="ghost">
-          <Link className="w-4 h-4 mr-2" />
+        <Button
+        onClick={() => dispatch(fetchAssetDetailsByIdAPI({
+          id: item.asset_id,
+          token: authState.token
+        }))} 
+          variant="ghost">
+          <Eye className="w-4 h-4 mr-2" />
         </Button>
       );
     },
@@ -117,7 +124,10 @@ export const columns: ColumnDef<IAssetRecord>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(record.asset_key)}
+              onClick={() => dispatch(fetchAssetDetailsByIdAPI({
+                id: record.asset_id,
+                token: authState.token
+              }))}
             >
               <Eye className="w-4 h-4 mr-2" />
               View Asset
@@ -127,8 +137,7 @@ export const columns: ColumnDef<IAssetRecord>[] = [
               onClick={() => {
                 console.log('Navigate asset id: ', record.asset_id);
                 window.location.href = `#/admin/assets/edit/${record.asset_id}`;
-              }}
-            >
+              }}>
               <Pencil className="w-4 h-4 mr-2" />
               Update Asset
             </DropdownMenuItem>

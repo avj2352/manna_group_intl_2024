@@ -14,7 +14,7 @@ auth_service = AuthService()
 auth_router = APIRouter()
     
 
-@auth_router.get('/public', tags=["authentication"])
+@auth_router.get('/public')
 def test_public_route():
     """
         api call to check if endpoint can be called
@@ -24,7 +24,7 @@ def test_public_route():
     return {"message": "Anonymous User"}
 
 
-@auth_router.get("/check-admin", tags=["authentication"], dependencies=[Depends(auth_lib.implicit_scheme)])
+@auth_router.get("/check-admin", dependencies=[Depends(auth_lib.implicit_scheme)])
 def test_secure_route(user: Auth0User = Security(auth_lib.get_user)):
     """
         api to validate session token & check

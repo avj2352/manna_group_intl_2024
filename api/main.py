@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
+from scalar_fastapi import get_scalar_api_reference
 # ..custom
 from resources.auth import auth_router
 from resources.asset import asset_router
@@ -18,8 +19,6 @@ app = FastAPI(
     openapi_tags = config.tags_metadata
 )
 
-# Create tables
-
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
 
@@ -29,6 +28,18 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+# create scalar documentation
+@app.get("/scalar", include_in_schema=False)
+async def scalar_html():
+    return get_scalar_api_reference(
+        openapi_url=str(app.openapi_url),
+        title=app.title,        
+        dark_mode=True,        
+        show_sidebar=True,        
+        hide_download_button=False,
+        hide_models=False
 )
 
 # redirect to swagger docs
