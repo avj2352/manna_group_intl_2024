@@ -42,7 +42,11 @@ export type INavItem = {
   label: string;
   link: string;
   scrollId: string;
-  category: "about" | "products" | "company" | "contact" | "assets" | "promotions" | "purchases";
+  category: "about" | "products" | "company" | "contact" | "assets" | "promotions" | "purchases" | "mobile";
+};
+
+export type IMobileNavItem = INavItem & {
+  icon?: JSX.Element | undefined
 };
 
 export type ErrorFieldMsg = {

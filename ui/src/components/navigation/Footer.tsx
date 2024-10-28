@@ -7,9 +7,9 @@ import {
   LinkedinIcon,
   MailIcon,
 } from "lucide-react";
-import { INavItem } from "@/components/navigation/public/navigation.list";
 import logoImg from "@/assets/images/logo-img.png";
 import fdaRegisteredImg from "@/assets/images/fda_registered.png";
+import { INavItem } from "@/common/interfaces";
 
 type IFooterProps = {
   navList: INavItem[];

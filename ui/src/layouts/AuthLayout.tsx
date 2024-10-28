@@ -1,8 +1,8 @@
 import { Fragment, FC, ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Navigate } from "react-router-dom";
-import Navbar from "@/components/navigation/public/Navbar";
-import { navList } from "@/components/navigation/public/navigation.list";
+import Navbar from "@/components/navigation/Navbar";
+import { publicNavList } from "@/components/navigation/desktop/desktop-nav.list";
 
 type IAuthLayoutProps = {
   children: ReactNode
@@ -16,7 +16,7 @@ const AuthLayout: FC<IAuthLayoutProps> = ({ children }) => {
   if (!isAuthenticated) return <Navigate to="/restricted" replace/>
   
   return (<Fragment>
-            <Navbar navList={navList} />
+            <Navbar navList={publicNavList} />
             {children}
   </Fragment>);
 

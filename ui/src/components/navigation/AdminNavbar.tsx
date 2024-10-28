@@ -1,5 +1,4 @@
 import { Fragment, FC } from "react";
-import { Link } from "react-router-dom";
 import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -7,15 +6,18 @@ import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // ..custom
 import { INavItem } from "@/common/interfaces/index";
-import UserProfileDropdownWrapper from "./desktop/UserProfileDropdown";
-import MobileNavbar from "./MobileNav";
-import NavbarDropdown from "./desktop/NavbarDropdown";
+import UserProfileDropdownWrapper from "@/components/navigation/desktop/UserProfileDropdown";
+import MobileNavbar from "@/components/navigation/mobile/MobileNav";
+import NavbarDropdown from "@/components/navigation/desktop/NavbarDropdown";
+import { adminMobileNavList } from "./mobile/mobile-nav.list";
 
-type INavbarProps = {
+type IAdminNavbarProps = {
   navList: INavItem[];
 };
 
-export const Navbar: FC<INavbarProps> = ({ navList }) => {
+type FilterType = Pick<INavItem, "category">;
+
+export const AdminNavbar: FC<IAdminNavbarProps> = ({ navList }) => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
 
@@ -40,39 +42,39 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
         <div className="navbar-container">
           <Nav className="flex px-0">
             <Nav.Start className="gap-2 flex-1 min-w-[300px]" style={{ width: "100%" }}>
-              <MobileNavbar navItems={navList} />
+              <MobileNavbar navItems={adminMobileNavList} />
               <a
-                href="#"
+                href="#/admin"
                 className="text-2xl font-bold tracking-tighter text-brand-gradient">
-                MANNA Group International
+                MANNA (Admin Dashboard)
               </a>
             </Nav.Start>
 
             <Nav.End className="hidden w-full lg:flex flex-2">
-              <Menu horizontal size="sm" className="items-center gap-2 px-1">
-                {/* About us */}
+              <Menu horizontal size="sm" className="items-center gap-2 px-1">                
+                {/* Assets */}
                 <Menu.Item className="font-medium dropdown">
-                 <NavbarDropdown
+                  <NavbarDropdown 
                     navList={navList}
-                    label="About" filter={"about" as unknown as Pick<INavItem, "category">}/>
+                    label="Assets" filter={"assets" as unknown as FilterType}/>
                 </Menu.Item>
                 {/* Products */}
                 <Menu.Item className="font-medium dropdown">
-                 <NavbarDropdown
+                 <NavbarDropdown 
+                  navList={navList}
+                  label="Products" filter={"products" as unknown as FilterType}/>
+                </Menu.Item>                                
+                {/* Promotions */}
+                <Menu.Item className="font-medium dropdown">
+                  <NavbarDropdown 
                     navList={navList}
-                    label="Products" filter={"products" as unknown as Pick<INavItem, "category">}/>
-                </Menu.Item>                
-                {/* Company */}
-                <Menu.Item className="font-medium dropdown">
-                  <NavbarDropdown
-                      navList={navList}
-                      label="Company" filter={"company" as unknown as Pick<INavItem, "category">}/>
+                    label="Promotions" filter={"promotions" as unknown as FilterType}/>
                 </Menu.Item>
-                {/* Contact */}
+                {/* Purchases */}
                 <Menu.Item className="font-medium dropdown">
-                  <NavbarDropdown
-                      navList={navList}
-                      label="Contact Us" filter={"contact" as unknown as Pick<INavItem, "category">}/>
+                  <NavbarDropdown 
+                    navList={navList}
+                    label="Purchases" filter={"purchases" as unknown as FilterType}/>
                 </Menu.Item>
                 {/* UserProfile */}
                 <Menu.Item className="font-medium dropdown">
@@ -105,4 +107,4 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

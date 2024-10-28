@@ -7,7 +7,7 @@ import { Theme, useTheme } from "react-daisyui";
 import { useAuth0 } from "@auth0/auth0-react";
 //..custom
 import ClientRouter from "@/router/ClientRouter";
-import { navList } from "@/components/navigation/public/navigation.list";
+import { publicNavList } from "@/components/navigation/desktop/desktop-nav.list";
 import { useAppDispatch } from "@/common/state/store";
 import { fetchUserAdminDetailsAPI, setUserDetails, setToken } from "@/common/state/features/auth/auth.slice";
 
@@ -52,7 +52,7 @@ function App() {
           <ClientRouter />
           <Toaster/>
           <ThemeToggler />
-          <Footer navList={navList} />
+          <Footer navList={publicNavList} />
         </HashRouter>
       </Theme>
     </Fragment>

@@ -1,7 +1,7 @@
 import { Fragment, FC, ReactNode } from "react";
 // ..custom
-import Navbar from "@/components/navigation/public/Navbar";
-import { navList } from "@/components/navigation/public/navigation.list";
+import Navbar from "@/components/navigation/Navbar";
+import { publicNavList } from "@/components/navigation/desktop/desktop-nav.list";
 
 type ICommonLayoutProps = {
   children: ReactNode
@@ -10,8 +10,10 @@ type ICommonLayoutProps = {
 const CommonLayout: FC<ICommonLayoutProps> = ({ children }) => {
     
     return (<Fragment>
-        <Navbar navList={navList} />
-        {children}
+        <Navbar navList={publicNavList} />
+        <div className="pt-0 lg:pt-0">
+              {children}
+        </div>
     </Fragment>);
 };
 

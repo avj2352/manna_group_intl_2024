@@ -1,7 +1,7 @@
 import { INavItem } from "@/common/interfaces";
 
 
-export const navList: INavItem[] = [
+export const publicNavList: INavItem[] = [
   {
     label: "Who we are",
     link: "/about",
@@ -93,3 +93,56 @@ export const navList: INavItem[] = [
     category: "contact",
   },
 ];
+
+
+export const adminNavList: INavItem[] = [
+    {
+      label: "Manage Products",
+      link: "/admin/products",
+      scrollId: "",
+      category: "products",
+    },
+    {
+      label: "Add a Product (NEW)",
+      link: "/admin/products",
+      scrollId: "",
+      category: "products",
+    },
+    {
+      label: "List Promotions",
+      link: "/admin/promos",
+      scrollId: "",
+      category: "promotions",
+    },
+    {
+      label: "Add a Promotion (NEW)",
+      link: "/admin/promos",
+      scrollId: "",
+      category: "promotions",
+    },
+    {
+      label: "List Purchases",
+      link: "/admin/purchases",
+      scrollId: "",
+      category: "purchases",
+    },
+    {
+      label: "Manage Assets",
+      link: "/admin/assets",
+      scrollId: "",
+      category: "assets",
+    },
+    {
+      label: "Manage Files",
+      link: "/admin/manage-files",
+      scrollId: "",
+      category: "assets",
+    },  
+    {
+      label: "Manage Gallery",
+      link: "/admin/assets",
+      scrollId: "",
+      category: "assets",
+    }  
+  ];
+  
