@@ -108,6 +108,11 @@ export const AssetSlice = createSlice({
       state.asset_delete_status = "initial";
       state.asset_delete_response = "";
     },
+    resetDetails: (state, _: PayloadAction<{}>) => {
+      state.asset_details_status = "initial";
+      state.asset_detail_record = undefined;
+      state.asset_details_response = "";
+    }
   },
   extraReducers: (builder) => {
     // fetchAssetListAPI
@@ -174,4 +179,4 @@ export const AssetSlice = createSlice({
 });
 
 export default AssetSlice.reducer;
-export const { reset, resetPost, resetUpdate, resetDelete } = AssetSlice.actions;
+export const { reset, resetPost, resetUpdate, resetDelete, resetDetails } = AssetSlice.actions;

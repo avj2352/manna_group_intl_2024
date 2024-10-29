@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchFilesAPI, MANNA_IMAGES_BUCKET } from "@/common/state/features/assets/file.slice";
 import AssetTableSection from "@/pages/admin/assets/sections/Assets.table.section";
 import AssetPreviewSection from "@/pages/admin/assets/sections/Asset.preview.section";
+import { resetDetails } from "@/common/state/features/assets/asset.slice";
 
 const AdminDashboardPage: FC = () => {
 
@@ -20,6 +21,12 @@ const AdminDashboardPage: FC = () => {
     useEffect(()=>{
       if (fileState.files_list.length === 0) fetchFilesListAPIHandler();
     },[fileState.files_list]);
+
+    useEffect(()=>{
+      return () => {
+        dispatch(resetDetails({}));
+      }
+    },[]);
 
   return (
     <section className="relative py-8 mt-12 lg:mt-2 lg:py-24" id="admin-dashboard">
