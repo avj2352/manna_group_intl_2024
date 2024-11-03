@@ -157,6 +157,7 @@ class AssetProduct(Base):
     id = Column(Integer, primary_key=True)
     asset_id = Column(String, ForeignKey('assets.asset_id'))
     product_id = Column(String, ForeignKey('products.product_id'))
+    position = Column(Integer)
 
 
 class AssetGallery(Base):
@@ -165,6 +166,7 @@ class AssetGallery(Base):
     id = Column(Integer, primary_key=True)
     asset_id = Column(String, ForeignKey('assets.asset_id'))
     gallery_id = Column(String, ForeignKey('galleries.gallery_id'))
+    position = Column(Integer)
 
 # Example of creating an engine and initializing the database
 # engine = create_engine('sqlite:///example.db')

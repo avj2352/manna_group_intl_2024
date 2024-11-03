@@ -27,6 +27,18 @@ export type IAssetRecord = {
 
 export type IAssetRequestForm = Pick<IAssetRecord, 'asset_key' | 'description' | 'asset_type'> & { position ? : number };
 
+///////////// PRODUCTS //////////////////
+
+export type IProductRequestPayload = {
+  name: string,
+    description: string,
+    content: string,
+    assets: string[],
+    price: number,
+    currency: number,
+    quantity: number
+};
+
 /**
  * ********** UI RELATED ***************
  */

@@ -25,11 +25,23 @@ class GlobalConfig(BaseSettings):
     """
     Global configuration for environment
     """
-    tags_metadata: List[Any]  = [
+    tags_metadata: List[Any]  = [        
         {
-            "name": "Manna Group Intl API",
-            "description": "Manna Group International E-commerce API",
+            "name": "authentication",
+            "description": "Consists of API collection to authenticate & authorize users",
         },
+        {
+            "name": "assets",
+            "description": "Consists of API collection to create, update, read & delete assets",
+        },
+        {
+            "name": "products",
+            "description": "Consists of API collection to create, update, read & delete products",
+        },
+        {
+            "name": "s3",
+            "description": "Consists of API collection to create, update, read & delete files on Manna website",
+        }
     ]
     title: str = "Manna Group Intl API"
     version: str = API_VERSION    

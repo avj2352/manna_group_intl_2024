@@ -1,4 +1,6 @@
 from re import sub
+from datetime import datetime
+import pytz
 import os
 import logging
 
@@ -34,3 +36,12 @@ def config_logging(level):
     FORMAT = "%(levelname)s: %(asctime)s [%(filename)s:%(lineno)s - %(funcName)s() ] - %(message)s"
     DATE_FMT = "%Y-%m-%d %H:%M:%S"
     logging.basicConfig(format=FORMAT, datefmt=DATE_FMT, level=level)
+    
+
+# get currenttimestamp with timezone in str format
+def get_current_timestamp() -> str:
+    utc_zone = pytz.utc
+    current_time = datetime.now(utc_zone)
+    # format
+    formatted_time = current_time.strftime("%d, %b %Y %H:%M:%S")
+    return formatted_time

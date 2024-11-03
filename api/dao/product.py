@@ -2,98 +2,144 @@
 DAO layer for products table
 related queries
 """
-from typing import Optional, Union, List
-from psycopg2.extras import RealDictRow
-from config.db import generate_random_uuid
-from models.product import ProductRequestModel
-from config.db import db_instance
-import psycopg2
+from util.helper import get_current_timestamp
+from fastapi import HTTPException
+from typing import Optional, List
+from sqlalchemy import delete
+from models.product import ProductModel, ProductResponseModel
+from models.asset import AssetModel
+from dao.sql.sql_alchemy_models import Asset, Product, AssetProduct
+from config.db import Session
 import logging
 
-def get_products():
-    table_name = "products"
-    query = f"SELECT * from {table_name}"
-    return db_instance.execute_query_results(query)
-
-def get_product_by_id(product_id: str):
-    table_name = "products"
-    query = f"SELECT * FROM {table_name} WHERE product_id=%s"
-    logging.debug(f"Query to be executed: {query}")
-    return db_instance.execute_query_results(query, [product_id])
-
-"""
-Create a record in asset_products table    
-"""
-def _insert_asset_product_record(asset_id: str, product_id: str):
-    table_name = "asset_products" 
-    columns = ["product_id", "asset_id"]
-    values = [product_id, asset_id]
-    insert_query = f"""
-            INSERT INTO {table_name} ({','.join(columns)}) VALUES ({','.join(['%s' for _ in range(len(columns))])})
-            RETURNING *
-            """
-    logging.debug(f"Insert query: {insert_query}")
+def get_products() -> List:
+    result = []
+    session = Session()
     try:
-        result: Optional[RealDictRow] = db_instance.execute_query_result(query=insert_query, params=values)
-        return dict(result) if result else None
-    except(Exception, psycopg2.DatabaseError) as error:
-        logging.error("Error inserting values into table - asset_products, {}".format(str(error)))
-        raise ValueError(f"Error inserting values into table - asset_products, {error}")
-
-
-"""
-Create a new record in products table    
-"""
-def _insert_product_record(products: ProductRequestModel, product_id: str) -> Optional[dict]:   
-    table_name = "products" 
-    columns = ["product_id", 
-        "name", "description", 
-        "content", "created_by", 
-        "created_date", "price",
-        "quantity", "currency" 
-    ]
-    values = [product_id, 
-        products.name, products.description, 
-        products.content, products.created_by,
-        products.created_date, products.price,
-        products.quantity, products.currency
-    ]
-    insert_query = f"""
-            INSERT INTO {table_name} ({','.join(columns)}) VALUES ({','.join(['%s' for _ in range(len(columns))])})
-            RETURNING *
-            """
-    logging.debug(f"Insert query: {insert_query}")
+        logging.info("DAO: Querying products")
+        products = session.query(Product).all()
+        for item in products:
+            logging.info("DAO: Getting assets for product")                    
+            assets = session.query(AssetProduct).filter_by(product_id=item.product_id).all()
+            result.append(ProductResponseModel(
+                product_id=item.product_id,
+                name=item.name,
+                description=item.description,
+                content=item.content,
+                assets=[asset.asset_id for asset in assets],
+                created_date=item.created_date,
+                created_by=item.created_by,                
+                price=item.price,
+                currency=item.currency,
+                quantity=item.quantity                
+            ))
+        return result
+    except Exception as err:
+        logging.error(f"DAO: Error querying SQL alchemy {err.__class__} - {err}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")  
+    finally:
+        session.close()
+        
+# internal function to get asset record details
+def _get_asset_record_by_id(asset_id: str) -> Optional[AssetModel]:
+    logging.info("DAO: Querying assets table by asset_id")
+    result = []
+    session = Session()
     try:
-        result: Optional[RealDictRow] = db_instance.execute_query_result(query=insert_query, params=values)
-        return dict(result) if result else None
-    except(Exception, psycopg2.DatabaseError) as error:
-        logging.error("Error inserting values into table - products, {}".format(str(error)))
-        raise ValueError(f"Error inserting values into table - products, {error}")
+        asset_record = session.query(Asset).filter_by(asset_id=asset_id).first()
+        if not asset_record: 
+            return None        
+        return AssetModel(
+            asset_id=asset_record.asset_id,
+            position=asset_record.position,
+            asset_type=asset_record.asset_type,
+            description=asset_record.description,
+            asset_key=asset_record.asset_key
+        )        
+    except Exception as err:
+        logging.error(f"DAO: Error querying SQL alchemy {err.__class__} - {err}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    finally:
+        session.close()
+        
 
-def add_product_record(products: ProductRequestModel) -> Optional[dict]:   
+def get_product_by_id(product_id: str) -> Optional[ProductModel]:
+    logging.info("DAO: Querying products by product_id")    
+    session = Session()
     try:
-        product_id = generate_random_uuid()
-        logging.debug("create record in products table")
-        record = _insert_product_record(products=products, product_id=product_id)
-        logging.debug("for every asset id, create record in asset_products table")
-        for asset in products.assets:
-            _insert_asset_product_record(asset_id=asset, product_id=product_id)
-        return record
-    except ValueError as error:
-        logging.error(str(error))
-        return None
+        product_record = session.query(Product).filter_by(product_id=product_id).first()
+        if not product_record: 
+            return None                
+        assets = session.query(AssetProduct).filter_by(product_id=product_record.product_id).all()
+        return ProductModel(
+            product_id=product_record.product_id,
+            name=product_record.name,
+            description=product_record.description,
+            content=product_record.content,
+            assets=[_get_asset_record_by_id(asset.asset_id) for asset in assets],
+            created_date=product_record.created_date,
+            created_by=product_record.created_by,                
+            price=product_record.price,
+            currency=product_record.currency,
+            quantity=product_record.quantity                
+        )        
+    except Exception as err:
+        logging.error(f"DAO: Error query SQL alchemy {err.__class__} - {err}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    finally:
+        session.close()
 
-def delete_product_record_by_id(product_id: str) -> bool:
-    table_name = "products"
-    column = "product_id"
-    delete_query = f"""
-                DELETE FROM {table_name} WHERE {column} = %s
-                CASCADE
-                """
-    logging.debug(f"{delete_query}")
+def add_product_record(product: ProductModel) -> Optional[str]:
+    session = Session()
     try:
-        db_instance.execute_query(query=delete_query, params=[product_id])
-        return True
-    except(Exception, psycopg2.DatabaseError) as error:
-        logging.error("Error deleting record from table - {}, {}".format(table_name, str(error)))
-        return False
+        logging.info("DAO: Add a new record in products table")
+        product_record = Product(
+            product_id = product.product_id,
+            name = product.name,
+            description = product.description,
+            content = product.content,
+            created_by = product.created_by,
+            created_date = get_current_timestamp(),    
+            price = product.price,
+            quantity = product.quantity,
+            currency = product.currency,
+        )
+        session.add(product_record)
+        logging.info("DAO: Add a new record in asset_products table")
+        for (idx, item) in enumerate(product.assets):
+            asset_product_record = AssetProduct(
+                asset_id = item,
+                product_id = product.product_id,
+                position = idx+1
+            )
+            session.add(asset_product_record)
+        session.commit()
+        return f"Added new record in Products & AssetProducts table - {product.product_id}"
+    except Exception as err:
+        logging.error(f"DAO: Error adding new record - {err.__class__} - {err}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    finally:
+        session.close()
+
+
+
+def delete_product_by_id(product_id: str) -> str:
+    session = Session()
+    try:
+        logging.debug(f"DAO: delete record in Products table by id - {product_id} ")
+        stmt_01 = (delete(Product).\
+            where(Product.product_id == product_id)            
+            )
+        session.execute(stmt_01)
+        logging.debug(f"DAO: delete record in AssetProducts table by id - {product_id} ")
+        stmt_02 = (delete(AssetProduct).\
+            where(AssetProduct.product_id == product_id)            
+            )
+        session.execute(stmt_02)
+        session.commit()
+        return f"Deleted product record: {product_id}"
+    except Exception as err:
+        logging.error(f"DAO: Error deleting record by id: {product_id} - {err.__class__} - {err}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    finally:
+        session.close()
