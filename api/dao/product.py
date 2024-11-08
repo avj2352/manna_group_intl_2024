@@ -30,7 +30,7 @@ def get_products() -> List:
                 created_date=item.created_date,
                 created_by=item.created_by,                
                 price=item.price,
-                currency=item.currency,
+                currency=str(item.currency).lower(),
                 quantity=item.quantity                
             ))
         return result
@@ -102,9 +102,10 @@ def add_product_record(product: ProductModel) -> Optional[str]:
             created_date = get_current_timestamp(),    
             price = product.price,
             quantity = product.quantity,
-            currency = product.currency,
+            currency = str(product.currency).lower(),
         )
         session.add(product_record)
+        session.commit()
         logging.info("DAO: Add a new record in asset_products table")
         for (idx, item) in enumerate(product.assets):
             asset_product_record = AssetProduct(

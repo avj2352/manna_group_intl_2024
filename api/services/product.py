@@ -31,7 +31,7 @@ class ProductService:
                 created_date=record.created_date,                
                 assets=record.assets,
                 price=record.price,
-                currency=record.currency,
+                currency=str(record.currency).lower(),
                 quantity=record.quantity
             ) for record in records]
         except ValueError as err:
@@ -85,7 +85,7 @@ class ProductService:
             created_by=user_id,
             created_date=get_current_timestamp(),
             price=product.price,
-            currency=product.currency,
+            currency=str(product.currency).lower(),
             quantity=product.quantity
         )
         return add_product_record(new_record)

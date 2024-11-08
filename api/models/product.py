@@ -12,15 +12,16 @@ class ProductModel(BaseModel):
     created_date: str = Field(title="created date", description="date when the product was created")
     created_by: str = Field(title="created by author", description="user id of admin who created the product")
     price: float = Field(title="product price", description="price of the product with upto 2 digit floating precision")
-    currency: float = Field(title="price in currency", description="currency. must be either usd / can / inr / myr")
+    currency: str = Field(title="price in currency", description="currency. must be either usd / can / inr / myr")
     quantity: int = Field(title="number of products", description="number of products in stock")
     
     # custom validation
     @field_validator("currency")
-    def reg_type_check(cls, v):
-        if not is_part_of_list(v, ['usd', 'inr', 'myr']):
+    def reg_type_check(cls, v: str) -> str:
+        lowercase_v = v.lower()
+        if lowercase_v not in {'usd', 'inr', 'myr'}:
             raise ValueError('value must be of type - usd | inr | myr')
-        return v.title()
+        return lowercase_v
 
 class ProductRequestModel(BaseModel):    
     name: str = Field(title="product name", description="name is required and must be 1-50")
@@ -28,15 +29,16 @@ class ProductRequestModel(BaseModel):
     content: str = Field(title="product content", description="content of the product. contains HTML content about the product")    
     assets: List[str] = Field(title="asset list", description="consists of list of image assets")
     price: float = Field(title="product price", description="price of the product with upto 2 digit floating precision")
-    currency: float = Field(title="price in currency", description="currency. must be either usd / can / inr / myr")
+    currency: str = Field(title="price in currency", description="currency. must be either usd / can / inr / myr")
     quantity: int = Field(title="number of products", description="number of products in stock")
     
     # custom validation
     @field_validator("currency")
-    def reg_type_check(cls, v):
-        if not is_part_of_list(v, ['usd', 'inr', 'myr']):
+    def reg_type_check(cls, v: str) -> str:
+        lowercase_v = v.lower()
+        if lowercase_v not in {'usd', 'inr', 'myr'}:
             raise ValueError('value must be of type - usd | inr | myr')
-        return v.title()
+        return lowercase_v
 
 class ProductResponseModel(BaseModel):
     product_id: str = Field(title="product id", description="product id is required")
@@ -46,15 +48,16 @@ class ProductResponseModel(BaseModel):
     created_date: str = Field(title="created date", description="date when the product was created")    
     assets: List[Any] = Field(title="asset list", description="consists of list of image assets")
     price: float = Field(title="product price", description="price of the product with upto 2 digit floating precision")
-    currency: float = Field(title="price in currency", description="currency. must be either usd / can / inr / myr")
+    currency: str = Field(title="price in currency", description="currency. must be either usd / can / inr / myr")
     quantity: int = Field(title="number of products", description="number of products in stock")
     
     # custom validation
     @field_validator("currency")
-    def reg_type_check(cls, v):
-        if not is_part_of_list(v, ['usd', 'inr', 'myr']):
+    def reg_type_check(cls, v: str) -> str:
+        lowercase_v = v.lower()
+        if lowercase_v not in {'usd', 'inr', 'myr'}:
             raise ValueError('value must be of type - usd | inr | myr')
-        return v.title()
+        return lowercase_v
     
 # for parsing
 def product_response_entity(item) -> Dict:

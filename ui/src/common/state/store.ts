@@ -3,7 +3,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 // ..custom
 import authReducer from "@/common/state/features/auth/auth.slice";
 import assetReducer from "@/common/state/features/assets/asset.slice";
-import filesReducer from "./features/assets/file.slice";
+import filesReducer from "@/common/state/features/assets/file.slice";
+import productReducer from "@/common/state/features/products/product.slice";
 
 
 export type API_STATUS = "initial" | "pending" | "success" | "error";
@@ -24,7 +25,8 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     asset: assetReducer,
-    files: filesReducer
+    files: filesReducer,
+    products: productReducer,
   },
 });
 

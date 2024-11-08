@@ -42,7 +42,8 @@ def add_new_product_record(payload: ProductRequestModel, user: Auth0User = Secur
     logging.debug("User details are {}".format(user_details))    
     if not auth_service.check_user_is_admin(user_details):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Not an Admin")
-    result = product_service.add_product_record(product=payload)
+    user = auth_service.find_user_by_email_vendor(user_details)
+    result = product_service.add_product_record(product=payload, user_id=user.get("email", ""))
     return {"message": result}
 
 @product_router.delete("/{product_id}", dependencies=[Depends(auth_lib.implicit_scheme)])
