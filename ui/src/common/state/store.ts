@@ -18,7 +18,7 @@ export type ISearch = {
   text: string;
 };
 
-export const APP_VERSION = `0.5.5`;
+export const APP_VERSION = `0.5.6`;
 export const API_URL = import.meta.env.VITE_API_URL;
 
 export const store = configureStore({

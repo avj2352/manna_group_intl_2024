@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.6
+- 11/08/2024
+- Integrated Scalar openapi docs with fastapi
+- Added Image preview for assets page
+- Complete Asset CRUD page
+
 ## v0.5.5
 - 10/27/2024
 - Integrated Scalar openapi docs with fastapi

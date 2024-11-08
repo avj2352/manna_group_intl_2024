@@ -1,10 +1,23 @@
-import { useAppSelector } from "@/common/state/store";
+import { FC, Fragment, useEffect, useCallback } from "react";
+// ..custom
+import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import Loader from "@/components/loaders/Loader";
 import { columns } from "@/components/tables/products/manage-products-table-column";
 import { ProductsAdminTable } from "@/components/tables/products/ProductsAdmin.table";
-import { FC, Fragment } from "react";
+import { fetchProductListAPI } from "@/common/state/features/products/product.slice";
 
-const ProductsTableSection: FC = () => {
+const ProductsTableSection: FC = () => {  
+  const dispatch = useAppDispatch();
+
+
+  const fetchProductListAPIHandler = useCallback(()=>{    
+    dispatch(fetchProductListAPI());
+  },[]);
+
+  useEffect(()=>{
+    fetchProductListAPIHandler();
+  },[]);
+
     const productState = useAppSelector((state) => state.products);
 
     const isLoading = productState.product_list_status === "initial" ||
@@ -15,7 +28,7 @@ const ProductsTableSection: FC = () => {
           <Loader display={isLoading} text="loading products"/>
           {!isLoading && <h3 className="mb-4 text-2xl">Your Products</h3>}
           {!isLoading && <p className="mb-4">Contains list of products shown in Manna group international products page</p>}
-          {/* {!isLoading && <ProductsAdminTable columns={columns} data={productState.product_list}/>} */}
+          {!isLoading && <ProductsAdminTable columns={columns} data={productState.product_list}/>}
         </div>
     </Fragment>);
 };

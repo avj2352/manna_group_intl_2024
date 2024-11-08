@@ -11,16 +11,16 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { IAssetRecord } from "@/common/interfaces";
+import { IProductRecord } from "@/common/interfaces";
 import { ArrowUpDown, Pencil, Eye, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchAssetDeleteAPI, fetchAssetDetailsByIdAPI } from "@/common/state/features/assets/asset.slice";
+import { fetchProductDeleteAPI, fetchProductDetailsByIdAPI } from "@/common/state/features/products/product.slice";
 
 // This type is used to define the shape of our data.
-export const columns: ColumnDef<IAssetRecord>[] = [
+export const columns: ColumnDef<IProductRecord>[] = [
   {
-    accessorKey: "position",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -34,7 +34,7 @@ export const columns: ColumnDef<IAssetRecord>[] = [
     },
   },
   {
-    accessorKey: "asset_key",
+    accessorKey: "description",
     header: ({ column }) => {
       return (
         <Button
@@ -48,7 +48,7 @@ export const columns: ColumnDef<IAssetRecord>[] = [
     },
   },
   {
-    accessorKey: "asset_type",
+    accessorKey: "assets",
     header: ({ column }) => {
       return (
         <Button
@@ -66,30 +66,31 @@ export const columns: ColumnDef<IAssetRecord>[] = [
     header: "Description",
   },
   {
-    accessorKey: "url",
-    header: "URL",
+    accessorKey: "price",
+    header: "Price",
+  },
+  {
+    accessorKey: "currency",
+    header: "Currency",
     cell: ({ row }) => {
-      const item: IAssetRecord = row.original;
-      const dispatch = useAppDispatch();
-      const authState = useAppSelector((state) => state.auth);
+      const record: IProductRecord = row.original;
       return (
-        <Button
-        onClick={() => dispatch(fetchAssetDetailsByIdAPI({
-          id: item.asset_id,
-          token: authState.token
-        }))} 
-          variant="ghost">
-          <Eye className="w-4 h-4 mr-2" />
-        </Button>
+        <p className="text-base">
+          {String(record.currency).toUpperCase()}
+        </p>
       );
-    },
+    }
+  },
+  {
+    accessorKey: "quantity",
+    header: "Quantity",
   },
   // actions
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const record: IAssetRecord = row.original;
+      const record: IProductRecord = row.original;
       const [isDisalogOpen, setIsDialogOpen] = useState(false);
       const dispatch = useAppDispatch();
       const authState = useAppSelector((state) => state.auth);
@@ -98,16 +99,16 @@ export const columns: ColumnDef<IAssetRecord>[] = [
       return (
         <Fragment>
           <CommonAppDialog
-              title="Delete Asset ?"
+              title="Delete Product ?"
               open={isDisalogOpen}
               onClose={() => setIsDialogOpen(false)}>
                 <section className="flex flex-col">
                   <p className="text-base">
-                    Are you sure you want to delete the asset ? This action cannot be undone
+                    Are you sure you want to delete the product ? This action cannot be undone
                   </p>
                   <Button
-                    onClick={() => dispatch(fetchAssetDeleteAPI({
-                      id: record.asset_id,
+                    onClick={() => dispatch(fetchProductDeleteAPI({
+                      id: record.product_id,
                       token: authState.token
                     }))} 
                     className="mt-4">Confirm Delete</Button>
@@ -124,29 +125,28 @@ export const columns: ColumnDef<IAssetRecord>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => dispatch(fetchAssetDetailsByIdAPI({
-                id: record.asset_id,
-                token: authState.token
+              onClick={() => dispatch(fetchProductDetailsByIdAPI({
+                id: record.product_id                
               }))}
             >
               <Eye className="w-4 h-4 mr-2" />
-              View Asset
+              View Product
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => {
-                console.log('Navigate asset id: ', record.asset_id);
-                window.location.href = `#/admin/assets/edit/${record.asset_id}`;
+                console.log('Navigate product id: ', record.product_id);
+                window.location.href = `#/admin/products/edit/${record.product_id}`;
               }}>
               <Pencil className="w-4 h-4 mr-2" />
-              Update Asset
+              Update Product
             </DropdownMenuItem>
             <DropdownMenuSeparator />            
                 <DropdownMenuItem
                   className="cursor-pointer"
                   onClick={() => setIsDialogOpen(true)}>              
                     <Trash className="w-4 h-4 mr-2" />
-                    Delete Asset
+                    Delete Product
                 </DropdownMenuItem>            
           </DropdownMenuContent>
         </DropdownMenu>

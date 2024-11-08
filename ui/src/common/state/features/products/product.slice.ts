@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import ProductAdminAPIClient from "../../services/products/product.admin.api";
 import ProductPublicAPIClient from "../../services/products/product.public.api";
-import { IProductRequestPayload } from "@/common/interfaces";
+import { IProductRecord, IProductRequestPayload } from "@/common/interfaces";
 
 const baseURL =
   import.meta.env.VITE_PRODUCTS_API_URL ?? "http://localhost:8000/products";
@@ -52,7 +52,7 @@ export type IProductState = {
   product_details_response: string;
   product_post_response: string;  
   product_delete_response: string;
-  product_list: unknown[];
+  product_list: IProductRecord[];
 };
 
 export const initialState: IProductState = {
