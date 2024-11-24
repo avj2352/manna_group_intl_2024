@@ -61,10 +61,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
       );
     },
   },
-  {
-    accessorKey: "description",
-    header: "Description",
-  },
+
   {
     accessorKey: "price",
     header: "Price",
@@ -99,57 +96,57 @@ export const columns: ColumnDef<IProductRecord>[] = [
       return (
         <Fragment>
           <CommonAppDialog
-              title="Delete Product ?"
-              open={isDisalogOpen}
-              onClose={() => setIsDialogOpen(false)}>
-                <section className="flex flex-col">
-                  <p className="text-base">
-                    Are you sure you want to delete the product ? This action cannot be undone
-                  </p>
-                  <Button
-                    onClick={() => dispatch(fetchProductDeleteAPI({
-                      id: record.product_id,
-                      token: authState.token
-                    }))} 
-                    className="mt-4">Confirm Delete</Button>
-                </section>
+            title="Delete Product ?"
+            open={isDisalogOpen}
+            onClose={() => setIsDialogOpen(false)}>
+            <section className="flex flex-col">
+              <p className="text-base">
+                Are you sure you want to delete the product ? This action cannot be undone
+              </p>
+              <Button
+                onClick={() => dispatch(fetchProductDeleteAPI({
+                  id: record.product_id,
+                  token: authState.token
+                }))}
+                className="mt-4">Confirm Delete</Button>
+            </section>
           </CommonAppDialog>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-8 h-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => dispatch(fetchProductDetailsByIdAPI({
-                id: record.product_id                
-              }))}
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              View Product
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => {
-                console.log('Navigate product id: ', record.product_id);
-                window.location.href = `#/admin/products/edit/${record.product_id}`;
-              }}>
-              <Pencil className="w-4 h-4 mr-2" />
-              Update Product
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />            
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => setIsDialogOpen(true)}>              
-                    <Trash className="w-4 h-4 mr-2" />
-                    Delete Product
-                </DropdownMenuItem>            
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-8 h-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => dispatch(fetchProductDetailsByIdAPI({
+                  id: record.product_id
+                }))}
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                View Product
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  console.log('Navigate product id: ', record.product_id);
+                  window.location.href = `#/admin/products/edit/${record.product_id}`;
+                }}>
+                <Pencil className="w-4 h-4 mr-2" />
+                Update Product
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => setIsDialogOpen(true)}>
+                <Trash className="w-4 h-4 mr-2" />
+                Delete Product
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </Fragment>
       );
     },

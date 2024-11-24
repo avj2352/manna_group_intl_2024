@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "react-daisyui";
 import {
   Form,
   FormControl,
@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IAssetRequestForm, IFileResponseRecord } from "@/common/interfaces";
 import { useAppSelector } from "@/common/state/store";
-import { FilesAutoComplete } from "@/components/autocomplete/FilesAutoComplete";
+import { SelectAutoComplete } from "@/components/autocomplete/FilesAutoComplete";
 import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
@@ -151,7 +151,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
             <FormItem>          
               <FormLabel>Asset Key: </FormLabel>    
               <FormControl>
-                <FilesAutoComplete
+                <SelectAutoComplete
                   title="Select File"                  
                   onValueChange={field.onChange}
                   searchItems={fileState?.files_list?.map((item: IFileResponseRecord) => ({label: item.name, value: item.name})) ?? []}                  
@@ -181,8 +181,11 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
         <Button
+          color="primary" 
+          type="submit">Submit</Button>
+        <Button
+          color="ghost"
           onClick={() => navigate('/admin/assets')}
           type="reset" variant="outline" className="mx-2">Cancel</Button>
       </form>

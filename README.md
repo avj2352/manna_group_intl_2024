@@ -1,7 +1,7 @@
 # Manna Group International
 
-MANNA International Corp. is introducing products in healthcare areas like Nutraceutical Supplements, OTC pharmaceuticals & Essential Oils.
-This is the new version of the website
+MANNA International Corp. is introducing products in healthcare areas like Nutraceutical Supplements, 
+OTC pharmaceuticals & Essential Oils. This is the new version of the website
 
 ![version](https://img.shields.io/badge/version-0.5.6-blue)
 
@@ -9,6 +9,8 @@ This is the new version of the website
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
+- [Framer Motion becomes Motion](https://motion.dev/docs/react-quick-start)
+- [Automated Passive Income](https://medium.com/coinmonks/passive-income-with-automated-cryptocurrency-news-991d98e87020)
 - [Turso - SQLLite DB on cloud pricing](https://turso.tech/pricing)
 - [ShadCN - Form Builder](https://shadcn-form-build.vercel.app/playground)
 - [ShadCN Data Table documentation](https://ui.shadcn.com/docs/components/data-table)
@@ -296,3 +298,11 @@ The following are the Nameservers to Wordpress Site:
 ns8267.hostgator.com
 ns8268.hostgator.com
 ```
+
+
+# Feature - Shipment
+Shipment is handled directly by Manna. Status for Shipment to be reflected in website:
+
+When users login, they can track their status in Manna Website.
+- In process, shipped, delivered - email for each status change
+- Notes: Tracking number, Shipment number

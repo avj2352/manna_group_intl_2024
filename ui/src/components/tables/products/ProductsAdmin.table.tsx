@@ -47,7 +47,7 @@ export function ProductsAdminTable<TData, TValue>({
   });
 
   // ..evt handlers
-  const handleAddAsset = () => navigate("/admin/assets/add");
+  const handleAddProduct = () => navigate("/admin/products/add");
   
 
   return (
@@ -63,7 +63,7 @@ export function ProductsAdminTable<TData, TValue>({
           className="max-w-sm"
         />
         <Button
-          onClick={handleAddAsset}
+          onClick={handleAddProduct}
           color="primary"
           size="sm">
             Create New Product

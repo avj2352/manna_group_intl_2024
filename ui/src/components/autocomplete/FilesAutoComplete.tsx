@@ -21,13 +21,13 @@ export type ISearchRecord = {
     label: string,
 };
 
-type IFilesAutoCompleteProps = {
+type ISelectAutoCompleteProps = {
     title: string,
     onValueChange: (value: string) => void,
     searchItems: ISearchRecord[],
 };
 
-export const FilesAutoComplete: FC<IFilesAutoCompleteProps> = ({title, onValueChange, searchItems}) => {
+export const SelectAutoComplete: FC<ISelectAutoCompleteProps> = ({title, onValueChange, searchItems}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 

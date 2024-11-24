@@ -40,15 +40,8 @@ export type IProductRecord = {
   quantity: number;
 }
 
-export type IProductRequestPayload = {
-  name: string,
-    description: string,
-    content: string,
-    assets: string[],
-    price: number,
-    currency: number,
-    quantity: number
-};
+export type IProductRequestPayload = Pick<IProductRecord, 'name' | 'description' | 'content' | 'assets' | 'currency' | 'price' | 'quantity'>;
+export type IProductRequestForm = IProductRequestPayload;
 
 /**
  * ********** UI RELATED ***************
@@ -82,7 +75,7 @@ export type ErrorResponse = {
   errors?: ErrorFieldMsg[];
 };
 
-export const API_ERROR_MSG: string = `An unknown error has occured. \n
+// export const API_ERROR_MSG: string = `An unknown error has occured. \n
     unable to fetch appropriate error response`;
 
 /**

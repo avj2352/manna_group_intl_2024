@@ -25,6 +25,11 @@ app = FastAPI(
 # migration - create tables
 # init()
 
+# logging config
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s ~%(filename)s~ %(levelname)s:-%(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S")
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
 

@@ -20,6 +20,7 @@ export const AddAssetAdminPage = lazy(() => import("@/pages/admin/assets/AddAsse
 export const EditAssetAdminPage = lazy(() => import("@/pages/admin/assets/EditAsset.admin.page"));
 export const ManageFilesAdminPage = lazy(() => import("@/pages/admin/assets/ManageFiles.page"));
 export const ProductAdminPage = lazy(() => import("@/pages/admin/products/Products.admin.page"));
+export const AddProductAdminPage = lazy(() => import("@/pages/admin/products/AddProduct.admin.page"));
 export const PromoAdminPage = lazy(() => import("@/pages/admin/promos/Promos.admin.page"));
 export const PurchaseAdminPage = lazy(() => import("@/pages/admin/purchases/Purchases.admin.page"));
 
@@ -59,6 +60,7 @@ const ClientRouter: FC = () => {
         { element: <EditAssetAdminPage/>, path: "/admin/assets/edit/:id"},
         { element: <ManageFilesAdminPage />, path: "/admin/manage-files" },
         { element: <ProductAdminPage />, path: "/admin/products"},
+        { element: <AddProductAdminPage />, path: "/admin/products/add"},
         { element: <PromoAdminPage />, path: "/admin/promos"},
         { element: <PurchaseAdminPage />, path: "/admin/purchases"},
       ],
