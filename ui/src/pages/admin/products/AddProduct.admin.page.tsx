@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AddEditProductForm from "@/components/forms/products/AddEditProduct.form";
 import Loader from "@/components/loaders/Loader";
-import { IProductRequestPayload, IProductRequestForm } from "@/common/interfaces";
+import { IProductRequestPayload, IProductRequestForm, IAssetRecord } from "@/common/interfaces";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchProductPostFormAPI, resetPost } from "@/common/state/features/products/product.slice";
 import { useNavigate } from "react-router-dom";
@@ -18,10 +18,20 @@ const AddProductAdminPage: FC = () => {
     // ..actions
     const dispatch = useAppDispatch();
     
-    const handleFormSubmit = (data: IProductRequestForm) => {
+    const handleFormSubmit = (data: any) => {
+        console.log('Add Product form details: ', data);
+        const record:IProductRequestForm = {
+            'name': data?.product_name ?? '', 
+            'description': data?.product_description ?? '', 
+            'content': data?.product_content ?? '', 
+            'assets': data?.asset_key?.map((item: IAssetRecord) => item.asset_id), 
+            'currency': data?.product_currency ?? 'usd', 
+            'price': data?.product_price ?? 0, 
+            'quantity': data?.product_quantity ?? 0
+        };
         dispatch(fetchProductPostFormAPI({
             token: authState.token, 
-            payload: data as IProductRequestPayload 
+            payload: record
         }));
     };
     
@@ -56,7 +66,7 @@ const AddProductAdminPage: FC = () => {
                 Fill the form below to create a new product record
             </p>
             )}
-            <AddEditProductForm />                
+            <AddEditProductForm onSubmitForm={(data: unknown) => handleFormSubmit(data)}/>                
         </div>
         </section>
     );

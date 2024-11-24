@@ -6,11 +6,7 @@ import { resetDetails } from "@/common/state/features/assets/asset.slice";
 
 const AssetsAdminPage: FC = () => {
   const assetState = useAppSelector(state => state.asset);
-  const dispatch = useAppDispatch();
-
-  useEffect(()=>{
-    console.log('Selected Asset detail: ', assetState.asset_detail_record);
-  },[assetState.asset_detail_record]);
+  const dispatch = useAppDispatch();  
 
   useEffect(()=>{
     return () => {

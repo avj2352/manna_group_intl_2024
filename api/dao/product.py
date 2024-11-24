@@ -127,16 +127,18 @@ def add_product_record(product: ProductModel) -> Optional[str]:
 def delete_product_by_id(product_id: str) -> str:
     session = Session()
     try:
-        logging.debug(f"DAO: delete record in Products table by id - {product_id} ")
-        stmt_01 = (delete(Product).\
-            where(Product.product_id == product_id)            
-            )
-        session.execute(stmt_01)
+        # delete from asset-products table        
         logging.debug(f"DAO: delete record in AssetProducts table by id - {product_id} ")
         stmt_02 = (delete(AssetProduct).\
             where(AssetProduct.product_id == product_id)            
             )
         session.execute(stmt_02)
+        # delete from products table
+        logging.debug(f"DAO: delete record in Products table by id - {product_id} ")
+        stmt_01 = (delete(Product).\
+            where(Product.product_id == product_id)            
+            )
+        session.execute(stmt_01)
         session.commit()
         return f"Deleted product record: {product_id}"
     except Exception as err:

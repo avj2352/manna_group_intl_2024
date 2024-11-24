@@ -9,6 +9,7 @@ OTC pharmaceuticals & Essential Oils. This is the new version of the website
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
+- [Stackoverflow - Gemini VSCode Cloud SDK error](https://stackoverflow.com/questions/70707146/visual-studio-perpetually-reinstalls-cloud-sdk)
 - [Framer Motion becomes Motion](https://motion.dev/docs/react-quick-start)
 - [Automated Passive Income](https://medium.com/coinmonks/passive-income-with-automated-cryptocurrency-news-991d98e87020)
 - [Turso - SQLLite DB on cloud pricing](https://turso.tech/pricing)

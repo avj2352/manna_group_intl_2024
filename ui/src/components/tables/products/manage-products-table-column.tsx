@@ -128,16 +128,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
               >
                 <Eye className="w-4 h-4 mr-2" />
                 View Product
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => {
-                  console.log('Navigate product id: ', record.product_id);
-                  window.location.href = `#/admin/products/edit/${record.product_id}`;
-                }}>
-                <Pencil className="w-4 h-4 mr-2" />
-                Update Product
-              </DropdownMenuItem>
+              </DropdownMenuItem>              
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="cursor-pointer"
