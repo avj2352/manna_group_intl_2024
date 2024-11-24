@@ -15,7 +15,8 @@ import { IProductRecord } from "@/common/interfaces";
 import { ArrowUpDown, Eye, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchProductDeleteAPI, fetchProductDetailsByIdAPI } from "@/common/state/features/products/product.slice";
+import { fetchProductDeleteAPI, fetchProductDetailsByIdAPI, setSelectedProduct } from "@/common/state/features/products/product.slice";
+import { addDecimalIfNotPresent } from "@/util/helper";
 
 // This type is used to define the shape of our data.
 export const columns: ColumnDef<IProductRecord>[] = [
@@ -72,15 +73,19 @@ export const columns: ColumnDef<IProductRecord>[] = [
 
   {
     accessorKey: "price",
-    header: "Price",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
-      const record: IProductRecord = row.original;
-      function addDecimalIfNotPresent(num) {
-        if (Number.isInteger(num)) {
-          return num + '.0';
-        }
-        return num.toString();
-      }
+      const record: IProductRecord = row.original;      
       return (
         <p>
           {addDecimalIfNotPresent(record.price)}
@@ -102,7 +107,17 @@ export const columns: ColumnDef<IProductRecord>[] = [
   },
   {
     accessorKey: "quantity",
-    header: "Quantity",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Quantity
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
   },
   // actions
   {
@@ -144,10 +159,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => dispatch(fetchProductDetailsByIdAPI({
-                  id: record.product_id
-                }))}
-              >
+                onClick={() => dispatch(setSelectedProduct(record))}>
                 <Eye className="w-4 h-4 mr-2" />
                 View Product
               </DropdownMenuItem>              

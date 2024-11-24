@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useCallback } from "react";
+import { FC, Fragment, useEffect, useCallback, useState } from "react";
 // ..custom
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import Loader from "@/components/loaders/Loader";
@@ -9,10 +9,13 @@ import {
   resetDelete,
 } from "@/common/state/features/products/product.slice";
 import { useToast } from "@/hooks/use-toast";
+import { IProductRecord } from "@/common/interfaces";
+import ProductPreviewSection from "@/pages/admin/products/sections/Product.preview.section";
 
 const ProductsTableSection: FC = () => {
   const { toast } = useToast();
   const productState = useAppSelector((state) => state.products);
+  const [selectedProduct, setSelectedProduct] = useState<IProductRecord | undefined>(undefined);  
   const dispatch = useAppDispatch();
 
   const fetchProductListAPIHandler = useCallback(() => {
@@ -64,7 +67,7 @@ const ProductsTableSection: FC = () => {
             columns={columns}
             data={productState.product_list}
           />
-        )}
+        )}        
       </div>
     </Fragment>
   );

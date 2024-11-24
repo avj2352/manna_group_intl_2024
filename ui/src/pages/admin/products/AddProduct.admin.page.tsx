@@ -50,7 +50,7 @@ const AddProductAdminPage: FC = () => {
                 description: `New Product created!`,
             }); 
             dispatch(resetPost({}));
-            navigate("/admin/assets");
+            navigate("/admin/products");
         }
     },[productState.product_post_status]);
     

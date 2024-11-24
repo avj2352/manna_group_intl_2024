@@ -53,6 +53,7 @@ export type IProductState = {
   product_post_response: string;  
   product_delete_response: string;
   product_list: IProductRecord[];
+  selected_product: IProductRecord | undefined;
 };
 
 export const initialState: IProductState = {
@@ -64,7 +65,8 @@ export const initialState: IProductState = {
   product_details_response: "",
   product_post_response: "",  
   product_delete_response: "",
-  product_list: []
+  product_list: [],
+  selected_product: undefined
 };
 
 export const ProductSlice = createSlice({
@@ -94,7 +96,13 @@ export const ProductSlice = createSlice({
     resetDelete: (state, _: PayloadAction<{}>) => {
       state.product_delete_status = "initial";
       state.product_delete_response = "";
-    }    
+    },
+    setSelectedProduct: (state, action: PayloadAction<IProductRecord>) => {
+      state.selected_product = action.payload;
+    },
+    resetSelectedProduct: (state, _: PayloadAction<{}>) => {
+      state.selected_product = undefined;
+    },
   },
   extraReducers: (builder) => {
     // fetchProductListAPI
@@ -149,4 +157,4 @@ export const ProductSlice = createSlice({
 });
 
 export default ProductSlice.reducer;
-export const { reset, resetPost, resetDelete, resetDetails } = ProductSlice.actions;
+export const { reset, resetPost, resetDelete, resetDetails, setSelectedProduct, resetSelectedProduct } = ProductSlice.actions;

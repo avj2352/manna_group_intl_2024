@@ -30,3 +30,11 @@ export async function copyToClipboard(text: string): Promise<void> {
     console.error("Failed to copy text: ", err);
   }
 }
+
+// Function to represent floating numbers in string format
+export function addDecimalIfNotPresent(num: Number) : string {
+  if (Number.isInteger(num)) {
+    return num + '.0';
+  }
+  return num.toString();
+}
