@@ -39,8 +39,8 @@ const formSchema = z.object({
   product_name: z.string().min(2),
   product_description: z.string().min(4).max(250),
   product_content: z.string(),
-  product_quantity: z.number().min(0).max(500),
-  product_price: z.number(),
+  product_quantity: z.coerce.number().min(0).max(500),
+  product_price: z.coerce.number().min(1),
   product_currency: z.string(),
   asset_key: z.array(assetZodSchema).min(1),
 });
@@ -75,17 +75,23 @@ const AddEditProductForm: FC = () => {
         className="max-w-3xl py-10 space-y-8"
       >
         <div className="grid grid-cols-12 gap-4">
+
           <div className="col-span-6">
             <FormField
               control={form.control}
               name="product_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Manna Product" type="text" {...field} />
+                    <Input
+                      placeholder="ManaLiv"                      
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>Enter product name</FormDescription>
+                  <FormDescription>
+                    provide a short description of the product
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -101,8 +107,7 @@ const AddEditProductForm: FC = () => {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="FDA registered product"
-                      type=""
+                      placeholder="FDA registered product"                      
                       {...field}
                     />
                   </FormControl>
