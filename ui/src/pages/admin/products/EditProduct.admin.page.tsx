@@ -26,7 +26,8 @@ const EditProductAdminPage: FC = () => {
     };
     
     useEffect(() => {
-        if (productState.product_post_status === "initial" || productState.product_post_status === "pending") return;
+        if (productState.product_post_status === "initial" || 
+            productState.product_post_status === "pending") return;
         if (productState.product_post_status === "rejected") {
             toast({
                 variant: "default",
