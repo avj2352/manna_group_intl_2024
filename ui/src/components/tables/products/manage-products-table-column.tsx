@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { IProductRecord } from "@/common/interfaces";
-import { ArrowUpDown, Pencil, Eye, Trash } from "lucide-react";
+import { ArrowUpDown, Eye, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { fetchProductDeleteAPI, fetchProductDetailsByIdAPI } from "@/common/state/features/products/product.slice";
@@ -27,7 +27,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          #
+          Product Name
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -41,30 +41,52 @@ export const columns: ColumnDef<IProductRecord>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Asset Key
+          Product Description
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "assets",
+    accessorKey: "content",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Asset Type
+          Product Content
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const record: IProductRecord = row.original;
+      return (
+        <p>
+          {record.content.length > 100 ? record.content.slice(0, 100) + "..." : record.content}
+        </p>
+      );
+    }
   },
 
   {
     accessorKey: "price",
     header: "Price",
+    cell: ({ row }) => {
+      const record: IProductRecord = row.original;
+      function addDecimalIfNotPresent(num) {
+        if (Number.isInteger(num)) {
+          return num + '.0';
+        }
+        return num.toString();
+      }
+      return (
+        <p>
+          {addDecimalIfNotPresent(record.price)}
+        </p>
+      );
+    }
   },
   {
     accessorKey: "currency",

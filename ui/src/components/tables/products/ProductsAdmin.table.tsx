@@ -55,10 +55,10 @@ export function ProductsAdminTable<TData, TValue>({
       {/* Search */}
       <div className="flex items-center justify-between py-4">
         <Input
-          placeholder="Filter Products by Description..."
-          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter Products by Content..."
+          value={(table.getColumn("content")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("description")?.setFilterValue(event.target.value)
+            table.getColumn("content")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
