@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.5.7
+- 12/08/2024
+- Added image ta go ProductPreview Carousel
+- Integrated ProductPreview with website Products - Shop page
+- Create Carousel for homepage
+
+
 ## v0.5.6
 - 11/08/2024
 - Integrated Scalar openapi docs with fastapi

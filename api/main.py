@@ -28,10 +28,13 @@ app = FastAPI(
 # logging config
 logging.basicConfig(
     level=logging.DEBUG,
-    format="%(asctime)s ~%(filename)s~ %(levelname)s:-%(message)s",
+    format="%(asctime)s[%(filename)s:%(lineno)s-%(funcName)s()]-%(message)s",
     datefmt="%Y-%m-%d %H:%M:%S")
 # Allow CORS
 ALLOWED_HOSTS = ["*"]
+
+# add module name in log outputs
+logger = logging.getLogger(__name__)
 
 app.add_middleware(
     CORSMiddleware,
@@ -56,7 +59,7 @@ async def scalar_html():
 # redirect to swagger docs
 @app.get("/", include_in_schema=False)
 async def root():
-    logging.debug("Redirecting to scalar swagger docs")
+    logger.debug("Redirecting to scalar swagger docs")
     return RedirectResponse(url='/scalar')
 
 # flatten payload validations
