@@ -8,11 +8,7 @@ export default class AssetAPIClient extends ProtectedAPIClient {
   constructor(token: string, baseURL?: string) {    
     super(token, baseURL ?? 'http://localhost:8000/assets');
     // ..init
-  }
-
-  public getAssets<T = any>() {
-    return this.axiosInstance.get<T>(`/`);
-  }
+  }  
 
   public getAssetById<T = any>(id: string) {
     return this.axiosInstance.get<T>(`/${id}`);

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import AssetAPIClient from "../../services/assets/asset.api";
+import AssetPublicAPIClient from "../../services/assets/asset.public.api";
 import { IAssetRecord, IAssetRequestPayload } from "@/common/interfaces";
 
 const baseURL =
@@ -8,9 +9,9 @@ const baseURL =
 // ..API calls
 export const fetchAssetListAPI = createAsyncThunk(
   "asset/fetchAssetListAPI",
-  async ({ token }: { token: string }): Promise<any> => {
-    const assetClient = new AssetAPIClient(token, baseURL);
-    const response = await assetClient.getAssets();    
+  async (): Promise<any> => {
+    const assetPubClient = new AssetPublicAPIClient(baseURL);
+    const response = await assetPubClient.getAssets();    
     return await response?.data;
   }
 );

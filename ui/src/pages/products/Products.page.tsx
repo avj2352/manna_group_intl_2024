@@ -1,12 +1,14 @@
-import { FC, useEffect } from "react";
+import { FC, Fragment, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Card } from "react-daisyui";
-import { ShoppingCart, ArrowRightIcon } from "lucide-react";
 // ..images
-import { productList, IProduct } from "./data/product_list";
+import { useAppSelector } from "@/common/state/store";
+import { IProductRecord } from "@/common/interfaces";
+import ProductPreviewSection from "../admin/products/sections/Product.preview.section";
+import Loader from "@/components/loaders/Loader";
 
 const ProductsPage: FC = () => {
 
+  const productState = useAppSelector((state) => state.products);    
   const { id } = useParams();
   
   useEffect(()=>{
@@ -17,55 +19,20 @@ const ProductsPage: FC = () => {
         inline: 'nearest'
       });    
     }
-  },[id]);
+  },[id]);  
 
   return (
     <section className="relative py-8 lg:py-24" id="shop-products">
       <div className="container relative z-10">
         {/* Products section*/}
-        {productList.map((item: IProduct, idx: number) => (
-          <Card
-            key={idx + 1}
-            className="p-4 my-4 border border-base-content/10 rounded-xl"
-          >
-            <div className="grid items-center gap-12 lg:grid-cols-2 xl:gap-36">
-              <div className="flex justify-center order-1 lg:justify-start">
-                <img
-                  alt={item.title.toLowerCase()}
-                  className="h-[500px] rounded-xl"
-                  src={item.imageLink}
-                />
-              </div>
-              <div className="order-2">
-                <h1 className="font-bold leading-10 tracking-tight text-center text-3xl/tight sm:text-start lg:text-4xl/tight">
-                  <span className="text-brand-gradient">{item.name}</span>
-                </h1>
-                <p className="mt-4 text-base font-semibold text-center sm:text-start">
-                  {item.title}
-                </p>
-                <p className="mt-4 text-base text-center sm:text-start">
-                  {item.description}
-                </p>
-                <p className="mt-8 text-lg font-semibold">
-                  Price:{" "}
-                  <span className="text-2xl text-brand-gradient">
-                    ${item.price}
-                  </span>
-                </p>
-                <section className="flex justify-center lg:justify-end">
-                  <Button color={"primary"} size={"sm"} className="mx-2 mt-8">
-                    <ShoppingCart size={16} />
-                    Add to Cart
-                  </Button>
-                  <Button color={"ghost"} size={"sm"} className="mt-8">
-                    Read More
-                    <ArrowRightIcon size={16} />
-                  </Button>
-                </section>
-              </div>
-            </div>
-          </Card>
-        ))}
+        {Boolean(productState.product_list && 
+              productState.product_list.length > 0) ? productState.product_list?.map((item: IProductRecord, idx: number) => (
+          <ProductPreviewSection
+            isAdmin={false}
+            key={idx}
+            selectedProduct={item}
+          />
+        )) : <Loader display={true} text="loading products"/>}
 
         {/* Promo Video section*/}
         <div className="grid items-center gap-12 mt-16 lg:grid-cols-2 xl:gap-36">

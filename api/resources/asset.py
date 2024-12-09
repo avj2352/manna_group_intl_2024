@@ -15,16 +15,12 @@ auth_service = AuthService()
 asset_service = AssetService()
 asset_router = APIRouter()
 
-@asset_router.get("/", dependencies=[Depends(auth_lib.implicit_scheme)])
-def get_assets(user: Auth0User = Security(auth_lib.get_user)):
+@asset_router.get("/")
+def get_assets():
     """
         api to fetch all assets from table
         for admin role
-    """
-    user_details = f"{user}"
-    logging.debug("User details are {}".format(user_details))    
-    if not auth_service.check_user_is_admin(user_details):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Not an Admin")    
+    """    
     result = asset_service.get_assets()
     return {"message": result}
 

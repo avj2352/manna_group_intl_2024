@@ -20,7 +20,8 @@ const ProductsAdminPage: FC = () => {
     <section className="relative py-8 lg:py-24" id="products-admin-page">
       <div className="container relative z-10">
         <ProductsTableSection/>
-        {Boolean(productState.selected_product) ? <ProductPreviewSection 
+        {Boolean(productState.selected_product) ? <ProductPreviewSection
+          selectedProduct={productState.selected_product} 
           isAdmin={true}/> : <Fragment/> }
       </div>
     </section>

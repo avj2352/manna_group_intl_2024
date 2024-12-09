@@ -11,14 +11,12 @@ import { IAssetRecord } from "@/common/interfaces";
 
 const AssetTableSection: FC = () => {
     const { toast } = useToast();
-    const dispatch = useAppDispatch();
-    const authState = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();    
     const assetState = useAppSelector((state) => state.asset);
   
-    const fetchAssetListAPIHandler = useCallback(()=>{
-      if (!Boolean(authState.token) || authState.token === "") return;
-      dispatch(fetchAssetListAPI({token:authState.token}));
-    },[authState.token]);
+    const fetchAssetListAPIHandler = useCallback(()=>{      
+      dispatch(fetchAssetListAPI());
+    },[]);
   
     useEffect(()=>{
       fetchAssetListAPIHandler();

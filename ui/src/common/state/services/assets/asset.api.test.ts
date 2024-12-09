@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
 import axios from "axios";
-import AssetAPIClient from "./asset.api";
+import AssetPublicAPIClient from "./asset.public.api";
 
 
 vi.mock("axios");
 
 describe("AssetAPIClient", () => {
-  const mockToken = "test_token";
+  // const mockToken = "test_token";
   
   describe("getAssets", () => {
     it("should make a GET request to /assets/ & return a list", async () => {
@@ -24,10 +24,10 @@ describe("AssetAPIClient", () => {
       } });
       vi.spyOn(axios, "create").mockReturnValue({ get: mockGet } as any);
 
-      const client = new AssetAPIClient(mockToken);
+      const client = new AssetPublicAPIClient();
       const response = await client.getAssets();
 
-      expect(mockGet).toHaveBeenCalledWith("/assets/");
+      expect(mockGet).toHaveBeenCalledWith("/");
       expect(response.data).toEqual({
         "message": [
           {
