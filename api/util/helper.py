@@ -1,6 +1,7 @@
 from re import sub
 from datetime import datetime
 import pytz
+import re
 import os
 import logging
 
@@ -45,3 +46,9 @@ def get_current_timestamp() -> str:
     # format
     formatted_time = current_time.strftime("%d, %b %Y %H:%M:%S")
     return formatted_time
+
+# Check if the string matches 
+# the snake case pattern
+def is_snake_case(s: str) -> bool:
+    # Check if the string matches the snake case pattern
+    return bool(re.match(r'^[a-z0-9]+(_[a-z0-9]+)*$', s))

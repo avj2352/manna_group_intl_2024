@@ -8,34 +8,51 @@ import Loader from "@/components/loaders/Loader";
 
 const ProductsPage: FC = () => {
 
-  const productState = useAppSelector((state) => state.products);    
+  const productState = useAppSelector((state) => state.products);
   const { id } = useParams();
-  
-  useEffect(()=>{
-    if (Boolean(id) && id !== "") {      
+
+  useEffect(() => {
+    if (Boolean(id) && id !== "") {
       document.getElementById(id)?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
         inline: 'nearest'
-      });    
+      });
     }
-  },[id]);  
+  }, [id]);
 
-  return (
-    <section className="relative py-8 lg:py-24" id="shop-products">
+  if (Boolean(productState.product_list) && productState.product_list.length > 0) {
+    return (<section className="relative py-8 lg:py-24" id="shop-products">
       <div className="container relative z-10">
-        {/* Products section*/}
-        {Boolean(productState.product_list && 
-              productState.product_list.length > 0) ? productState.product_list?.map((item: IProductRecord, idx: number) => (
+        {productState.product_list.map((item: IProductRecord, idx: number) => (
           <ProductPreviewSection
             isAdmin={false}
             key={idx}
             selectedProduct={item}
           />
-        )) : <Loader display={true} text="loading products"/>}
+        ))}
+      </div>
+    </section>);
+  } else if (productState.product_list.length === 0) {
+    return (<section className="relative py-8 lg:py-24" id="shop-products">
+      <div className="container relative z-10">
+        <Loader display={true} text="loading products" />
+      </div>
+    </section>);      
+  } else {
+    return (<section className="relative py-8 lg:py-24" id="shop-products">
+      <div className="container relative z-10">
+        <Loader display={true} text="loading products" />
+      </div>
+    </section>);
+  }
+};
 
-        {/* Promo Video section*/}
-        <div className="grid items-center gap-12 mt-16 lg:grid-cols-2 xl:gap-36">
+export default ProductsPage;
+
+
+{/* Promo Video section*/ }
+{/* <div className="grid items-center gap-12 mt-16 lg:grid-cols-2 xl:gap-36">
           <div className="order-2 lg:order-1">
             <iframe
               width="560"
@@ -56,10 +73,4 @@ const ProductsPage: FC = () => {
               Watch our promotional video for the overview of all products
             </p>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default ProductsPage;
+</div> */}

@@ -6,7 +6,6 @@ import assetReducer from "@/common/state/features/assets/asset.slice";
 import filesReducer from "@/common/state/features/assets/file.slice";
 import productReducer from "@/common/state/features/products/product.slice";
 
-
 export type API_STATUS = "initial" | "pending" | "success" | "error";
 
 export type IBaseState = {
@@ -18,7 +17,7 @@ export type ISearch = {
   text: string;
 };
 
-export const APP_VERSION = `0.5.7`;
+export const APP_VERSION = `0.5.8`;
 export const API_URL = import.meta.env.VITE_API_URL;
 
 export const store = configureStore({

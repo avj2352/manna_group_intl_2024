@@ -1,7 +1,7 @@
 import { FC } from "react";
 // ..custom
 import { TestAutoComplete } from "@/components/autocomplete/TestAutoComplete";
-import { FilesAutoComplete, ISearchRecord } from "@/components/autocomplete/FilesAutoComplete";
+import { SelectAutoComplete, ISearchRecord } from "@/components/autocomplete/FilesAutoComplete";
 
 const PromoAdminPage: FC = () => {
 
@@ -15,7 +15,7 @@ const PromoAdminPage: FC = () => {
     <section className="relative py-8 lg:py-24" id="promos-admin-page">
       <div className="container relative z-10">
         <div className="flex text-base flex-start">
-          <FilesAutoComplete 
+          <SelectAutoComplete 
             searchItems={items} 
             title="Search Files" 
             onValueChange={(value: string) => console.log('Selected value: ', value)}/>

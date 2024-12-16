@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.5.8
+- 12/16/2024
+- Bugfix - Products page showing blank screen ✅
+
 ## v0.5.7
 - 12/08/2024
 - Added image ta go ProductPreview Carousel ✅
