@@ -29,7 +29,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
     return filteredRecords;
   }
 
-  console.log('Get filtered records: ', getFilteredRecords());
+  // console.log('Get filtered records: ', getFilteredRecords());
 
   return (
     <Card className="p-4 my-4 border border-base-content/10 rounded-xl">

@@ -9,6 +9,7 @@ import Loader from "@/components/loaders/Loader";
 const ProductsPage: FC = () => {
 
   const productState = useAppSelector((state) => state.products);
+  const assetState = useAppSelector((state) => state.asset);
   const { id } = useParams();
 
   useEffect(() => {
@@ -21,7 +22,12 @@ const ProductsPage: FC = () => {
     }
   }, [id]);
 
-  if (Boolean(productState.product_list) && productState.product_list.length > 0) {
+  if (
+    Boolean(productState.product_list) && 
+    productState.product_list.length > 0 &&
+    Boolean(assetState.asset_list) &&
+    assetState.asset_list.length > 0
+  ) {
     return (<section className="relative py-8 lg:py-24" id="shop-products">
       <div className="container relative z-10">
         {productState.product_list.map((item: IProductRecord, idx: number) => (
@@ -33,7 +39,7 @@ const ProductsPage: FC = () => {
         ))}
       </div>
     </section>);
-  } else if (productState.product_list.length === 0) {
+  } else if (productState.product_list.length === 0 || assetState.asset_list.length === 0) {
     return (<section className="relative py-8 lg:py-24" id="shop-products">
       <div className="container relative z-10">
         <Loader display={true} text="loading products" />

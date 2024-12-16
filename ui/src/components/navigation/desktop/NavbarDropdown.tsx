@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Pin, ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   DropdownMenu,
@@ -32,7 +32,7 @@ const NavbarDropdown: FC<INavbarDropdownProps> = ({ label, filter, navList }) =>
               <Link 
                 className="flex"
                 to={`${item.link}/${item.scrollId}`}>
-                <Pin className="w-4 h-4 mr-2" />
+                <ArrowUpRight className="w-4 h-4 mr-2" />
                 <span>{item.label}</span>
               </Link>
             </DropdownMenuItem>
