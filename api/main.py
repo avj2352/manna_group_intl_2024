@@ -65,7 +65,7 @@ async def root():
 
 # flatten payload validations
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(_: Request, exc: RequestValidationError):
     errors = exc.errors()
     custom_errors = []
     for error in errors:
