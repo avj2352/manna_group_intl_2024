@@ -1,5 +1,6 @@
 import logging
 from fastapi import HTTPException
+from datetime import datetime
 from typing import Optional, List
 import uuid
 from cachetools import cached, TTLCache
@@ -13,7 +14,7 @@ from dao.promotion import (
     update_promotion_record_by_id,
     delete_promotion_record_by_id,
 )
-from models.promotion import PromotionModel, PromotionRequestModel, PromoQueryResponseModel
+from models.promotion import PromoQueryRequestModel, PromotionModel, PromotionRequestModel, PromoQueryResponseModel
 
 
 class PromotionService:            
@@ -55,22 +56,34 @@ class PromotionService:
             logging.error(f"Service - Error retrieving record list: {err.__class__} - {err}")
             return HTTPException(status_code=500, detail="Error retrieving record list")
         
-    @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
-    def get_promotion_by_name(self, promo_name: str) -> PromoQueryResponseModel:
+    # internal method
+    def _check_promo_validity(self, curr_date: str, record: PromotionModel) -> bool:
+        try:
+            start_date = datetime.fromisoformat(record.start_date.replace('Z', '+00:00'))
+            end_date = datetime.fromisoformat(record.end_date.replace('Z', '+00:00'))
+            curr_date = datetime.fromisoformat(curr_date.replace('Z', '+00:00'))
+            if curr_date < start_date or curr_date > end_date:
+                return False
+            return True
+        except Exception as err:
+            logging.error(f"Service - Error checking promo code validity: {err.__class__} - {err}")
+            return False
+                
+    def query_promotion_by_name_validity(self, promo_name: str, payload: PromoQueryRequestModel) -> PromoQueryResponseModel:
         logging.debug(f"Service: retrieving record by promo name: {promo_name}")
         try:
             records = get_promotion_by_name(promo_name=promo_name)
             if len(records) == 0:
                 return PromoQueryResponseModel(
                     validity=False,
-                    message="No promotions found",
+                    message="no promo code found",
                     details=None
                 )
-            elif len(records) > 0:
+            elif len(records) > 0 and self._check_promo_validity(curr_date=payload.curr_date, record=records[0]):
                record = records[0]
                return PromoQueryResponseModel(
                    validity=True,
-                   message="promotion found",
+                   message="promo code found",
                    details=PromotionRequestModel(
                         name=str(record.name).lower(),
                         description=record.description,
@@ -78,7 +91,13 @@ class PromotionService:
                         end_date=record.end_date,
                         percentage=record.percentage
                     )
-               )            
+               )
+            else:
+              return PromoQueryResponseModel(
+                   validity=False,
+                   message="invalid promo code",
+                   details=None
+               )
         except Exception as err:
             logging.error(f"Service - Error retrieving record list for promotion query by name: {err.__class__} - {err}")
             return PromoQueryResponseModel(

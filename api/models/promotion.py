@@ -29,19 +29,30 @@ class PromotionRequestModel(BaseModel):
             raise ValueError('value must follow snake case format')
         return value.title()    
     
-    # transform start date
+    # validate start date
     @field_validator("start_date")
     def parse_iso_string(cls, value: str) -> str:
         if not check_is_iso_string(value):
             raise ValueError('Start date must be in iso string format')
         return value.title()
     
-    # transform end date
+    # validate end date
     @field_validator("end_date")
     def parse_iso_string(cls, value: str) -> str:
         if not check_is_iso_string(value):
             raise ValueError('End date must be in iso string format')
         return value.title()
+
+class PromoQueryRequestModel(BaseModel):    
+    curr_date: str = Field(title="current date", description="provide current date to validate promotion")
+    
+    # validate current date
+    @field_validator("curr_date")
+    def parse_iso_string(cls, value: str) -> str:
+        if not check_is_iso_string(value):
+            raise ValueError('Current date must be in iso string format')
+        return value.title()
+
 
 class PromoQueryResponseModel(BaseModel):    
     validity: bool = Field(title="promotion validity", description="is the promotion valid or not")

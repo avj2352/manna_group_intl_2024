@@ -2,7 +2,7 @@ import logging
 from fastapi import APIRouter, Depends, Security, HTTPException, status
 from fastapi_auth0 import Auth0User
 # custom
-from models.promotion import PromotionRequestModel
+from models.promotion import PromoQueryRequestModel, PromotionRequestModel
 from util.helper import config_logging
 from services.promotion import PromotionService
 from services.auth import AuthService, auth_lib
@@ -17,20 +17,26 @@ promo_service = PromotionService()
 promo_router = APIRouter()
 
 @promo_router.get("/", dependencies=[Depends(auth_lib.implicit_scheme)])
-def get_promotions():
+def get_promotions(user: Auth0User = Security(auth_lib.get_user)):
     """
         api to fetch all promotion records from table
         for admin role
     """    
+    user_details = f"{user}"
+    logging.debug("User details are {}".format(user_details))    
+    if not auth_service.check_user_is_admin(user_details):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Not an Admin")
     result = promo_service.get_promotions()
     return {"message": result}
 
-@promo_router.get("/{promo_name}")
-def fetch_promo_details_by_name(promo_name: str):
+@promo_router.put("/query/{promo_code}")
+def fetch_promo_details_by_name(promo_code: str, payload: PromoQueryRequestModel):
     """
-        api to fetch promotion details by name, for checkout page        
-    """    
-    result = promo_service.get_promotion_by_name(promo_name=promo_name)
+        api to validate promo code, for checkout page        
+    """
+    if promo_code is None or promo_code == "":
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid promotion code")
+    result = promo_service.query_promotion_by_name_validity(promo_name=promo_code, payload=payload)
     return {"message": result}
 
 
