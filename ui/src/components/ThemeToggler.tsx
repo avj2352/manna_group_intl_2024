@@ -8,7 +8,7 @@ import { useAppSelector } from "@/common/state/store";
 import { copyToClipboard } from '@/util/helper';
 
 export const ThemeToggler = () => {
-  const API_URL = import.meta.env.VITE_SWAGGER_DOCS ?? 'https://manna-grp-intl-api.fly.dev/docs';
+  const API_URL = import.meta.env.VITE_SWAGGER_DOCS ?? 'https://manna-grp-intl-api.fly.dev/scalar';
   const { setTheme } = useTheme();
   const { isAuthenticated } = useAuth0();
   const authSate = useAppSelector(state => state.auth);
