@@ -39,6 +39,10 @@ class GlobalConfig(BaseSettings):
             "description": "Consists of API collection to create, update, read & delete products",
         },
         {
+            "name": "promotions",
+            "description": "Consists of API collection to create, update, read & delete promotions",
+        },
+        {
             "name": "s3",
             "description": "Consists of API collection to create, update, read & delete files on Manna website",
         }

@@ -9,6 +9,7 @@ from resources.auth import auth_router
 from resources.asset import asset_router
 from resources.files import files_router
 from resources.product import product_router
+from resources.promotion import promo_router
 from util.about import config, description
 # migration
 # from dao.sql.sql_alchemy_models import init
@@ -84,4 +85,5 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 app.include_router(router=auth_router, prefix='/auth', tags=["authentication"])
 app.include_router(router=asset_router, prefix='/assets', tags=["assets"])
 app.include_router(router=product_router, prefix='/products', tags=["products"])
+app.include_router(router=promo_router, prefix='/promotions', tags=["promotions"])
 app.include_router(router=files_router, prefix='/files', tags=["s3"])

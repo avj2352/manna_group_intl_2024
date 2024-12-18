@@ -51,4 +51,4 @@ def get_current_timestamp() -> str:
 # the snake case pattern
 def is_snake_case(s: str) -> bool:
     # Check if the string matches the snake case pattern
-    return bool(re.match(r'^[a-z0-9]+(_[a-z0-9]+)*$', s))
+    return bool(re.match(r'^[a-z0-9]+(_[a-z0-9]+)*$', str(s).lower()))
