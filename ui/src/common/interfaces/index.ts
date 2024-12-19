@@ -43,6 +43,20 @@ export type IProductRecord = {
 export type IProductRequestPayload = Pick<IProductRecord, 'name' | 'description' | 'content' | 'assets' | 'currency' | 'price' | 'quantity'>;
 export type IProductRequestForm = IProductRequestPayload;
 
+///////////// PROMOTIONS //////////////////
+
+export type IPromotionRecord = {
+  promotion_id: string;
+  name: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+  percentage: number;
+}
+
+export type IPromotionRequestPayload = Pick<IPromotionRecord, 'name' | 'description' | 'start_date' | 'end_date' | 'percentage'>;
+export type IPromotionRequestForm = IPromotionRequestPayload;
+
 /**
  * ********** UI RELATED ***************
  */

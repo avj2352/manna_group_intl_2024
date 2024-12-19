@@ -9,6 +9,7 @@ OTC pharmaceuticals & Essential Oils. This is the new version of the website
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
+- [Typescript "satisfies" operator](https://www.freecodecamp.org/news/typescript-satisfies-operator/)
 - [Saasable Material UI kit](https://mui.com/store/items/saasable-free-multipurpose-ui-kit-dashboard/)
 - [Stackoverflow - Gemini VSCode Cloud SDK error](https://stackoverflow.com/questions/70707146/visual-studio-perpetually-reinstalls-cloud-sdk)
 - [Framer Motion becomes Motion](https://motion.dev/docs/react-quick-start)
