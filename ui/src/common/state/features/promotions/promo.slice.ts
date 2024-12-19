@@ -144,7 +144,7 @@ export const PromoSlice = createSlice({
     });
     builder.addCase(fetchPromoListAPI.fulfilled, (state, action) => {
       state.promo_list_status = "fulfilled";
-      state.promo_list = action.payload?.message;
+      state.promo_list = action.payload?.message ?? [];
     });
     builder.addCase(fetchPromoListAPI.rejected, (state, _) => {
       state.promo_list_status = "rejected";

@@ -21,10 +21,6 @@ const AssetTableSection: FC = () => {
     useEffect(()=>{
       fetchAssetListAPIHandler();
     },[]);
-  
-    useEffect(()=>{
-      if (assetState.asset_list.length === 0) return;
-    },[assetState.asset_list]);
 
     useEffect(()=>{
       if (assetState.asset_delete_status === "fulfilled") {

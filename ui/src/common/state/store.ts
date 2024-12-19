@@ -5,6 +5,7 @@ import authReducer from "@/common/state/features/auth/auth.slice";
 import assetReducer from "@/common/state/features/assets/asset.slice";
 import filesReducer from "@/common/state/features/assets/file.slice";
 import productReducer from "@/common/state/features/products/product.slice";
+import promoReducer from "@/common/state/features/promotions/promo.slice";
 
 export type API_STATUS = "initial" | "pending" | "success" | "error";
 
@@ -26,6 +27,7 @@ export const store = configureStore({
     asset: assetReducer,
     files: filesReducer,
     products: productReducer,
+    promos: promoReducer,
   },
 });
 
