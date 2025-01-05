@@ -1,11 +1,25 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import select
 # ..custom
-from util.env_config import SQL_CONN, DB_NAME, MAX_DB_CONN, DB_PASSWORD, DB_USERNAME
+from util.env_config import SQL_CONN, DB_NAME, DB_PASSWORD, DB_USERNAME
 
 # Create a base class for declarative models
 Base = declarative_base()
+
+# Notification - entity
+class Notification(Base):
+    __tablename__ = "notifications"
+    _id = Column(Integer, primary_key=True)
+    notification_id = Column(String(50), unique=True, nullable=False)
+    message = Column(String(250), nullable=False)
+    enable = Column(Boolean, nullable=False, default=False)
+    
+    def __repr__(self):
+        return f"<Notification(id={self.id}, \
+            notification_id='{self.notification_id}', \
+            message='{self.message}', \
+            enable={self.enable})>"
+
 
 # Promotion - entity
 class Promotion(Base):
@@ -43,6 +57,32 @@ class User(Base):
         name='{self.name}', \
         email={self.email}, \
         vendor={self.vendor})>"
+
+# Address - entity
+class Address(Base):
+    __tablename__ = "addresses"
+
+    _id = Column(Integer, primary_key=True)
+    address_id = Column(String, unique=True)
+    type = Column(String(100), nullable=False)
+    street = Column(String(250), nullable=False)
+    city = Column(String(150), nullable=False)
+    state = Column(String(100), nullable=False)
+    zip = Column(String(100), nullable=False)
+    country = Column(String(100), nullable=False)
+    contact = Column(String(100), nullable=False)
+    
+    def __repr__(self):
+        return f"<Address(id={self.id}),\
+                address_id='{self.address_id}', \
+                type='{self.type}', \
+                street='{self.street}', \
+                city='{self.city}', \
+                state='{self.state}', \
+                zip='{self.zip}', \
+                country='{self.country}', \
+                contact='{self.contact}')>"
+
 
 # Product - entity
 class Product(Base):
@@ -83,9 +123,7 @@ class Order(Base):
     total_amount = Column(Integer)
     order_date = Column(String)
     order_type = Column(String)
-    order_status = Column(String)
-    shipping_address = Column(String)
-    billing_address = Column(String)
+    order_status = Column(String)    
     
     def __repr__(self):
         return f"<Order(id={self.id}, \
@@ -96,9 +134,7 @@ class Order(Base):
             total_amount='{self.total_amount}',\
             order_date='{self.order_date}',\
             order_type='{self.order_type}',\
-            order_status='{self.order_status}',\
-            shipping_address='{self.shipping_address}',\
-            billing_address='{self.billing_address}')>"
+            order_status='{self.order_status}')>"
 
 class Asset(Base):
     __tablename__ = 'assets'
@@ -138,8 +174,15 @@ class Gallery(Base):
 
 # ------------MAPPINGS ------------------------#
 
-class PromotionOrder(Base):
-    __tablename__ = 'promotion_orders'
+class UserAddress(Base):
+    __tablename__ = 'user_addresses'
+    id = Column(Integer, primary_key=True)
+    email = Column(String, ForeignKey('users.email'))
+    address_id = Column(String, ForeignKey('addresses.address_id'))
+
+
+class OrderPromotion(Base):
+    __tablename__ = 'order_promotions'
     id = Column(Integer, primary_key=True)
     promotion_id = Column(String, ForeignKey('promotions.promotion_id'))
     order_id = Column(String, ForeignKey('orders.order_id'))
@@ -150,6 +193,13 @@ class OrderProduct(Base):
     id = Column(Integer, primary_key=True)
     order_id = Column(String, ForeignKey('orders.order_id'))
     product_id = Column(String, ForeignKey('products.product_id'))
+    
+class OrderAddress(Base):
+    __tablename__ = 'order_addresses'
+    
+    id = Column(Integer, primary_key=True)
+    order_id = Column(String, ForeignKey('orders.order_id'))
+    address_id = Column(String, ForeignKey('addresses.address_id'))
 
 class AssetProduct(Base):
     __tablename__ = 'asset_products'
@@ -173,6 +223,7 @@ class AssetGallery(Base):
 # Base.metadata.create_all(engine)
 
 def init():
+    # migration scripts
     engine = create_engine(f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{SQL_CONN}/{DB_NAME}")
     Base.metadata.create_all(engine)
 

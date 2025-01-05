@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.9
+- 01/01/2025
+- Create Checkout page
+- Create Checkout icon
+- Design Address table and map it to user profile
+
 ## v0.5.8
 - 12/16/2024
 - Bugfix - Products page showing blank screen ✅

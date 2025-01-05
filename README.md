@@ -3,12 +3,14 @@
 MANNA International Corp. is introducing products in healthcare areas like Nutraceutical Supplements, 
 OTC pharmaceuticals & Essential Oils. This is the new version of the website
 
-![version](https://img.shields.io/badge/version-0.5.8-blue)
+![version](https://img.shields.io/badge/version-0.5.9-blue)
 
 - [Current Website](https://mannagroupintl.com/)
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
+- [PostHog - Product analytics tool free](https://us.posthog.com/project/113825/products)
+- [Tuono - Fullstack Rust React Framework](https://tuono.dev)
 - [Typescript "satisfies" operator](https://www.freecodecamp.org/news/typescript-satisfies-operator/)
 - [Saasable Material UI kit](https://mui.com/store/items/saasable-free-multipurpose-ui-kit-dashboard/)
 - [Stackoverflow - Gemini VSCode Cloud SDK error](https://stackoverflow.com/questions/70707146/visual-studio-perpetually-reinstalls-cloud-sdk)

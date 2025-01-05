@@ -101,10 +101,10 @@ export const adminNavList: INavItem[] = [
       link: "/admin/products",
       scrollId: "",
       category: "products",
-    },
+    },    
     {
       label: "Add a Product (NEW)",
-      link: "/admin/products",
+      link: "/admin/products/add",
       scrollId: "",
       category: "products",
     },
