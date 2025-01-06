@@ -2,9 +2,17 @@
 
 ## v0.5.9
 - 01/05/2025
-- Create Checkout page
+- Add '"email"' field to Address entity - sql_alchemy_model.py ✅
+- Create Checkout page ...
+  - Design "MyCart" page ...
+  - Route to login if the user has not logged in
+  - Design "Billing page" and "Shipping page"
+  - Design "Add Coupon" & Finalize page
+  - Add Stripe page
+  - Design "Success" page
+  - Design "Failure" page
 - Create Checkout icon ✅
-- Design Address table and map it to user profile
+- Design Address table and map it to user profile ✅
 
 ## v0.5.8
 - 12/16/2024

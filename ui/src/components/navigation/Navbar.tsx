@@ -3,8 +3,9 @@ import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ChevronDown } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from "react-router-dom";
 // ..custom
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { INavItem } from "@/common/interfaces/index";
 import UserProfileDropdownWrapper from "@/components/navigation/desktop/UserProfileDropdown";
 import NavbarDropdown from "@/components/navigation/desktop/NavbarDropdown";
@@ -19,6 +20,12 @@ type INavbarProps = {
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
+  const navigate = useNavigate();
+
+  //..evt handlers
+  const handleCartPageRoute = () => {
+    navigate("/my-cart");
+  };
 
   useEffect(() => {
     const onWindowScroll = () => {
@@ -77,7 +84,8 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                 </Menu.Item>
                 { /* Shopping cart */}
                 <Menu.Item className="font-medium">
-                  <ShoppingCartBadge/>
+                  <ShoppingCartBadge
+                    onBadgeClick={handleCartPageRoute}/>
                 </Menu.Item>
                 {/* UserProfile */}
                 <Menu.Item className="font-medium dropdown">

@@ -71,6 +71,7 @@ class Address(Base):
     zip = Column(String(100), nullable=False)
     country = Column(String(100), nullable=False)
     contact = Column(String(100), nullable=False)
+    email = Column(String(120), nullable=False)
     
     def __repr__(self):
         return f"<Address(id={self.id}),\
@@ -81,7 +82,8 @@ class Address(Base):
                 state='{self.state}', \
                 zip='{self.zip}', \
                 country='{self.country}', \
-                contact='{self.contact}')>"
+                contact='{self.contact}', \
+                email='{self.email}')>"
 
 
 # Product - entity

@@ -27,12 +27,7 @@ const CommonLayout: FC<ICommonLayoutProps> = ({ children }) => {
   useEffect(()=>{
     fetchAssetListAPIHandler();
     fetchProductListAPIHandler();
-    console.log('App: Fetched assets & products....');
-    toast({
-      variant: "default",
-      title: "Success",
-      description: `Fetched assets & products!`,
-    });
+    console.log('Fetched assets and products');
   },[]);
     
     return (<Fragment>
