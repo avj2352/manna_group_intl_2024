@@ -46,7 +46,7 @@ export const AdminNavbar: FC<IAdminNavbarProps> = ({ navList }) => {
               <a
                 href="#/admin"
                 className="text-2xl font-bold tracking-tighter text-brand-gradient">
-                MANNA (Admin Dashboard)
+                Admin Dashboard
               </a>
             </Nav.Start>
 

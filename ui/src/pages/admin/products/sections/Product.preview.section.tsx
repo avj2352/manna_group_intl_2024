@@ -8,11 +8,13 @@ import ProductThumbnailCarousel from "@/components/carousels/product/ProductThum
 import { IAssetRecord, IProductRecord } from "@/common/interfaces";
 
 type IProductPreviewSectionProps = {
+  onAddCart?: (item: IProductRecord) => void;
   isAdmin?: boolean;
   selectedProduct: IProductRecord;
 };
 
 const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
+  onAddCart,
   selectedProduct,
   isAdmin = false,
 }) => {  
@@ -60,6 +62,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
           </p>
           <section className="flex justify-center lg:justify-end">
             <Button
+              onClick={() => onAddCart(selectedProduct)}
               disabled={isAdmin}
               color={"primary"}
               size={"sm"}
@@ -74,7 +77,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
               size={"sm"}
               className="mt-8"
             >
-              Checkout
+              View Cart
               <ArrowRightIcon size={16} />
             </Button>
           </section>

@@ -1,5 +1,4 @@
 import { Fragment, FC } from "react";
-import { Link } from "react-router-dom";
 import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,7 +9,8 @@ import { INavItem } from "@/common/interfaces/index";
 import UserProfileDropdownWrapper from "@/components/navigation/desktop/UserProfileDropdown";
 import NavbarDropdown from "@/components/navigation/desktop/NavbarDropdown";
 import MobileNavbar from "@/components/navigation/mobile/MobileNav";
-import { publicMobileNavList } from "./mobile/mobile-nav.list";
+import { publicMobileNavList } from "@/components/navigation/mobile/mobile-nav.list";
+import ShoppingCartBadge from "@/components/badges/ShoppingCartBadge";
 
 type INavbarProps = {
   navList: INavItem[];
@@ -40,12 +40,12 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
       >
         <div className="navbar-container">
           <Nav className="flex px-0">
-            <Nav.Start className="gap-2 flex-1 min-w-[300px]" style={{ width: "100%" }}>
+            <Nav.Start className="gap-2 flex-1 min-w-[250px]" style={{ width: "100%" }}>
               <MobileNavbar navItems={publicMobileNavList} />
               <a
                 href="#"
                 className="text-2xl font-bold tracking-tighter text-brand-gradient">
-                MANNA Group International
+                MGI
               </a>
             </Nav.Start>
 
@@ -74,6 +74,10 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                   <NavbarDropdown
                       navList={navList}
                       label="Contact Us" filter={"contact" as unknown as Pick<INavItem, "category">}/>
+                </Menu.Item>
+                { /* Shopping cart */}
+                <Menu.Item className="font-medium">
+                  <ShoppingCartBadge/>
                 </Menu.Item>
                 {/* UserProfile */}
                 <Menu.Item className="font-medium dropdown">

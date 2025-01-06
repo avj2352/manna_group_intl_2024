@@ -1,9 +1,9 @@
 # CHANGELOG
 
 ## v0.5.9
-- 01/01/2025
+- 01/05/2025
 - Create Checkout page
-- Create Checkout icon
+- Create Checkout icon ✅
 - Design Address table and map it to user profile
 
 ## v0.5.8

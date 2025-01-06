@@ -6,6 +6,7 @@ import assetReducer from "@/common/state/features/assets/asset.slice";
 import filesReducer from "@/common/state/features/assets/file.slice";
 import productReducer from "@/common/state/features/products/product.slice";
 import promoReducer from "@/common/state/features/promotions/promo.slice";
+import checkoutReducer from "@/common/state/features/checkout/checkout.slice";
 
 export type API_STATUS = "initial" | "pending" | "success" | "error";
 
@@ -28,6 +29,7 @@ export const store = configureStore({
     files: filesReducer,
     products: productReducer,
     promos: promoReducer,
+    checkout: checkoutReducer,
   },
 });
 

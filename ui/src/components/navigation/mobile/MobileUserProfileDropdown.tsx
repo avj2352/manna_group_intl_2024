@@ -1,17 +1,12 @@
 import { FC, Fragment } from "react";
 import { Menu } from "react-daisyui";
-import {
-  ShoppingCart,
+import {  
   CreditCard,
   Ribbon,
-  LifeBuoy,
-  LogOut,
+  LifeBuoy,  
   User,
-  UserPlus,
-  Users,
+  UserPlus,  
 } from "lucide-react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/common/state/store";
 
 type IMobileUserProfileDropdownProps = {
@@ -20,9 +15,7 @@ type IMobileUserProfileDropdownProps = {
 
 const MobileUserProfileDropdown: FC<IMobileUserProfileDropdownProps> = ({
   onClose,
-}) => {
-  const { user, logout } = useAuth0();
-  const navigate = useNavigate();
+}) => {  
   const authSate = useAppSelector((state) => state.auth);
 
   return (
@@ -32,12 +25,7 @@ const MobileUserProfileDropdown: FC<IMobileUserProfileDropdownProps> = ({
           <Ribbon className="w-4 h-4 mr-2" />
           {authSate?.isAdmin ? `(Admin)*` : "(User)"}
         </p>
-      </Menu.Item>
-      <Menu.Item className="pl-4" onClick={() => onClose(false)}>
-        <a href="#/company/gallery-section">
-          <ShoppingCart className="w-4 h-4 mr-2" /> My Cart
-        </a>
-      </Menu.Item>
+      </Menu.Item>      
       <Menu.Item className="pl-4" onClick={() => onClose(false)}>
         <a href="#/company/gallery-section">
           <CreditCard className="w-4 h-4 mr-2"  /> My Orders

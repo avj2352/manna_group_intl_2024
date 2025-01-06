@@ -46,10 +46,6 @@ const UserProfileDropdownWrapper: FC<{ children: ReactNode }> =({children}) => {
           <span>Role: Admin*</span>
         </DropdownMenuItem>}
           <DropdownMenuItem>
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            <span>My Cart</span>            
-          </DropdownMenuItem>
-          <DropdownMenuItem>
               <CreditCard className="w-4 h-4 mr-2" />
             <span>My Orders</span>            
           </DropdownMenuItem>                    
