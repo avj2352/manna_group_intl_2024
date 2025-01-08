@@ -4,7 +4,7 @@
 - 01/05/2025
 - Add '"email"' field to Address entity - sql_alchemy_model.py ✅
 - Create Checkout page ...
-  - Design "MyCart" page ...
+  - Design "MyCart" page ✅
   - Route to login if the user has not logged in
   - Design "Billing page" and "Shipping page"
   - Design "Add Coupon" & Finalize page
