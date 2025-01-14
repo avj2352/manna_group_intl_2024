@@ -1,25 +1,30 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // ..images
+import { setCheckoutCount } from "@/common/state/features/checkout/checkout.slice";
 import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import { IProductRecord } from "@/common/interfaces";
 import ProductPreviewSection from "@/pages/admin/products/sections/Product.preview.section";
 import Loader from "@/components/loaders/Loader";
 import useLocalStorage from "@/hooks/use-localstorage";
-import { setCheckoutCount } from "@/common/state/features/checkout/checkout.slice";
 
 const ProductsPage: FC = () => {
-  const {storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>('products', []);
+  const { storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>('products', []);
   const productState = useAppSelector((state) => state.products);
   const assetState = useAppSelector((state) => state.asset);
-  const { id } = useParams();
   const dispatch = useAppDispatch();
+  const { id } = useParams();
 
   // evt handlers
   const addToCartHandler = (item: IProductRecord) => {
     console.log('item to add to cart: ', item);
     setStoredValue(prev => [...prev, item]);
   };
+
+  useEffect(()=>{
+    // console.log('Products: Stored item is: ', storedValue);
+    dispatch(setCheckoutCount(storedValue.length));
+  },[ storedValue ]);
   
   useEffect(() => {
     if (Boolean(id) && id !== "") {
@@ -30,12 +35,6 @@ const ProductsPage: FC = () => {
       });
     }
   }, [id]);
-
-
-  useEffect(()=>{
-    console.log('Products: Stored item is: ', storedValue);
-    dispatch(setCheckoutCount(storedValue.length));
-  },[ storedValue ])
 
 
   if (

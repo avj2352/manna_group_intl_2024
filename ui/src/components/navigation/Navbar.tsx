@@ -1,26 +1,38 @@
-import { Fragment, FC } from "react";
+import { Fragment, FC, useEffect, useState } from "react";
 import { Button, Menu, Navbar as Nav } from "react-daisyui";
-import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 // ..custom
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { setCheckoutCount } from "@/common/state/features/checkout/checkout.slice";
 import { INavItem } from "@/common/interfaces/index";
+import { IProductRecord } from "@/common/interfaces";
 import UserProfileDropdownWrapper from "@/components/navigation/desktop/UserProfileDropdown";
 import NavbarDropdown from "@/components/navigation/desktop/NavbarDropdown";
 import MobileNavbar from "@/components/navigation/mobile/MobileNav";
 import { publicMobileNavList } from "@/components/navigation/mobile/mobile-nav.list";
+import useLocalStorage from "@/hooks/use-localstorage";
 import ShoppingCartBadge from "@/components/badges/ShoppingCartBadge";
+import { useAppDispatch } from "@/common/state/store";
+
 
 type INavbarProps = {
   navList: INavItem[];
 };
 
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
+  const { storedValue } = useLocalStorage<IProductRecord[]>('products', []);
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(()=>{
+    // console.log('Products: Stored item is: ', storedValue);
+    dispatch(setCheckoutCount(storedValue.length));
+  },[ storedValue ]);
+
 
   //..evt handlers
   const handleCartPageRoute = () => {

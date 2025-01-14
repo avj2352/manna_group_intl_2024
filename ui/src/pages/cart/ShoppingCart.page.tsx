@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button } from "react-daisyui";
 import { Wallet } from 'lucide-react';
 // ..custom
@@ -7,10 +7,33 @@ import useLocalStorage from "@/hooks/use-localstorage";
 import Loader from "@/components/loaders/Loader";
 import {ShoppingCardEmpty, ShoppingCardItem} from "@/components/cards/ShoppingCard";
 
+type ICartInventory = {
+  item: IProductRecord,
+  count: number
+};
+
 const ShoppingCartPage: FC = () => {
   const { storedValue } = useLocalStorage<IProductRecord[]>("products", []);
-
+  const [cartMap, setCartMap] = useState<ICartInventory[]>([]);
+  
   console.log("ShoppingCartPage: Shopping cart items: ", storedValue);
+
+  const populateCartInventory = (acc: ICartInventory[], item: IProductRecord): ICartInventory[] => {
+    if (acc.some((i: ICartInventory) => i.item.product_id === item.product_id)) {
+      acc.map((x: ICartInventory) => x.count += 1);
+    } else {
+      acc.push({item: item, count: 1});  
+    }
+    return acc;
+  };
+
+  useEffect(()=>{
+    if (storedValue.length === 0) return;
+    console.log('Creating unique items: ');
+    setCartMap(storedValue.reduce(populateCartInventory, []));    
+  },[storedValue]);
+
+  console.log('Shopping cart unique items is: ', cartMap);
 
   return (
     <div className="relative py-8 lg:py-24" id="shop-cart">
