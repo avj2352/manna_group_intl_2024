@@ -4,28 +4,31 @@
 
 ///////////// FILES //////////////////
 export type IFileResponseRecord = {
-  "name": string,
-  "filesize": number
+  name: string;
+  filesize: number;
 };
 
 ///////////// ASSETS //////////////////
 export type IAssetRequestPayload = {
-  asset_type: 'gallery' | 'product' | 'other',
-  position?: number,
-  description: string,
-  asset_key: string
+  asset_type: "gallery" | "product" | "other";
+  position?: number;
+  description: string;
+  asset_key: string;
 };
 
 export type IAssetRecord = {
   asset_id: string;
   position: number;
   asset_key: string;
-  asset_type: 'gallery' | 'product' | 'other';
+  asset_type: "gallery" | "product" | "other";
   description: string;
   url: string;
-}
+};
 
-export type IAssetRequestForm = Pick<IAssetRecord, 'asset_key' | 'description' | 'asset_type'> & { position ? : number };
+export type IAssetRequestForm = Pick<
+  IAssetRecord,
+  "asset_key" | "description" | "asset_type"
+> & { position?: number };
 
 ///////////// PRODUCTS //////////////////
 
@@ -38,10 +41,24 @@ export type IProductRecord = {
   price: number;
   currency: number;
   quantity: number;
-}
+};
 
-export type IProductRequestPayload = Pick<IProductRecord, 'name' | 'description' | 'content' | 'assets' | 'currency' | 'price' | 'quantity'>;
+export type IProductRequestPayload = Pick<
+  IProductRecord,
+  | "name"
+  | "description"
+  | "content"
+  | "assets"
+  | "currency"
+  | "price"
+  | "quantity"
+>;
 export type IProductRequestForm = IProductRequestPayload;
+
+export type ICartInventory = {
+  item: IProductRecord;
+  count: number;
+};
 
 ///////////// PROMOTIONS //////////////////
 
@@ -52,9 +69,12 @@ export type IPromotionRecord = {
   start_date: string;
   end_date: string;
   percentage: number;
-}
+};
 
-export type IPromotionRequestPayload = Pick<IPromotionRecord, 'name' | 'description' | 'start_date' | 'end_date' | 'percentage'>;
+export type IPromotionRequestPayload = Pick<
+  IPromotionRecord,
+  "name" | "description" | "start_date" | "end_date" | "percentage"
+>;
 export type IPromotionRequestForm = IPromotionRequestPayload;
 
 /**
@@ -72,11 +92,19 @@ export type INavItem = {
   label: string;
   link: string;
   scrollId: string;
-  category: "about" | "products" | "company" | "contact" | "assets" | "promotions" | "purchases" | "mobile";
+  category:
+    | "about"
+    | "products"
+    | "company"
+    | "contact"
+    | "assets"
+    | "promotions"
+    | "purchases"
+    | "mobile";
 };
 
 export type IMobileNavItem = INavItem & {
-  icon?: JSX.Element | undefined
+  icon?: JSX.Element | undefined;
 };
 
 export type ErrorFieldMsg = {

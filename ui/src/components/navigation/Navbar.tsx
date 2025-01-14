@@ -14,7 +14,7 @@ import MobileNavbar from "@/components/navigation/mobile/MobileNav";
 import { publicMobileNavList } from "@/components/navigation/mobile/mobile-nav.list";
 import useLocalStorage from "@/hooks/use-localstorage";
 import ShoppingCartBadge from "@/components/badges/ShoppingCartBadge";
-import { useAppDispatch } from "@/common/state/store";
+import { useAppDispatch, useAppSelector } from "@/common/state/store";
 
 
 type INavbarProps = {
@@ -23,13 +23,13 @@ type INavbarProps = {
 
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
   const { storedValue } = useLocalStorage<IProductRecord[]>('products', []);
+  const cartState = useAppSelector(store => store.checkout);
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(()=>{
-    // console.log('Products: Stored item is: ', storedValue);
     dispatch(setCheckoutCount(storedValue.length));
   },[ storedValue ]);
 
@@ -96,8 +96,8 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                 </Menu.Item>
                 { /* Shopping cart */}
                 <Menu.Item className="font-medium">
-                  <ShoppingCartBadge
-                    onBadgeClick={handleCartPageRoute}/>
+                  {Boolean(cartState.is_cart_displayed) ? <ShoppingCartBadge
+                    onBadgeClick={handleCartPageRoute}/> : <Fragment/>}
                 </Menu.Item>
                 {/* UserProfile */}
                 <Menu.Item className="font-medium dropdown">

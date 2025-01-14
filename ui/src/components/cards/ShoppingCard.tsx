@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -12,22 +12,29 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 // ..custom
 import productImg from "@/assets/images/product.png";
+import { ICartInventory } from "@/common/interfaces";
 
 type ISelectQuantityProps = {
+  defaultValue: number;
   onSelect: (factor: number) => void;
 };
 
-const SelectQuantity: FC<ISelectQuantityProps> = ({onSelect}) => {
-  const [value, setValue] = useState("1");
+type IShoppingCardProps = {
+  item: ICartInventory,
+  onChangeQuantity: (item: ICartInventory) => void,
+  onDeleteItem: (item: ICartInventory) => void,
+}
+
+const SelectQuantity: FC<ISelectQuantityProps> = ({ defaultValue, onSelect }) => {
   
   //..evt handlers
   const handleValueChange = (val: string) => {
     onSelect(parseInt(val));
-    setValue(val);
   };
 
+
   return (
-    <Select value={value} onValueChange={handleValueChange}>
+    <Select value={defaultValue.toString()} onValueChange={handleValueChange}>
       <SelectTrigger className="w-[150px]">
         <SelectValue placeholder="Select Quantity" />
       </SelectTrigger>
@@ -140,9 +147,16 @@ const SelectQuantity: FC<ISelectQuantityProps> = ({onSelect}) => {
   );
 }
 
-export const ShoppingCardItem: FC = () => {
-    const [factor, setFactor] = useState<number>(1);
-    const cost = 10;
+export const ShoppingCardItem: FC<IShoppingCardProps> = ({ item, onChangeQuantity, onDeleteItem }) => {
+
+    // ..evt handlers
+    const handleFactorChange = (qtity: number) => {
+      const newItem: ICartInventory = { item: item.item, count: qtity };
+      onChangeQuantity(newItem); 
+    };
+
+    const handleItemDelete = () => onDeleteItem(item);
+    
   return (
     <div className="flex items-center justify-between px-8 py-4 my-4 bg-gray-100 rounded-lg shadow-md dark:bg-gray-800 w-100">
       <section className="flex items-center">
@@ -152,23 +166,25 @@ export const ShoppingCardItem: FC = () => {
         />
         <div className="flex flex-col items-start justify-between p-2 mx-4">
           <h1 className="text-2xl font-bold text-center text-gray-600 dark:text-white">
-            ManaLiv
+            {item.item.name}
           </h1>
           <div className="flex flex-col items-start justify-between mt-4">
             <p className="mr-4 text-base">
-              Unit price: <span className="font-bold">${cost}</span>
+              Unit price: <span className="font-bold">${item.item.price}</span>
             </p>
             <div className="flex items-center mt-2">
               <span className="mr-2 font-bold">Quantity: </span>
-              <SelectQuantity onSelect={setFactor} />
+              <SelectQuantity defaultValue={item.count} onSelect={handleFactorChange} />
             </div>
           </div>
         </div>
       </section>
       <section className="flex items-center">
-        <p className="mr-4 text-xl font-bold lg:text-3xl">${factor * cost}</p>
-        <Button variant="destructive" size="icon" className="text-3xl">
-          <Trash2 />
+        <p className="mr-4 text-xl font-bold lg:text-3xl">${item.count * item.item.price}</p>
+        <Button
+          onClick={handleItemDelete}
+          variant="destructive" size="icon" className="text-3xl">
+            <Trash2 />
         </Button>
       </section>
     </div>

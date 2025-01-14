@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Button, Card } from "react-daisyui";
-import productLogo from "@/assets/images/products/CalcuNix-bottle.png";
 import { useAppSelector } from "@/common/state/store";
 import { addDecimalIfNotPresent } from "@/util/helper";
 import { ShoppingCart, ArrowRightIcon } from "lucide-react";
 import ProductThumbnailCarousel from "@/components/carousels/product/ProductThumbnailCarousel";
 import { IAssetRecord, IProductRecord } from "@/common/interfaces";
+import { useNavigate } from "react-router-dom";
 
 type IProductPreviewSectionProps = {
   onAddCart?: (item: IProductRecord) => void;
@@ -18,7 +18,11 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
   selectedProduct,
   isAdmin = false,
 }) => {  
-  const assetState = useAppSelector((state) => state.asset);  
+  const assetState = useAppSelector((state) => state.asset);
+  const navigate = useNavigate();
+
+  //..evt handlers
+  const handleCartNavigation = () => navigate('/my-cart');
 
   function getFilteredRecords() {
     let filteredRecords: IAssetRecord[] = [];
@@ -76,6 +80,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
               color={"ghost"}
               size={"sm"}
               className="mt-8"
+              onClick={handleCartNavigation}
             >
               View Cart
               <ArrowRightIcon size={16} />
