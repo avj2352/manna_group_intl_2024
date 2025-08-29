@@ -11,7 +11,9 @@ export const CompanyPage = lazy(() => import("@/pages/company/Company.page"));
 export const ProductPage = lazy(() => import("@/pages/products/Products.page"));
 export const ContactPage = lazy(() => import("@/pages/contact/Contact.page"));
 export const NotFoundPage = lazy(() => import("@/pages/400/NotFound.page"));
-export const ShoppingCartPage = lazy(() => import("@/pages/cart/ShoppingCart.page"));
+export const ShoppingCartPage = lazy(() => import("@/pages/checkout/ShoppingCart.page"));
+export const AddressShippingPage = lazy(() => import("@/pages/checkout/AddressShipping.page"));
+
 // ..admin
 export const AdminDashboardPage = lazy(
   () => import("@/pages/admin/AdminDashboard.page")
@@ -44,6 +46,7 @@ const ClientRouter: FC = () => {
         { element: <ProductPage />, path: "/products/:id" },
         { element: <ContactPage />, path: "/contact/:id" },
         { element: <ShoppingCartPage/>, path: "/my-cart" },
+        { element: <AddressShippingPage/>, path: '/shipping-address'},
       ],
     },
     {

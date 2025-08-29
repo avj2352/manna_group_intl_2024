@@ -9,6 +9,7 @@ OTC pharmaceuticals & Essential Oils. This is the new version of the website
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
 ## Important Links
+
 - [PostHog - Product analytics tool free](https://us.posthog.com/project/113825/products)
 - [Tuono - Fullstack Rust React Framework](https://tuono.dev)
 - [Typescript "satisfies" operator](https://www.freecodecamp.org/news/typescript-satisfies-operator/)
@@ -71,8 +72,8 @@ Data Model for an E-commerce Application
 ![Data Model](./design/data_model.jpg)
 
 ```bash
-
 ## User table is managed by Auth0
+
 User
 -----
 _id PK int
@@ -311,3 +312,105 @@ Shipment is handled directly by Manna. Status for Shipment to be reflected in we
 When users login, they can track their status in Manna Website.
 - In process, shipped, delivered - email for each status change
 - Notes: Tracking number, Shipment number
+
+# GDPR measures when storing Billing & Shipping Address
+
+When it comes to storing customer billing and shipping addresses in
+an ecommerce application while complying with GDPR, several key data protection measures must be implemented:
+
+## Data Minimization
+
+Collect only the necessary data for billing and shipping purposes. Avoid collecting
+excessive or irrelevant information. For example, limit address collection to essential
+fields like name, street address, city, postal code, and country.
+
+## Encryption and Security
+
+- Implement robust security measures to protect stored address data:
+- Use strong encryption for all personal data, including billing and shipping addresses.
+- Apply access controls to limit data access to only those employees who require it for their roles.
+- Conduct regular security audits to identify and address vulnerabilities in your systems.
+
+## Data Storage and Retention
+
+- Store address data only for as long as necessary for business purposes.
+- Implement a data retention policy that specifies how long address information will be kept and
+when it will be securely deleted.
+- Regularly review and purge unnecessary address data from your systems.
+
+## User Rights and Control
+
+- Provide customers with control over their address data:
+- Allow customers to easily view, edit, or delete their stored addresses.
+- Implement a simple process for handling data access and deletion requests.
+- Enable customers to choose which addresses they want to save for future use.
+
+## Consent and Transparency
+
+- Obtain explicit consent from customers before storing their address information
+for purposes beyond order fulfillment.
+- Clearly inform customers about how their address data will be used, stored,
+and protected in your privacy policy.
+
+## Third-Party Processors
+
+If using third-party services for order processing or fulfillment:
+- Ensure these services are GDPR-compliant.
+- Have data processing agreements in place with all third parties that handle customer address data6.
+
+## Documentation and Accountability
+
+Maintain detailed records of how address data is collected, processed, and stored.
+- Assign a team member or data protection officer to oversee GDPR compliance
+related to address data management.
+
+## Cross-Border Considerations
+
+If transferring address data outside the EU:
+- Ensure that the data is protected to GDPR standards, using approved mechanisms
+like Standard Contractual Clauses.
+- Keep address data within the EU or EU Commission approved countries when possible.
+
+By implementing these measures, ecommerce businesses can better protect customer billing
+and shipping address data in compliance with GDPR requirements, fostering trust and
+demonstrating commitment to data privacy.
+
+
+## WARNING - Cease & Desist Letter
+
+Subject: Cease and Desist - Copyright Infringement of Website Content including domain name
+Dear Sir/Madam,
+
+I am writing to formally notify you that the following website - https://mannacorpintl.com which was purchased
+using namescheap.com, is infringing on my exclusive copyrights by copying and reproducing the content of my
+website without authorization. The original website https://mannagroupintl.com is protected under United
+States copyright law, and the unlawful copying (which includes purchase of domain with similar name) is a
+serious matter that requires your immediate attention.
+
+It has come to my attention that the domain for the duplicate website "https://mannacorpintl.com" that is
+substantially similar to the original website, copying text, images, and layout without permission.
+This unauthorized use of the copyrighted material constitutes a clear violation of the original website /
+company intellectual property rights. As the rightful owner of this content, I demand that you take
+immediate action:
+
+- Cease the working of the domain purchased under namescheap - "mannacorpintl.com"
+- Remove all infringing content from the website
+- Cease any further use or distribution of my copyrighted material
+- Provide written confirmation of your compliance with these demands
+
+Please be advised that if you do not comply with these demands at the earliers, I will be forced to pursue
+further legal action. This may include seeking statutory damages of up to $150,000 per infringement,
+as set forth in Section 504(c)(2) of the U.S. Copyright Act.
+
+We have documented evidence of the infringement, including screenshots and archived versions of your website.
+This evidence will be used to support the company claim if necessary.
+
+To resolve this matter amicably, please respond in replying at the earliest,
+confirming that you have complied with the above demands.
+
+This letter is sent without prejudice to my legal rights, all of which are expressly reserved.
+
+Sincerely,
+George Varges
+Founder - Manna Group International
+https://mannagroupintl.com

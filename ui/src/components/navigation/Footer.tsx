@@ -15,7 +15,7 @@ type IFooterProps = {
   navList: INavItem[];
 };
 
-export const Footer: FC<IFooterProps> = ({ navList }) => {
+const Footer: FC<IFooterProps> = ({ navList }) => {
   return (
     <footer
       className="rounded-t-xl bg-neutral text-neutral-content"
@@ -144,3 +144,5 @@ export const Footer: FC<IFooterProps> = ({ navList }) => {
     </footer>
   );
 };
+
+export default Footer;

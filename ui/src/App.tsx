@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useCallback } from "react";
 import { HashRouter } from "react-router-dom";
-import { Footer } from "@/components/navigation/Footer";
+import Footer from "@/components/navigation/Footer";
 import { ThemeToggler } from "@/components/ThemeToggler";
 import { Toaster } from "@/components/ui/toaster"
 import { Theme, useTheme } from "react-daisyui";

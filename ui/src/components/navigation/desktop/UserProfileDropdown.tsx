@@ -45,10 +45,15 @@ const UserProfileDropdownWrapper: FC<{ children: ReactNode }> =({children}) => {
           <Ribbon className="w-4 h-4 mr-2" />
           <span>Role: Admin*</span>
         </DropdownMenuItem>}
-          <DropdownMenuItem>
+          <DropdownMenuItem
+              onClick={() => navigate('/my-cart')}>
+              <ShoppingCart className="w-4 h-4 mr-2" />
+            <span>My Cart</span>            
+          </DropdownMenuItem>                    
+        {/*<DropdownMenuItem>
               <CreditCard className="w-4 h-4 mr-2" />
             <span>My Orders</span>            
-          </DropdownMenuItem>                    
+          </DropdownMenuItem>*/}
         </DropdownMenuGroup>
         {authSate.isAdmin && (<Fragment>
           <DropdownMenuSeparator />

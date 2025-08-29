@@ -1,34 +1,40 @@
 import type { JSX } from "react";
-import { FC, Fragment, useEffect } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "react-daisyui";
 import { Wallet } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 // ..custom
 import { IProductRecord } from "@/common/interfaces";
 import useLocalStorage from "@/hooks/use-localstorage";
 import {ShoppingCardEmpty, ShoppingCardItem} from "@/components/cards/ShoppingCard";
 import { ICartInventory } from "@/common/interfaces/index";
+import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
 import { useAppSelector, useAppDispatch } from "@/common/state/store";
 import { ICheckoutState, setCartItems } from "@/common/state/features/checkout/checkout.slice";
 
 const ShoppingCartPage: FC = () => {
+  //..state
+  const navigate = useNavigate();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const [isDialogOpen, setIsDialogOpen] = useState(!isAuthenticated);
   const { storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>("products", []);
   const cartState: ICheckoutState = useAppSelector(store => store.checkout);
   const { cart_items } = cartState;
   const dispatch = useAppDispatch();
   
-  // console.log("ShoppingCartPage: Shopping cart items: ", storedValue);
 
   //..evt handlers
-  const handleItemQtityChanged = (it: ICartInventory) => {
-    console.log('Item quantity changed: ', it);
+  const handleLogin = () => loginWithRedirect();
+  
+  const handleItemQtityChanged = (it: ICartInventory) => {    
     const temp = cart_items.map((i: ICartInventory) => {
         if (i.item.product_id === it.item.product_id) {
           const record = { item: i.item, count: it.count};
           i = record;
         } 
         return i;
-    });
-    console.log('New items with qtity: ', temp);
+    });    
     dispatch(setCartItems(temp));
   };
 
@@ -51,14 +57,12 @@ const ShoppingCartPage: FC = () => {
   };
 
   useEffect(()=>{
-    if (storedValue.length === 0) return;
-    console.log('Creating unique items: ');
+    if (storedValue.length === 0) return;    
     dispatch(setCartItems(storedValue.reduce(populateCartInventory, [])));    
   },[]);
 
 
-  // get total price
-  console.log('Cart items: ', cart_items);
+  // get total price  
   const totalPrice: number = cart_items.reduce((acc: number, item: ICartInventory) => {
     acc += item.item.price * item.count;
     return acc;
@@ -87,14 +91,27 @@ const ShoppingCartPage: FC = () => {
             <p className="self-end text-2xl">
               Total <span className="font-bold">${totalPrice}</span>
             </p>
-            <Button color="primary">
+            <Button onClick={() => navigate('/shipping-address')} color="primary">
               <Wallet/> Checkout
             </Button>
         </section>
     </Fragment>);
   }
 
-  return (
+  return (<Fragment>
+    <CommonAppDialog
+            title="Login to Continue"
+            open={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}>
+            <section className="flex flex-col">
+              <p className="text-base">
+                You are currently not logged in. Please login to checkout items
+              </p>
+              <Button
+                onClick={handleLogin}
+                className="mt-4">Login</Button>
+            </section>
+          </CommonAppDialog>
     <div className="relative py-8 lg:py-24" id="shop-cart">
       <div className="container relative z-10">
         <h1 className="mt-16 font-bold leading-10 tracking-tight text-center lg:mt-4 text-brand-gradient text-3xl/tight sm:text-start">          
@@ -103,7 +120,7 @@ const ShoppingCartPage: FC = () => {
         {content}
         </div>
     </div>
-  );
+  </Fragment>);
 };
 
 export default ShoppingCartPage;

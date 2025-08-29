@@ -64,18 +64,19 @@ class Address(Base):
 
     _id = Column(Integer, primary_key=True)
     address_id = Column(String, unique=True)
-    type = Column(String(100), nullable=False)
-    street = Column(String(250), nullable=False)
-    city = Column(String(150), nullable=False)
-    state = Column(String(100), nullable=False)
-    zip = Column(String(100), nullable=False)
-    country = Column(String(100), nullable=False)
-    contact = Column(String(100), nullable=False)
-    email = Column(String(120), nullable=False)
+    title = Column(String(200), nullable=False)
+    street = Column(String(300), nullable=False)
+    city = Column(String(300), nullable=False)
+    state = Column(String(300), nullable=False)
+    zip = Column(String(300), nullable=False)
+    country = Column(String(300), nullable=False)
+    contact = Column(String(300), nullable=False)
+    email = Column(String(300), nullable=False)
     
     def __repr__(self):
         return f"<Address(id={self.id}),\
                 address_id='{self.address_id}', \
+                title='{self.title}', \
                 type='{self.type}', \
                 street='{self.street}', \
                 city='{self.city}', \
@@ -201,7 +202,14 @@ class OrderAddress(Base):
     
     id = Column(Integer, primary_key=True)
     order_id = Column(String, ForeignKey('orders.order_id'))
-    address_id = Column(String, ForeignKey('addresses.address_id'))
+    type = Column(String(150), nullable=False)
+    street = Column(String(300), nullable=False)
+    city = Column(String(300), nullable=False)
+    state = Column(String(300), nullable=False)
+    zip = Column(String(300), nullable=False)
+    country = Column(String(300), nullable=False)
+    contact = Column(String(300), nullable=False)
+    email = Column(String(300), nullable=False)
 
 class AssetProduct(Base):
     __tablename__ = 'asset_products'

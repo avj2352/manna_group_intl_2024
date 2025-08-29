@@ -33,6 +33,8 @@ CACHE_TTL = os.environ.get('CACHE_TTL') or None
 CACHE_TTL_DB = os.environ.get('CACHE_TTL_DB') or None
 CACHE_MAX_SIZE = os.environ.get('CACHE_MAX_SIZE') or None
 
+# Encryption
+KEY_SIGNATURE = os.environ.get('KEY_SIGNATURE') or ""
 
 # get cc recipients list
 def get_email_cc_list() -> list:

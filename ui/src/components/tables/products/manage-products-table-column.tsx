@@ -125,7 +125,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const record: IProductRecord = row.original;
-      const [isDisalogOpen, setIsDialogOpen] = useState(false);
+      const [isDialogOpen, setIsDialogOpen] = useState(false);
       const dispatch = useAppDispatch();
       const authState = useAppSelector((state) => state.auth);
 
@@ -134,7 +134,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
         <Fragment>
           <CommonAppDialog
             title="Delete Product ?"
-            open={isDisalogOpen}
+            open={isDialogOpen}
             onClose={() => setIsDialogOpen(false)}>
             <section className="flex flex-col">
               <p className="text-base">
