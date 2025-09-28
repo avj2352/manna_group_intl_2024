@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, Field, field_validator
 # custom
 from util.helper import is_part_of_list
@@ -11,6 +12,7 @@ class UserModel (BaseModel):
 class UserCreateModel (BaseModel):
     name: str = Field(title="user name", description="name is required and must be 1-50")
     email: str = Field(title="user email", description="email is required")
+    role: Optional[str] = Field(title="user role", description="user role - admin | customer", defaualt="customer")
     vendor: str = Field(title="oauth vendor", description="3rd party vendor - google-oauth2, facebook", default="facebook")    
     
     # custom validation

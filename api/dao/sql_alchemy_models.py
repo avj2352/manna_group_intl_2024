@@ -1,7 +1,11 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean
-from sqlalchemy.orm import declarative_base
+import logging
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Boolean, Engine
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 # ..custom
-from util.env_config import SQL_CONN, DB_NAME, DB_PASSWORD, DB_USERNAME
+from util.env_config import TURSO_DATABASE_URL, TURSO_AUTH_TOKEN
+from datetime import datetime
+from exceptions.custom_exceptions import TursoSQLException
+
 
 # Create a base class for declarative models
 Base = declarative_base()
@@ -49,6 +53,7 @@ class User(Base):
     user_id = Column(String(50), unique=True, nullable=False)
     name = Column(String(50), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
+    role = Column(String(50), nullable=False, default="customer")
     vendor = Column(String(120), nullable=False)
 
     def __repr__(self):
@@ -56,6 +61,7 @@ class User(Base):
         user_id='{self.user_id}', \
         name='{self.name}', \
         email={self.email}, \
+        role={self.role}, \
         vendor={self.vendor})>"
 
 # Address - entity
@@ -232,10 +238,37 @@ class AssetGallery(Base):
 # engine = create_engine('sqlite:///example.db')
 # Base.metadata.create_all(engine)
 
-def init():
-    # migration scripts
-    engine = create_engine(f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{SQL_CONN}/{DB_NAME}")
-    Base.metadata.create_all(engine)
+# ------------ SQL Connection Related ------------------------#
+# get connection
+def get_connection() -> Engine:
+    """
+        returns a sqllite connection
+    """
+    try:
+        sqllite_db = f"sqlite+{TURSO_DATABASE_URL}/?secure=true"
+        engine = create_engine(sqllite_db, connect_args={'auth_token': TURSO_AUTH_TOKEN}, echo=True)
+        return engine
+    except Exception as err:
+        logging.error(f"Error type: {err.__class__}")
+        logging.error(f"Error message: {str(err)}")
+        raise TursoSQLException()
 
+# init fn
+def init() -> None:
+    """
+        migration:
+        creates tables in sqllite db
+    """
+    try:
+        sqllite_db = f"sqlite+{TURSO_DATABASE_URL}/?secure=true"
+        engine = create_engine(sqllite_db, connect_args={'auth_token': TURSO_AUTH_TOKEN}, echo=True)
+        Base.metadata.create_all(engine)
+    except Exception as err:
+        logging.error(f"Error type: {err.__class__}")
+        logging.error(f"Error message: {str(err)}")
+        raise TursoSQLException()
+
+
+# module
 if __name__ == "__main__":
     init()

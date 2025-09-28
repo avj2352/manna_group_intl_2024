@@ -1,13 +1,16 @@
 # custom
 import logging
+import uuid
 import re
 from fastapi import HTTPException, status
+from fastapi_auth0.auth import Auth0
 # custom
 from util.env_config import AUTH0_DOMAIN, AUTH0_AUDIENCE
 from dao.user import check_user_is_admin_from_table
-from models.user import UserCreateModel, user_response_entity
+from models.user import UserCreateModel
 from dao.user import get_by_user_email, add_user_record
-from fastapi_auth0 import Auth0
+from dao.sql_alchemy_models import User
+
 
 auth_lib = Auth0(domain=AUTH0_DOMAIN, api_audience=AUTH0_AUDIENCE, scopes={})
 
@@ -15,7 +18,17 @@ class AuthService:
 
     # create new record
     def create_user(self, user: UserCreateModel) -> dict:
-        add_user_record(user)
+        logging.info("adding new record")
+        random_uuid = uuid.uuid4()
+        # create new record
+        new_record = User(
+            user_id = random_uuid,
+            name = user.name,
+            email = user.email,
+            role = user.role,
+            vendor = user.vendor
+        )
+        add_user_record(new_record)
         return {"message": "OK"}
     
     # get email and vendor from string
@@ -37,9 +50,9 @@ class AuthService:
     # check if user is present in admin table
     def check_user_is_admin(self, data: str) -> bool:
         user_details = self._parse_email_vendor(data)
-        email = user_details.get('email')
-        vendor = user_details.get('vendor')
-        logging.debug(f"Checking user details in db: {email}, {vendor}")
+        email = user_details.get('email', "")
+        vendor = user_details.get('vendor', "")
+        logging.info(f"->> Checking user details in db: {email}, {vendor}")
         return check_user_is_admin_from_table(email=email, vendor=vendor)
 
     def validate_admin(self, user: str):        
@@ -47,12 +60,12 @@ class AuthService:
         logging.debug("is user admin: {}".format(str(response)))
         if not response: raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Not an Admin")
         
-    def find_user_by_email_vendor(self, data: str):
+    def find_user_by_email_vendor(self, data: str) -> dict:
         logging.debug(f"find user by email : {data}")
         user_details = self._parse_email_vendor(data)
-        email = user_details.get('email')
-        vendor = user_details.get('vendor')
+        email = user_details.get('email', "")
+        vendor = user_details.get('vendor', "")
         logging.debug('Checking user details in db: {}, {}'.format(email, vendor))
         record = get_by_user_email(email=email)
-        logging.debug('User record details are: ', record)
+        logging.debug(f'->> User record details are: ', record)
         return {"email": email, "vendor": vendor}

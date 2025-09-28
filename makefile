@@ -37,8 +37,8 @@ cleanui:
 # start server
 server:
 	@echo 'Starting backend server...'
-	cd api && zsh run.sh
-		
+	cd api && uv run fastapi dev
+			
 # spin up ui in dev mode
 client:
 	@echo 'Starting develop instance..'

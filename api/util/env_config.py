@@ -5,17 +5,17 @@ for easy access
 NOTE: configured default values here as well
 '''
 import os
+from dotenv import load_dotenv
+# load dotenv
+load_dotenv()
 
 # auth0 related
 AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN') or None
 AUTH0_AUDIENCE = os.environ.get('AUTH0_AUDIENCE') or None 
 
 # database related
-SQL_CONN = os.environ.get('SQL_CONN') or None
-DB_NAME = os.environ.get('DB_NAME') or None
-DB_USERNAME = os.environ.get('DB_USERNAME') or None
-DB_PASSWORD = os.environ.get('DB_PASSWORD') or None
-MAX_DB_CONN = os.environ.get('MAX_DB_CONN') or None
+TURSO_DATABASE_URL = os.environ.get('TURSO_DATABASE_URL') or None
+TURSO_AUTH_TOKEN = os.environ.get('TURSO_AUTH_TOKEN') or None
 
 # Email admin details
 EMAIL_SENDER = os.environ.get('EMAIL_SENDER') or "intlpowerministries@gmail.com"

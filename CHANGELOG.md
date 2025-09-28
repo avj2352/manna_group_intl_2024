@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.6.0
+- 09/26/2025
+- Migrate database from AWS RDS to Turso
+- Create Manna DB cloud from Turso cloud platform
+
 ## v0.5.9
 - 01/05/2025
 - Add '"email"' field to Address entity - sql_alchemy_model.py ✅

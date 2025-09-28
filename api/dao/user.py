@@ -1,84 +1,98 @@
 """
-DAO layer for users table
-related queries
+   DAO layer for users table
+   related queries
 """
-from typing import Optional, Dict
-from psycopg2.extras import RealDictRow
-import psycopg2
+from typing import Optional, List
 import logging
-from sqlalchemy import select
-# ..custom
-from models.user import UserCreateModel
-from config.db import db_instance, generate_random_uuid, Session
-from dao.sql.sql_alchemy_models import User
+from sqlalchemy.orm import Session, sessionmaker
+## ..custom
+from dao.sql_alchemy_models import get_connection
+from dao.sql_alchemy_models import User
+from exceptions.custom_exceptions import UserDAOException
 
-def get_users():
-    logging.debug("DAO - get all admins")
+# init session class
+engine = get_connection()
+
+def get_users() -> Optional[List]:
+    """
+        Fetch all records
+        from users table
+    """
+    logging.debug("DAO - get all users")
     try:
-        session = Session()
-        stmt = select(User)
-        result = session.execute(stmt)
-        users = result.scalars().all()
-        return users
+        with Session(engine) as session:
+            users = session.query(User).all()
+            return users
     except Exception as err:
-        logging.info(f"Error querying SQL alchemy {err}")
-    finally:
-        session.close()
-            
+        logging.error(f"Error querying SQL alchemy {err.__class__}: {err}")    
+        raise UserDAOException("UserDAO Error! error reading records from users table")
 
-def get_by_user_id(user_id: str):
-    table_name = "users"
-    query = f"SELECT * FROM {table_name} WHERE user_id=%s"
-    logging.debug(f"Query to be executed: {query}")
-    return db_instance.execute_query_results(query, [user_id])
-
-
-def get_by_user_email(email: str):
-    table_name = "users"
-    query = f"SELECT * FROM {table_name} WHERE email=%s"
-    logging.debug(f"Query to be executed: {query}")
-    return db_instance.execute_query_results(query, [email])
+def get_by_user_email(email: str) -> Optional[User]:
+    """
+        Fetch user record by email
+        from users table
+        returns None if record doesn't exist
+    """
+    logging.debug("DAO - get user by email")
+    try:
+        with Session(engine) as session:
+            user: Optional[User] = session.query(User).filter_by(email=email).first()
+            return user
+    except Exception as err:
+        logging.error(f"Error querying SQL alchemy {err.__class__}: {err}")    
+        raise UserDAOException("UserDAO Error! error fetching user by email from users table")
 
 def check_user_is_admin_from_table(email: str, vendor: str) -> bool:
-    table_name = "users"
-    query = f"SELECT * FROM {table_name} WHERE email=%s AND vendor=%s"
-    logging.debug(f"Query to be executed: {query}")
-    try:        
-        result: Optional[RealDictRow] = db_instance.execute_query_result(query, params=[email, vendor])
-        logging.debug(f"result of checking admin: {result}")
-        return True if result else False
-    except(Exception, psycopg2.DatabaseError) as error:
-        logging.error("Error inserting values into table = users, {}".format(str(error)))
-        return False
-        
-
-def add_user_record(users: UserCreateModel) -> Optional[Dict]:   
-    table_name = "users" 
-    user_id = generate_random_uuid()
-    columns = ["user_id", "name", "email", "vendor"]
-    values = [user_id, users.name, users.email, users.vendor]
-    insert_query = f"""
-            INSERT INTO {table_name} ({','.join(columns)}) VALUES ({','.join(['%s' for _ in range(len(columns))])})
-            RETURNING *
-            """
-    logging.debug(f"Insert query: {insert_query}")
+    """
+        Checks from users table
+        if the record exists.
+        If record exists, then user is admin        
+    """
+    logging.debug("DAO - get user by email")
     try:
-        result: Optional[RealDictRow] = db_instance.execute_query_result(query=insert_query, params=values)
-        return dict(result) if result else None
-    except(Exception, psycopg2.DatabaseError) as error:
-        logging.error("Error inserting values into table = users, {}".format(str(error)))
-        return None
+        with Session(engine) as session:
+            user: Optional[User] = session.query(User)\
+                                    .filter_by(email=email, vendor=vendor, role="admin")\
+                                    .first()
+            return user is not None
+    except Exception as err:
+        logging.error(f"Error querying SQL alchemy {err.__class__}: {err}")    
+        return False
+
+def add_user_record(record: User) -> Optional[User]:
+    """
+        Add new record of User
+    """
+    logging.debug("DAO - adding new record")
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    try:
+        new_user = User(**record)
+        session.add(new_user)
+        session.commit()
+        print(f"User created: {new_user}")
+        return new_user
+    except Exception as e:
+        session.rollback()
+        print(f"Error creating user: {e}")
+    finally:
+        session.close()
+    
 
 def delete_user_record_by_email(email: str) -> bool:
-    table_name = "users"
-    column = "email"
-    delete_query = f"""
-                DELETE FROM {table_name} WHERE {column} = %s
-                """
-    logging.debug(f"{delete_query}")
+    """
+        Checks for user record with email
+        if record found, deletes -> returns True
+        for all else -> returns False
+    """
+    logging.debug("DAO - get user by email")
     try:
-        db_instance.execute_query(query=delete_query, params=[email])
-        return True
-    except(Exception, psycopg2.DatabaseError) as error:
-        logging.error("Error deleting record from table - {}, {}".format(table_name, str(error)))
+        with Session(engine) as session:
+            user: Optional[User] = session.query(User).filter_by(email=email).first()
+            if not user:
+                return False
+            session.delete(user)
+            return True
+    except Exception as err:
+        logging.error(f"Error querying SQL alchemy {err.__class__}: {err}")
         return False

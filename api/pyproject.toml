@@ -1,0 +1,21 @@
+[project]
+name = "manna-ecommerce"
+version = "0.6.0"
+description = "restful api for manna ecommerce website"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.37.9",
+    "fastapi-auth0>=0.5.0",
+    "fastapi[standard]>=0.115.11",
+    "pydantic-settings>=2.8.1",
+    "python-dateutil>=2.9.0.post0",
+    "python-dotenv>=1.0.1",
+    "pytz>=2025.1",
+    "scalar-fastapi>=1.0.3",
+    "sqlalchemy-libsql>=0.1.0",
+    "sqlalchemy>=2.0.38",
+    "cryptography>=44.0.2",
+    "cachetools>=5.5.2",
+    "uvicorn>=0.34.0",
+]
