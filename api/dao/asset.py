@@ -41,6 +41,7 @@ def get_asset_by_id(asset_id: str) -> Optional[Asset]:
             record: Optional[Asset] = session.query(Asset).filter(Asset.asset_id == asset_id).first()
             if record is None:
                 logging.debug(f"No record found for asset_id: {asset_id}")
+                return None
             return record
     except Exception as err:
         logging.error(f"Error querying SQL alchemy {err.__class__}: {err}")    
@@ -56,7 +57,13 @@ def add_asset_record(record: AssetModel) -> bool:
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
-        asset_record = Asset(**record)
+        asset_record = Asset(
+            asset_id = record.asset_id,
+            position = record.position,
+            asset_type = record.asset_type,
+            description = record.description,
+            asset_key = record.asset_key
+        )
         session.add(asset_record)
         session.commit()
         logging.info(f"Asset record added to table: {asset_record}")
@@ -79,7 +86,8 @@ def update_asset_record_by_id(record: AssetModel, asset_id: str) -> bool:
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
-        asset_to_update: Optional[Asset] = session.query(Asset).filter(Asset.asset_id == asset_id).first()
+        asset_to_update: Optional[Asset] = session.query(Asset)\
+                                        .filter(Asset.asset_id == asset_id).first()
         if asset_to_update is None:
             logging.error(f"Error updating asset record: no record found with id: {asset_id}")
             return False

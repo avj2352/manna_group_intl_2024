@@ -13,6 +13,16 @@ class AssetDAOException(Exception):
     def __init__(self, message="AssetDAO Error! error executing assets table operations"):
         self.message = message
         super().__init__(self.message)
+        
+class ProductDAOException(Exception):
+    def __init__(self, message="ProductDAO Error! error executing products table operations"):
+        self.message = message
+        super().__init__(self.message)
+
+class PromoDAOException(Exception):
+    def __init__(self, message="PromoDAO Error! error executing promotions table operations"):
+        self.message = message
+        super().__init__(self.message)
 
 
 # Custom Exception for S3 issues
@@ -27,11 +37,6 @@ class TursoSQLException(Exception):
         self.message = message
         super().__init__(self.message)
 
-# Custom Exception for DAO Layer
-class TimerDAOException(Exception):
-    def __init__(self, message="TimerDAO Error! error calling timers db"):
-        self.message = message
-        super().__init__(self.message)
 
 # Custom exception for tags
 class TagDAOException(Exception):

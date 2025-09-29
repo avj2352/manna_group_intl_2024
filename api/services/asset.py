@@ -10,6 +10,7 @@ from dao.asset import (get_asset_by_id,
     update_asset_record_by_id, 
     update_asset_position_by_id, delete_asset_record_by_id
 )
+from dao.sql_alchemy_models import Asset
 from models.asset import AssetModel, AssetRequestModel, AssetResponseModel
 from services.s3_file import FileService
 
@@ -39,21 +40,24 @@ class AssetService:
             return HTTPException(status_code=500, detail="Error retrieving record list")
     
     @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
-    def get_asset_by_asset_id(self, asset_id: str) -> Optional[List[AssetResponseModel]]:
+    def get_asset_by_asset_id(self, asset_id: str) -> AssetResponseModel:
         logging.debug(f"Service: retrieving record by asset_id: {asset_id}")
-        records = get_asset_by_id(asset_id=asset_id)
+        record: Optional[Asset] = get_asset_by_id(asset_id=asset_id)
+        if not record:
+            raise HTTPException(status_code=404, detail=f"No record found for id: {asset_id}")
         try:
-            return [AssetResponseModel(
+            payload = AssetResponseModel(
             asset_id=record.asset_id,
             position=record.position,
             asset_type=str(record.asset_type).lower(),
             description=record.description,
             asset_key=record.asset_key,
             url=self.file_service.create_presigned_url(MANNA_IMAGES_BUCKET, record.asset_key)
-            ) for record in records]
+            )
+            return payload
         except Exception as err:
             logging.error(f"Service - Error retrieving record list: {err.__class__} - {err}")
-            return HTTPException(status_code=500, detail="Error retrieving record list")
+            raise HTTPException(status_code=500, detail="Error retrieving record list")
     
     def add_asset_record(self, asset: AssetRequestModel):
         # Step 1: retrieve existing records length
@@ -69,7 +73,7 @@ class AssetService:
             description=asset.description,
             asset_key=asset.asset_key
         )
-        return add_asset_record(record)
+        return "success" if add_asset_record(record) else "failure"
     
     
     def update_asset_record_by_id(self, asset: AssetRequestModel, asset_id: str, position: int):        
@@ -82,15 +86,18 @@ class AssetService:
             description=asset.description,
             asset_key=asset.asset_key
         )
-        return update_asset_record_by_id(asset_id=asset_id, assets=record)
+        result = update_asset_record_by_id(asset_id=asset_id, record=record)
+        return "success" if result else "failure"
     
     
     def update_asset_position_by_id(self, position: int, asset_id: str):
         logging.debug(f"Service: update record position by id: {asset_id} and position: {position}")
-        return update_asset_position_by_id(position=position, asset_id=asset_id)
+        result = update_asset_position_by_id(position=position, asset_id=asset_id)
+        return "success" if result else "failure"
     
     def delete_asset_record_by_id(self, asset_id: str):
         logging.debug(f"Service: delete record by id: {asset_id}")
-        return delete_asset_record_by_id(asset_id=asset_id)
+        result = delete_asset_record_by_id(asset_id=asset_id)
+        return "success" if result else "failure"
     
     

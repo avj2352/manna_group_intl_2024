@@ -52,12 +52,12 @@ class ProductService:
             
     
     @cached(cache=TTLCache(maxsize=int(CACHE_MAX_SIZE), ttl=int(CACHE_TTL)))
-    def get_product_by_id(self, product_id: str) -> Optional[ProductResponseModel]:
+    def get_product_by_id(self, product_id: str) -> ProductResponseModel:
         logging.debug(f"Service: retrieving record by product_id: {product_id}")
         try:
             record: Optional[ProductModel] = get_product_by_id(product_id=product_id)
             if not record:
-                return None        
+                raise HTTPException(status_code=404, details=f"No record found for product id: {product_id}")        
             return ProductResponseModel(
             product_id=record.product_id,
                 name=record.name,
@@ -71,7 +71,7 @@ class ProductService:
             )
         except Exception as err:
             logging.error(f"Service - Error retrieving record list: {err.__class__} - {err}")
-            return HTTPException(status_code=500, detail="Error retrieving record list")
+            raise HTTPException(status_code=500, detail="Error retrieving record list")
     
     def add_product_record(self, product: ProductRequestModel, user_id: str):                        
         # create new record
@@ -88,11 +88,15 @@ class ProductService:
             currency=str(product.currency).lower(),
             quantity=product.quantity
         )
-        return add_product_record(new_record)
+        result = add_product_record(new_record)
+        return "success" if result else "failure"
+
     
     
     def delete_product_record_by_id(self, product_id: str):
         logging.debug(f"Service: delete record by id: {product_id}")
-        return delete_product_by_id(product_id=product_id)
+        result = delete_product_by_id(product_id=product_id)
+        return "success" if result else "failure"
+
     
     

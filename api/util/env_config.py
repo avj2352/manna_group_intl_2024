@@ -29,9 +29,9 @@ MANNA_IMAGES_BUCKET = os.environ.get('MANNA_IMAGES_BUCKET') or None
 MANNA_FILES_BUCKET = os.environ.get('MANNA_FILES_BUCKET') or None
 
 # Cache related
-CACHE_TTL = os.environ.get('CACHE_TTL') or None
-CACHE_TTL_DB = os.environ.get('CACHE_TTL_DB') or None
-CACHE_MAX_SIZE = os.environ.get('CACHE_MAX_SIZE') or None
+CACHE_TTL = os.environ.get('CACHE_TTL') or 86400
+CACHE_TTL_DB = os.environ.get('CACHE_TTL_DB') or 21600
+CACHE_MAX_SIZE = os.environ.get('CACHE_MAX_SIZE') or 6000
 
 # Encryption
 KEY_SIGNATURE = os.environ.get('KEY_SIGNATURE') or ""

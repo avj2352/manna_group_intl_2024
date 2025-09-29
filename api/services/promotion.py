@@ -43,15 +43,17 @@ class PromotionService:
     def get_promotion_by_id(self, promo_id: str) -> Optional[List[PromotionModel]]:
         logging.debug(f"Service: retrieving record by promotion id: {promo_id}")
         try:
-            records = get_promotion_by_id(promotion_id=promo_id)
-            return [PromotionModel(
+            record = get_promotion_by_id(promotion_id=promo_id)
+            if record is None:
+                raise HTTPException(status_code=404, detail=f"No record found for id: {promo_id}")
+            return PromotionModel(
                 promotion_id=record.promotion_id,
                 name=record.name,
                 description=record.description,
                 start_date=record.start_date,
                 end_date=record.end_date,
                 percentage=record.percentage 
-            ) for record in records]
+            )
         except Exception as err:
             logging.error(f"Service - Error retrieving record list: {err.__class__} - {err}")
             return HTTPException(status_code=500, detail="Error retrieving record list")
@@ -72,15 +74,14 @@ class PromotionService:
     def query_promotion_by_name_validity(self, promo_name: str, payload: PromoQueryRequestModel) -> PromoQueryResponseModel:
         logging.debug(f"Service: retrieving record by promo name: {promo_name}")
         try:
-            records = get_promotion_by_name(promo_name=promo_name)
-            if len(records) == 0:
+            record = get_promotion_by_name(promo_name=promo_name)
+            if record is None:
                 return PromoQueryResponseModel(
                     validity=False,
                     message="no promo code found",
                     details=None
                 )
-            elif len(records) > 0 and self._check_promo_validity(curr_date=payload.curr_date, record=records[0]):
-               record = records[0]
+            elif self._check_promo_validity(curr_date=payload.curr_date, record=record):
                return PromoQueryResponseModel(
                    validity=True,
                    message="promo code found",
@@ -117,7 +118,9 @@ class PromotionService:
             percentage=int(promo_record.percentage)
         )
         logging.debug(f"Service: create new record: {record}")                
-        return add_promotion_record(promo=record)
+        result = add_promotion_record(promo=record)
+        return "success" if result else "failure"
+
     
     
     def update_promo_by_id(self, promo_record: PromotionRequestModel, promo_id: str):        
@@ -131,12 +134,11 @@ class PromotionService:
             end_date=promo_record.end_date,
             percentage=int(promo_record.percentage)
         )           
-        return update_promotion_record_by_id(promotions=record, promotion_id=promo_id)
-    
-        
-    
+        result = update_promotion_record_by_id(promotion=record, promotion_id=promo_id)
+        return "success" if result else "failure"
+
+           
     def delete_promo_by_id(self, promo_id: str):
         logging.debug(f"Service: delete record by id: {promo_id}")
-        return delete_promotion_record_by_id(promotion_id=promo_id)
-    
-    
+        result = delete_promotion_record_by_id(promotion_id=promo_id)
+        return "success" if result else "failure"

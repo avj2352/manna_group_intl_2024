@@ -12,7 +12,7 @@ from resources.product import product_router
 from resources.promotion import promo_router
 from util.about import config, description
 # migration
-from dao.sql_alchemy_models import init
+# from dao.sql_alchemy_models import init
 
 
 # Create the APP
@@ -24,7 +24,7 @@ app = FastAPI(
 )
 
 # migration - create tables
-init()
+# init()
 
 # logging config
 logging.basicConfig(
