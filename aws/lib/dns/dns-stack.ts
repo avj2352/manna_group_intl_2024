@@ -34,7 +34,8 @@ import {
       // Request the wildcard TLS certificate, CDK will take care of domain ownership validation via
       // CNAME DNS entries in Route53, a custom resource will be used on our behalf
       this._certificate = new Certificate(this, "MannaGroupCertificate", {
-        domainName: apexDomain,        
+        domainName: apexDomain,
+        subjectAlternativeNames: [`www.${apexDomain}`],
         validation: CertificateValidation.fromDns(this._hostedZone),
       });
     }

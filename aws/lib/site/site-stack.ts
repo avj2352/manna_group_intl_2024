@@ -51,7 +51,7 @@ export class AppSiteStack extends Stack {
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       httpVersion: HttpVersion.HTTP2,
-      domainNames: [dnsName],
+      domainNames: [dnsName, `www.${dnsName}`],
       certificate: certificate,
     });
 
@@ -63,9 +63,16 @@ export class AppSiteStack extends Stack {
       distributionPaths: ["/*"],
     });
 
-    // create ARecord to porint cloudFront to dns
+    // create ARecord to point cloudFront to apex domain
     new ARecord(this, "MannaGroupIntlSiteARecordApex", {
       zone: hostedZone,
+      target: RecordTarget.fromAlias(new CloudFrontTarget(cloudFront)),
+    });
+
+    // create ARecord to point cloudFront to www subdomain
+    new ARecord(this, "MannaGroupIntlSiteARecordWWW", {
+      zone: hostedZone,
+      recordName: "www",
       target: RecordTarget.fromAlias(new CloudFrontTarget(cloudFront)),
     });
 

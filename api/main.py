@@ -87,11 +87,3 @@ app.include_router(router=asset_router, prefix='/assets', tags=["assets"])
 app.include_router(router=product_router, prefix='/products', tags=["products"])
 app.include_router(router=promo_router, prefix='/promotions', tags=["promotions"])
 app.include_router(router=files_router, prefix='/files', tags=["s3"])
-
-
-# message = "8 Tulip drive"
-# encrypted = encrypt_message(message=message, key=APP_KEY)
-# decrypted = decrypt_message(encrypted_message=encrypted, key=APP_KEY)
-# print(f"Encrpyted: {encrypted}")
-# print(f"Decrypted: {decrypted}")
-

@@ -19,6 +19,6 @@
 **/*.sh
 **/*_bkp
 **/fly.toml
-
-# CDK asset staging directory
-
+.jotdown-db.json
+justfile
+Makefile
