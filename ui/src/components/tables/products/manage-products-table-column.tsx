@@ -14,8 +14,8 @@ import {
 import { IProductRecord } from "@/common/interfaces";
 import { ArrowUpDown, Eye, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchProductDeleteAPI, fetchProductDetailsByIdAPI, setSelectedProduct } from "@/common/state/features/products/product.slice";
+import { useProductStore } from "@/common/state/features/products/product.slice";
+import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 import { addDecimalIfNotPresent } from "@/util/helper";
 
 // This type is used to define the shape of our data.
@@ -126,8 +126,8 @@ export const columns: ColumnDef<IProductRecord>[] = [
     cell: ({ row }) => {
       const record: IProductRecord = row.original;
       const [isDialogOpen, setIsDialogOpen] = useState(false);
-      const dispatch = useAppDispatch();
-      const authState = useAppSelector((state) => state.auth);
+      const { token } = useAuthStore();
+      const { fetchProductDeleteAPI, setSelectedProduct } = useProductStore();
 
 
       return (
@@ -141,10 +141,10 @@ export const columns: ColumnDef<IProductRecord>[] = [
                 Are you sure you want to delete the product ? This action cannot be undone
               </p>
               <Button
-                onClick={() => dispatch(fetchProductDeleteAPI({
+                onClick={() => fetchProductDeleteAPI({
                   id: record.product_id,
-                  token: authState.token
-                }))}
+                  token
+                })}
                 className="mt-4">Confirm Delete</Button>
             </section>
           </CommonAppDialog>
@@ -159,7 +159,7 @@ export const columns: ColumnDef<IProductRecord>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => dispatch(setSelectedProduct(record))}>
+                onClick={() => setSelectedProduct(record)}>
                 <Eye className="w-4 h-4 mr-2" />
                 View Product
               </DropdownMenuItem>              

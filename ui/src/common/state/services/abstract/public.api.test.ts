@@ -1,36 +1,36 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import axios from "axios";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import PublicAPIClient from "./public.api";
 
-vi.mock("axios");
-
 describe("PublicAPIClient", () => {
-  let client: PublicAPIClient;  
+  let client: PublicAPIClient;
 
   beforeEach(() => {
-    vi.resetAllMocks();
-    // Mock axios.create to return a mock instance
-    const mockAxiosInstance = {
-      interceptors: {
-        request: { use: vi.fn() },
-        response: { use: vi.fn() },
-      },
-      get: vi.fn(),
-    };
-    vi.mocked(axios.create).mockReturnValue(mockAxiosInstance as any);
-    client = new PublicAPIClient('http://localhost:8000/auth');
+    client = new PublicAPIClient("http://localhost:8000/auth");
   });
 
-  describe("constructor", () => {    
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
 
-    it("should call setupInterceptors", () => {
-      const setupInterceptorsSpy = vi.spyOn(
-        PublicAPIClient.prototype as any,
-        "setupInterceptors"
-      );
-      new PublicAPIClient('http://localhost:8000/auth');
-      expect(setupInterceptorsSpy).toHaveBeenCalled();
+  describe("constructor", () => {
+    it("should initialize baseURL and fetchClient", () => {
+      expect(client.baseURL).toBe("http://localhost:8000/auth");
+      expect(client.fetchClient).toBeDefined();
     });
-  });  
-  
+
+    it("should send Content-Type header on GET requests", async () => {
+      const mockResponse = { ok: true, json: vi.fn().mockResolvedValue({ ok: true }) };
+      vi.stubGlobal("fetch", vi.fn().mockResolvedValue(mockResponse));
+
+      await client.fetchClient.get("/test");
+
+      expect(fetch).toHaveBeenCalledWith(
+        "http://localhost:8000/auth/test",
+        expect.objectContaining({
+          method: "GET",
+          headers: expect.objectContaining({ "Content-Type": "application/json" }),
+        })
+      );
+    });
+  });
 });

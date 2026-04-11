@@ -1,160 +1,106 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import ProductAdminAPIClient from "../../services/products/product.admin.api";
-import ProductPublicAPIClient from "../../services/products/product.public.api";
+/**
+ * Product state store (Zustand)
+ */
+import { create } from "zustand";
+import ProductAdminAPIClient from "@/common/state/services/products/product.admin.api";
+import ProductPublicAPIClient from "@/common/state/services/products/product.public.api";
 import { IProductRecord, IProductRequestPayload } from "@/common/interfaces";
-
-const baseURL =
-  import.meta.env.VITE_PRODUCTS_API_URL ?? "http://localhost:8000/products";
-
-// ..API calls
-export const fetchProductListAPI = createAsyncThunk(
-  "product/fetchProductListAPI",
-  async (): Promise<any> => {
-    const productClient = new ProductPublicAPIClient(baseURL);
-    const response = await productClient.getProducts();    
-    return await response?.data;
-  }
-);
-
-export const fetchProductDetailsByIdAPI = createAsyncThunk(
-  "product/fetchProductDetailsByIdAPI",
-  async ({ id }: { id: string }): Promise<any> => {
-    const productClient = new ProductPublicAPIClient(baseURL);
-    const response = await productClient.getProductById(id);    
-    return await response?.data;
-  }
-);
-
-export const fetchProductPostFormAPI = createAsyncThunk(
-  "product/fetchProductPostFormAPI",
-  async ({ token, payload }: { token: string, payload: IProductRequestPayload }): Promise<any> => {
-    const productClient = new ProductAdminAPIClient(token, baseURL);
-    const response = await productClient.addProduct(payload);    
-    return await response?.data;
-  }
-);
-
-export const fetchProductDeleteAPI = createAsyncThunk(
-  "product/fetchProductDeleteAPI",
-  async ({ token, id }: { token: string, id: string }): Promise<any> => {
-    const productClient = new ProductAdminAPIClient(token, baseURL);
-    const response = await productClient.deleteProductById(id);    
-    return await response?.data;
-  }
-);
+import { VITE_PRODUCTS_API_URL } from "@/util/envConfig";
 
 export type IProductState = {
   product_list_status: "initial" | "pending" | "fulfilled" | "rejected";
   product_details_status: "initial" | "pending" | "fulfilled" | "rejected";
-  product_post_status: "initial" | "pending" | "fulfilled" | "rejected";  
+  product_post_status: "initial" | "pending" | "fulfilled" | "rejected";
   product_delete_status: "initial" | "pending" | "fulfilled" | "rejected";
   product_detail_record: unknown | undefined;
   product_details_response: string;
-  product_post_response: string;  
+  product_post_response: string;
   product_delete_response: string;
   product_list: IProductRecord[];
   selected_product: IProductRecord | undefined;
 };
 
-export const initialState: IProductState = {
+type ProductStore = IProductState & {
+  reset: () => void;
+  resetPost: () => void;
+  resetDetails: () => void;
+  resetDelete: () => void;
+  setSelectedProduct: (product: IProductRecord) => void;
+  resetSelectedProduct: () => void;
+  fetchProductListAPI: () => Promise<void>;
+  fetchProductDetailsByIdAPI: (params: { id: string }) => Promise<void>;
+  fetchProductPostFormAPI: (params: { token: string; payload: IProductRequestPayload }) => Promise<void>;
+  fetchProductDeleteAPI: (params: { token: string; id: string }) => Promise<void>;
+};
+
+const initialState: IProductState = {
   product_list_status: "initial",
   product_details_status: "initial",
-  product_post_status: "initial",  
+  product_post_status: "initial",
   product_delete_status: "initial",
   product_detail_record: undefined,
   product_details_response: "",
-  product_post_response: "",  
+  product_post_response: "",
   product_delete_response: "",
   product_list: [],
-  selected_product: undefined
+  selected_product: undefined,
 };
 
-export const ProductSlice = createSlice({
-  name: "productSlice",
-  initialState,
-  reducers: {
-    reset: (state, _: PayloadAction<{}>) => {
-        state.product_list_status = "initial",
-        state.product_details_status = "initial",
-        state.product_post_status = "initial",  
-        state.product_delete_status = "initial",
-        state.product_detail_record = undefined,
-        state.product_details_response = "",
-        state.product_post_response = "",  
-        state.product_delete_response = "",
-        state.product_list = []
-    },
-    resetPost: (state, _: PayloadAction<{}>) => {
-      state.product_post_status = "initial";
-      state.product_post_response = "";
-    },    
-    resetDetails: (state, _: PayloadAction<{}>) => {
-      state.product_details_status = "initial";
-      state.product_detail_record = undefined;
-      state.product_details_response = "";
-    },
-    resetDelete: (state, _: PayloadAction<{}>) => {
-      state.product_delete_status = "initial";
-      state.product_delete_response = "";
-    },
-    setSelectedProduct: (state, action: PayloadAction<IProductRecord>) => {
-      state.selected_product = action.payload;
-    },
-    resetSelectedProduct: (state, _: PayloadAction<{}>) => {
-      state.selected_product = undefined;
-    },
-  },
-  extraReducers: (builder) => {
-    // fetchProductListAPI
-    builder.addCase(fetchProductListAPI.pending, (state, _) => {
-      state.product_list_status = "pending";
-    });
-    builder.addCase(fetchProductListAPI.fulfilled, (state, action) => {
-      state.product_list_status = "fulfilled";
-      state.product_list = action.payload?.message;
-    });
-    builder.addCase(fetchProductListAPI.rejected, (state, _) => {
-      state.product_list_status = "rejected";
-    });
-    // fetchProductDetailsByIdAPI
-    builder.addCase(fetchProductDetailsByIdAPI.pending, (state, _) => {
-      state.product_details_status = "pending";
-    });
-    builder.addCase(fetchProductDetailsByIdAPI.fulfilled, (state, action) => {
-      state.product_details_status = "fulfilled";
-      state.product_detail_record = (action.payload?.message as unknown[])[0] ?? undefined;
-      state.product_details_response = "success!";
-    });
-    builder.addCase(fetchProductDetailsByIdAPI.rejected, (state, action) => {
-      state.product_details_status = "rejected";
-      state.product_details_response = (action.payload as unknown as any)?.message ?? "Error fetching record details!";
-    });
-    // fetchProductPostFormAPI
-    builder.addCase(fetchProductPostFormAPI.pending, (state, _) => {
-      state.product_post_status = "pending";
-    });
-    builder.addCase(fetchProductPostFormAPI.fulfilled, (state, _) => {
-      state.product_post_status = "fulfilled";
-      state.product_post_response = "New Product record created successfully!";
-    });
-    builder.addCase(fetchProductPostFormAPI.rejected, (state, action) => {
-      state.product_post_status = "rejected";
-      state.product_post_response = (action.payload as unknown as any)?.message ?? "Error creating product record!";
-    });   
-    // fetchProductDeleteAPI
-    builder.addCase(fetchProductDeleteAPI.pending, (state, _) => {
-      state.product_delete_status = "pending";
-    });
-    builder.addCase(fetchProductDeleteAPI.fulfilled, (state, _) => {
-      state.product_delete_status = "fulfilled";
-      state.product_delete_response = "Product record delete successfully!";
-    });
-    builder.addCase(fetchProductDeleteAPI.rejected, (state, action) => {
-      state.product_delete_status = "rejected";
-      state.product_delete_response = (action.payload as unknown as any)?.message ?? "Error deleting product record!";
-    });
-  },
-});
+export const useProductStore = create<ProductStore>((set) => ({
+  ...initialState,
+  reset: () => set(initialState),
+  resetPost: () => set({ product_post_status: "initial", product_post_response: "" }),
+  resetDetails: () => set({ product_details_status: "initial", product_detail_record: undefined, product_details_response: "" }),
+  resetDelete: () => set({ product_delete_status: "initial", product_delete_response: "" }),
+  setSelectedProduct: (product) => set({ selected_product: product }),
+  resetSelectedProduct: () => set({ selected_product: undefined }),
 
-export default ProductSlice.reducer;
-export const { reset, resetPost, resetDelete, resetDetails, setSelectedProduct, resetSelectedProduct } = ProductSlice.actions;
+  fetchProductListAPI: async () => {
+    set({ product_list_status: "pending" });
+    try {
+      const client = new ProductPublicAPIClient(VITE_PRODUCTS_API_URL);
+      const response = await client.getProducts();
+      set({ product_list_status: "fulfilled", product_list: response.data?.message ?? [] });
+    } catch {
+      set({ product_list_status: "rejected" });
+    }
+  },
+
+  fetchProductDetailsByIdAPI: async ({ id }) => {
+    set({ product_details_status: "pending" });
+    try {
+      const client = new ProductPublicAPIClient(VITE_PRODUCTS_API_URL);
+      const response = await client.getProductById(id);
+      const records = response.data?.message as unknown[];
+      set({
+        product_details_status: "fulfilled",
+        product_detail_record: records?.[0] ?? undefined,
+        product_details_response: "success!",
+      });
+    } catch {
+      set({ product_details_status: "rejected", product_details_response: "Error fetching record details!" });
+    }
+  },
+
+  fetchProductPostFormAPI: async ({ token, payload }) => {
+    set({ product_post_status: "pending" });
+    try {
+      const client = new ProductAdminAPIClient(token, VITE_PRODUCTS_API_URL);
+      await client.addProduct(payload);
+      set({ product_post_status: "fulfilled", product_post_response: "New Product record created successfully!" });
+    } catch {
+      set({ product_post_status: "rejected", product_post_response: "Error creating product record!" });
+    }
+  },
+
+  fetchProductDeleteAPI: async ({ token, id }) => {
+    set({ product_delete_status: "pending" });
+    try {
+      const client = new ProductAdminAPIClient(token, VITE_PRODUCTS_API_URL);
+      await client.deleteProductById(id);
+      set({ product_delete_status: "fulfilled", product_delete_response: "Product record delete successfully!" });
+    } catch {
+      set({ product_delete_status: "rejected", product_delete_response: "Error deleting product record!" });
+    }
+  },
+}));

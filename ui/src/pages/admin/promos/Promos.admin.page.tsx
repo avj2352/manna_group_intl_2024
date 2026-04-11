@@ -1,16 +1,14 @@
-import { FC, Fragment, useEffect } from "react";
+import { FC, useEffect } from "react";
 // ..custom
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { resetDetails } from "@/common/state/features/assets/asset.slice";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 import PromotionTableSection from "@/pages/admin/promos/sections/Promos.table.section";
 
 const AssetsAdminPage: FC = () => {
-  const promoState = useAppSelector(state => state.promos);
-  const dispatch = useAppDispatch();  
+  const { resetDetails } = useAssetStore();
 
   useEffect(()=>{
     return () => {
-      dispatch(resetDetails({}));
+      resetDetails();
     }
   },[]);
   

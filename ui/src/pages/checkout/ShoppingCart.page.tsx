@@ -10,8 +10,7 @@ import useLocalStorage from "@/hooks/use-localstorage";
 import {ShoppingCardEmpty, ShoppingCardItem} from "@/components/cards/ShoppingCard";
 import { ICartInventory } from "@/common/interfaces/index";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
-import { useAppSelector, useAppDispatch } from "@/common/state/store";
-import { ICheckoutState, setCartItems } from "@/common/state/features/checkout/checkout.slice";
+import { useCheckoutStore } from "@/common/state/features/checkout/checkout.slice";
 
 const ShoppingCartPage: FC = () => {
   //..state
@@ -19,9 +18,7 @@ const ShoppingCartPage: FC = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [isDialogOpen, setIsDialogOpen] = useState(!isAuthenticated);
   const { storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>("products", []);
-  const cartState: ICheckoutState = useAppSelector(store => store.checkout);
-  const { cart_items } = cartState;
-  const dispatch = useAppDispatch();
+  const { cart_items, setCartItems } = useCheckoutStore();
   
 
   //..evt handlers
@@ -35,13 +32,13 @@ const ShoppingCartPage: FC = () => {
         } 
         return i;
     });    
-    dispatch(setCartItems(temp));
+    setCartItems(temp);
   };
 
   
   const handleDeleteCartItem = (it: ICartInventory) => {
     const temp = cart_items.filter((i: ICartInventory) => i.item.product_id !== it.item.product_id);
-    dispatch(setCartItems(temp));
+    setCartItems(temp);
     // update count with new filtered items
     const newFlatItems = temp.flatMap((it: ICartInventory) => it.item);
     setStoredValue(newFlatItems);
@@ -58,7 +55,7 @@ const ShoppingCartPage: FC = () => {
 
   useEffect(()=>{
     if (storedValue.length === 0) return;    
-    dispatch(setCartItems(storedValue.reduce(populateCartInventory, [])));    
+    setCartItems(storedValue.reduce(populateCartInventory, []));
   },[]);
 
 

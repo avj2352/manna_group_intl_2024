@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/common/state/store";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 import AssetsMultiSelect from "@/components/autocomplete/AssetsMultiSelect";
 
 const assetZodSchema = z.object({
@@ -56,7 +56,7 @@ const AddEditProductForm: FC<IAddEditProductFormProps> = ({onSubmitForm}) => {
   });
 
   const navigate = useNavigate();
-  const assetState = useAppSelector((state) => state.asset);
+  const { asset_list } = useAssetStore();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -214,9 +214,9 @@ const AddEditProductForm: FC<IAddEditProductFormProps> = ({onSubmitForm}) => {
               <FormLabel>Selected Images for Product Cover: </FormLabel>    
               <FormControl>
                 <AssetsMultiSelect
-                  defaultList={assetState?.asset_list ?? []}                                    
+                  defaultList={asset_list ?? []}                                    
                   onValueChange={field.onChange}
-                  searchList={assetState?.asset_list ?? []}                  
+                  searchList={asset_list ?? []}                  
                 />
               </FormControl>
               <FormDescription>Select an asset</FormDescription>

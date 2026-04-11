@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IAssetRequestForm, IFileResponseRecord } from "@/common/interfaces";
-import { useAppSelector } from "@/common/state/store";
+import { useFileStore } from "@/common/state/features/assets/file.slice";
 import { SelectAutoComplete } from "@/components/autocomplete/FilesAutoComplete";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +46,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
   onFormSubmit,
 }) => {
   const navigate = useNavigate();
-  const fileState = useAppSelector((state) => state.files);
+  const { files_list } = useFileStore();
 
   const form = useForm< z.infer < typeof formSchema >>({
     defaultValues: {
@@ -154,7 +154,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
                 <SelectAutoComplete
                   title="Select File"                  
                   onValueChange={field.onChange}
-                  searchItems={fileState?.files_list?.map((item: IFileResponseRecord) => ({label: item.name, value: item.name})) ?? []}                  
+                  searchItems={files_list?.map((item: IFileResponseRecord) => ({label: item.name, value: item.name})) ?? []}                  
                 />
               </FormControl>
               <FormDescription>Select a file from S3 bucket</FormDescription>

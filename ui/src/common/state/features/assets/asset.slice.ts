@@ -1,56 +1,11 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import AssetAPIClient from "../../services/assets/asset.api";
-import AssetPublicAPIClient from "../../services/assets/asset.public.api";
+/**
+ * Asset state store (Zustand)
+ */
+import { create } from "zustand";
+import AssetAPIClient from "@/common/state/services/assets/asset.api";
+import AssetPublicAPIClient from "@/common/state/services/assets/asset.public.api";
 import { IAssetRecord, IAssetRequestPayload } from "@/common/interfaces";
-
-const baseURL =
-  import.meta.env.VITE_ASSETS_API_URL ?? "http://localhost:8000/assets";
-
-// ..API calls
-export const fetchAssetListAPI = createAsyncThunk(
-  "asset/fetchAssetListAPI",
-  async (): Promise<any> => {
-    const assetPubClient = new AssetPublicAPIClient(baseURL);
-    const response = await assetPubClient.getAssets();    
-    return await response?.data;
-  }
-);
-
-export const fetchAssetDetailsByIdAPI = createAsyncThunk(
-  "asset/fetchAssetDetailsByIdAPI",
-  async ({ token, id }: { token: string, id: string }): Promise<any> => {
-    const assetClient = new AssetAPIClient(token, baseURL);
-    const response = await assetClient.getAssetById(id);    
-    return await response?.data;
-  }
-);
-
-export const fetchAssetPostFormAPI = createAsyncThunk(
-  "asset/fetchAssetPostFormAPI",
-  async ({ token, payload }: { token: string, payload: IAssetRequestPayload }): Promise<any> => {
-    const assetClient = new AssetAPIClient(token, baseURL);
-    const response = await assetClient.postAsset(payload);    
-    return await response?.data;
-  }
-);
-
-export const fetchAssetUpdateFormAPI = createAsyncThunk(
-  "asset/fetchAssetUpdateFormAPI",
-  async ({ token, id, payload }: { token: string, id: string, payload: IAssetRequestPayload }): Promise<any> => {
-    const assetClient = new AssetAPIClient(token, baseURL);
-    const response = await assetClient.updateAssetDetailsById(id, payload);    
-    return await response?.data;
-  }
-);
-
-export const fetchAssetDeleteAPI = createAsyncThunk(
-  "asset/fetchAssetDeleteAPI",
-  async ({ token, id }: { token: string, id: string }): Promise<any> => {
-    const assetClient = new AssetAPIClient(token, baseURL);
-    const response = await assetClient.deleteAssetById(id);    
-    return await response?.data;
-  }
-);
+import { VITE_ASSETS_API_URL } from "@/util/envConfig";
 
 export type IAssetState = {
   asset_list_status: "initial" | "pending" | "fulfilled" | "rejected";
@@ -66,7 +21,21 @@ export type IAssetState = {
   asset_list: IAssetRecord[];
 };
 
-export const initialState: IAssetState = {
+type AssetStore = IAssetState & {
+  reset: () => void;
+  resetPost: () => void;
+  resetUpdate: () => void;
+  resetDetail: () => void;
+  resetDelete: () => void;
+  resetDetails: () => void;
+  fetchAssetListAPI: () => Promise<void>;
+  fetchAssetDetailsByIdAPI: (params: { token: string; id: string }) => Promise<void>;
+  fetchAssetPostFormAPI: (params: { token: string; payload: IAssetRequestPayload }) => Promise<void>;
+  fetchAssetUpdateFormAPI: (params: { token: string; id: string; payload: IAssetRequestPayload }) => Promise<void>;
+  fetchAssetDeleteAPI: (params: { token: string; id: string }) => Promise<void>;
+};
+
+const initialState: IAssetState = {
   asset_list_status: "initial",
   asset_details_status: "initial",
   asset_post_status: "initial",
@@ -77,107 +46,82 @@ export const initialState: IAssetState = {
   asset_post_response: "",
   asset_update_response: "",
   asset_delete_response: "",
-  asset_list: []
+  asset_list: [],
 };
 
-export const AssetSlice = createSlice({
-  name: "assetSlice",
-  initialState,
-  reducers: {
-    reset: (state, _: PayloadAction<{}>) => {
-      state.asset_list_status = "initial";
-      state.asset_post_status = "initial";
-      state.asset_update_status = "initial";
-      state.asset_post_response = "";
-      state.asset_update_response = "";
-      state.asset_list = [];
-    },
-    resetPost: (state, _: PayloadAction<{}>) => {
-      state.asset_post_status = "initial";
-      state.asset_post_response = "";
-    },
-    resetUpdate: (state, _: PayloadAction<{}>) => {
-      state.asset_update_status = "initial";
-      state.asset_update_response = "";
-    },
-    resetDetail: (state, _: PayloadAction<{}>) => {
-      state.asset_details_status = "initial";
-      state.asset_detail_record = undefined;
-      state.asset_details_response = "";
-    },
-    resetDelete: (state, _: PayloadAction<{}>) => {
-      state.asset_delete_status = "initial";
-      state.asset_delete_response = "";
-    },
-    resetDetails: (state, _: PayloadAction<{}>) => {
-      state.asset_details_status = "initial";
-      state.asset_detail_record = undefined;
-      state.asset_details_response = "";
+export const useAssetStore = create<AssetStore>((set) => ({
+  ...initialState,
+  reset: () => set({
+    asset_list_status: "initial",
+    asset_post_status: "initial",
+    asset_update_status: "initial",
+    asset_post_response: "",
+    asset_update_response: "",
+    asset_list: [],
+  }),
+  resetPost: () => set({ asset_post_status: "initial", asset_post_response: "" }),
+  resetUpdate: () => set({ asset_update_status: "initial", asset_update_response: "" }),
+  resetDetail: () => set({ asset_details_status: "initial", asset_detail_record: undefined, asset_details_response: "" }),
+  resetDelete: () => set({ asset_delete_status: "initial", asset_delete_response: "" }),
+  resetDetails: () => set({ asset_details_status: "initial", asset_detail_record: undefined, asset_details_response: "" }),
+
+  fetchAssetListAPI: async () => {
+    set({ asset_list_status: "pending" });
+    try {
+      const client = new AssetPublicAPIClient(VITE_ASSETS_API_URL);
+      const response = await client.getAssets();
+      set({ asset_list_status: "fulfilled", asset_list: response.data?.message ?? [] });
+    } catch {
+      set({ asset_list_status: "rejected" });
     }
   },
-  extraReducers: (builder) => {
-    // fetchAssetListAPI
-    builder.addCase(fetchAssetListAPI.pending, (state, _) => {
-      state.asset_list_status = "pending";
-    });
-    builder.addCase(fetchAssetListAPI.fulfilled, (state, action) => {
-      state.asset_list_status = "fulfilled";
-      state.asset_list = action.payload?.message;
-    });
-    builder.addCase(fetchAssetListAPI.rejected, (state, _) => {
-      state.asset_list_status = "rejected";
-    });
-    // fetchAssetDetailsByIdAPI
-    builder.addCase(fetchAssetDetailsByIdAPI.pending, (state, _) => {
-      state.asset_details_status = "pending";
-    });
-    builder.addCase(fetchAssetDetailsByIdAPI.fulfilled, (state, action) => {
-      state.asset_details_status = "fulfilled";
-      state.asset_detail_record = (action.payload?.message as IAssetRecord[])[0] ?? undefined;
-      state.asset_details_response = "success!";
-    });
-    builder.addCase(fetchAssetDetailsByIdAPI.rejected, (state, action) => {
-      state.asset_details_status = "rejected";
-      state.asset_details_response = (action.payload as unknown as any)?.message ?? "Error fetching record details!";
-    });
-    // fetchAssetPostFormAPI
-    builder.addCase(fetchAssetPostFormAPI.pending, (state, _) => {
-      state.asset_post_status = "pending";
-    });
-    builder.addCase(fetchAssetPostFormAPI.fulfilled, (state, _) => {
-      state.asset_post_status = "fulfilled";
-      state.asset_post_response = "New Asset record created successfully!";
-    });
-    builder.addCase(fetchAssetPostFormAPI.rejected, (state, action) => {
-      state.asset_post_status = "rejected";
-      state.asset_post_response = (action.payload as unknown as any)?.message ?? "Error creating asset record!";
-    });
-    // fetchAssetUpdateFormAPI
-    builder.addCase(fetchAssetUpdateFormAPI.pending, (state, _) => {
-      state.asset_update_status = "pending";
-    });
-    builder.addCase(fetchAssetUpdateFormAPI.fulfilled, (state, _) => {
-      state.asset_update_status = "fulfilled";
-      state.asset_update_response = "Asset record update successfully!";
-    });
-    builder.addCase(fetchAssetUpdateFormAPI.rejected, (state, action) => {
-      state.asset_update_status = "rejected";
-      state.asset_update_response = (action.payload as unknown as any)?.message ?? "Error updating asset record!";
-    });
-    // fetchAssetDeleteAPI
-    builder.addCase(fetchAssetDeleteAPI.pending, (state, _) => {
-      state.asset_delete_status = "pending";
-    });
-    builder.addCase(fetchAssetDeleteAPI.fulfilled, (state, _) => {
-      state.asset_delete_status = "fulfilled";
-      state.asset_delete_response = "Asset record delete successfully!";
-    });
-    builder.addCase(fetchAssetDeleteAPI.rejected, (state, action) => {
-      state.asset_delete_status = "rejected";
-      state.asset_delete_response = (action.payload as unknown as any)?.message ?? "Error deleting asset record!";
-    });
-  },
-});
 
-export default AssetSlice.reducer;
-export const { reset, resetPost, resetUpdate, resetDelete, resetDetails } = AssetSlice.actions;
+  fetchAssetDetailsByIdAPI: async ({ token, id }) => {
+    set({ asset_details_status: "pending" });
+    try {
+      const client = new AssetAPIClient(token, VITE_ASSETS_API_URL);
+      const response = await client.getAssetById(id);
+      const records = response.data?.message as IAssetRecord[];
+      set({
+        asset_details_status: "fulfilled",
+        asset_detail_record: records?.[0] ?? undefined,
+        asset_details_response: "success!",
+      });
+    } catch {
+      set({ asset_details_status: "rejected", asset_details_response: "Error fetching record details!" });
+    }
+  },
+
+  fetchAssetPostFormAPI: async ({ token, payload }) => {
+    set({ asset_post_status: "pending" });
+    try {
+      const client = new AssetAPIClient(token, VITE_ASSETS_API_URL);
+      await client.postAsset(payload);
+      set({ asset_post_status: "fulfilled", asset_post_response: "New Asset record created successfully!" });
+    } catch {
+      set({ asset_post_status: "rejected", asset_post_response: "Error creating asset record!" });
+    }
+  },
+
+  fetchAssetUpdateFormAPI: async ({ token, id, payload }) => {
+    set({ asset_update_status: "pending" });
+    try {
+      const client = new AssetAPIClient(token, VITE_ASSETS_API_URL);
+      await client.updateAssetDetailsById(id, payload);
+      set({ asset_update_status: "fulfilled", asset_update_response: "Asset record update successfully!" });
+    } catch {
+      set({ asset_update_status: "rejected", asset_update_response: "Error updating asset record!" });
+    }
+  },
+
+  fetchAssetDeleteAPI: async ({ token, id }) => {
+    set({ asset_delete_status: "pending" });
+    try {
+      const client = new AssetAPIClient(token, VITE_ASSETS_API_URL);
+      await client.deleteAssetById(id);
+      set({ asset_delete_status: "fulfilled", asset_delete_response: "Asset record delete successfully!" });
+    } catch {
+      set({ asset_delete_status: "rejected", asset_delete_response: "Error deleting asset record!" });
+    }
+  },
+}));

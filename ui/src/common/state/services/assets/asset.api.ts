@@ -5,28 +5,27 @@ import { IAssetRequestPayload } from "@/common/interfaces";
 import ProtectedAPIClient from "@/common/state/services/abstract/protected.api";
 
 export default class AssetAPIClient extends ProtectedAPIClient {
-  constructor(token: string, baseURL?: string) {    
-    super(token, baseURL ?? 'http://localhost:8000/assets');
-    // ..init
-  }  
+  constructor(token: string, baseURL?: string) {
+    super(token, baseURL ?? "http://localhost:8000/assets");
+  }
 
   public getAssetById<T = any>(id: string) {
-    return this.axiosInstance.get<T>(`/${id}`);
+    return this.fetchClient.get<T>(`/${id}`);
   }
 
   public postAsset<T = any>(payload: IAssetRequestPayload) {
-    return this.axiosInstance.post<T>(`/`, payload);
+    return this.fetchClient.post<T>(`/`, payload);
   }
 
   public updateAssetDetailsById<T = any>(id: string, payload: IAssetRequestPayload) {
-    return this.axiosInstance.put<T>(`/details/${id}`, payload);
+    return this.fetchClient.put<T>(`/details/${id}`, payload);
   }
 
   public updateAssetPositionById<T = any>(id: string, position: number) {
-    return this.axiosInstance.put<T>(`/position/${id}?position=${position}`);
+    return this.fetchClient.put<T>(`/position/${id}?position=${position}`);
   }
 
   public deleteAssetById<T = any>(id: string) {
-    return this.axiosInstance.delete<T>(`/${id}`);
+    return this.fetchClient.delete<T>(`/${id}`);
   }
 }

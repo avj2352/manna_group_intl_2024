@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
-// ..images
-import { setCheckoutCount } from "@/common/state/features/checkout/checkout.slice";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
+import { useCheckoutStore } from "@/common/state/features/checkout/checkout.slice";
+import { useProductStore } from "@/common/state/features/products/product.slice";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 import { IProductRecord } from "@/common/interfaces";
 import ProductPreviewSection from "@/pages/admin/products/sections/Product.preview.section";
 import Loader from "@/components/loaders/Loader";
@@ -10,9 +10,9 @@ import useLocalStorage from "@/hooks/use-localstorage";
 
 const ProductsPage: FC = () => {
   const { storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>('products', []);
-  const productState = useAppSelector((state) => state.products);
-  const assetState = useAppSelector((state) => state.asset);
-  const dispatch = useAppDispatch();
+  const { product_list } = useProductStore();
+  const { asset_list } = useAssetStore();
+  const { setCheckoutCount } = useCheckoutStore();
   const { id } = useParams();
 
   // evt handlers
@@ -23,9 +23,9 @@ const ProductsPage: FC = () => {
 
   useEffect(()=>{
     // console.log('Products: Stored item is: ', storedValue);
-    dispatch(setCheckoutCount(storedValue.length));
+    setCheckoutCount(storedValue.length);
   },[ storedValue ]);
-  
+
   useEffect(() => {
     if (Boolean(id) && id !== "") {
       document.getElementById(id)?.scrollIntoView({
@@ -38,14 +38,14 @@ const ProductsPage: FC = () => {
 
 
   if (
-    Boolean(productState.product_list) && 
-    productState.product_list.length > 0 &&
-    Boolean(assetState.asset_list) &&
-    assetState.asset_list.length > 0
+    Boolean(product_list) &&
+    product_list.length > 0 &&
+    Boolean(asset_list) &&
+    asset_list.length > 0
   ) {
     return (<section className="relative py-8 lg:py-24" id="shop-products">
       <div className="container relative z-10">
-        {productState.product_list.map((item: IProductRecord, idx: number) => (
+        {product_list.map((item: IProductRecord, idx: number) => (
           <ProductPreviewSection
             onAddCart={addToCartHandler}
             isAdmin={false}
@@ -55,7 +55,7 @@ const ProductsPage: FC = () => {
         ))}
       </div>
     </section>);
-  } else if (productState.product_list.length === 0 || assetState.asset_list.length === 0) {
+  } else if (product_list.length === 0 || asset_list.length === 0) {
     return (<section className="relative py-8 lg:py-24" id="shop-products">
       <div className="container relative z-10">
         <Loader display={true} text="loading products" />

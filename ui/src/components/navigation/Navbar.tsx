@@ -5,7 +5,6 @@ import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 // ..custom
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { setCheckoutCount } from "@/common/state/features/checkout/checkout.slice";
 import { INavItem } from "@/common/interfaces/index";
 import { IProductRecord } from "@/common/interfaces";
 import UserProfileDropdownWrapper from "@/components/navigation/desktop/UserProfileDropdown";
@@ -14,25 +13,22 @@ import MobileNavbar from "@/components/navigation/mobile/MobileNav";
 import { publicMobileNavList } from "@/components/navigation/mobile/mobile-nav.list";
 import useLocalStorage from "@/hooks/use-localstorage";
 import ShoppingCartBadge from "@/components/badges/ShoppingCartBadge";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-
+import { useCheckoutStore } from "@/common/state/features/checkout/checkout.slice";
 
 type INavbarProps = {
   navList: INavItem[];
 };
 
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
-  const { storedValue } = useLocalStorage<IProductRecord[]>('products', []);
-  const cartState = useAppSelector(store => store.checkout);
+  const { storedValue } = useLocalStorage<IProductRecord[]>("products", []);
+  const { is_cart_displayed, setCheckoutCount } = useCheckoutStore();
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    dispatch(setCheckoutCount(storedValue.length));
-  },[ storedValue ]);
-
+  useEffect(() => {
+    setCheckoutCount(storedValue.length);
+  }, [storedValue]);
 
   //..evt handlers
   const handleCartPageRoute = () => {
@@ -61,54 +57,59 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
           <Nav className="flex px-0">
             <Nav.Start className="gap-2 flex-1 min-w-[250px]" style={{ width: "100%" }}>
               <MobileNavbar navItems={publicMobileNavList} />
-              <a
-                href="#"
-                className="text-2xl font-bold tracking-tighter text-brand-gradient">
+              <a href="#" className="text-2xl font-bold tracking-tighter text-brand-gradient">
                 MGI
               </a>
             </Nav.Start>
 
             <Nav.End className="hidden w-full lg:flex flex-2">
               <Menu horizontal size="sm" className="items-center gap-2 px-1">
-                {/* About us */}
-                <Menu.Item className="font-medium dropdown">
-                 <NavbarDropdown
-                    navList={navList}
-                    label="About" filter={"about" as unknown as Pick<INavItem, "category">}/>
-                </Menu.Item>
-                {/* Products */}
-                <Menu.Item className="font-medium dropdown">
-                 <NavbarDropdown
-                    navList={navList}
-                    label="Products" filter={"products" as unknown as Pick<INavItem, "category">}/>
-                </Menu.Item>                
-                {/* Company */}
                 <Menu.Item className="font-medium dropdown">
                   <NavbarDropdown
-                      navList={navList}
-                      label="Company" filter={"company" as unknown as Pick<INavItem, "category">}/>
+                    navList={navList}
+                    label="About"
+                    filter={"about" as unknown as Pick<INavItem, "category">}
+                  />
                 </Menu.Item>
-                {/* Contact */}
                 <Menu.Item className="font-medium dropdown">
                   <NavbarDropdown
-                      navList={navList}
-                      label="Contact Us" filter={"contact" as unknown as Pick<INavItem, "category">}/>
+                    navList={navList}
+                    label="Products"
+                    filter={"products" as unknown as Pick<INavItem, "category">}
+                  />
                 </Menu.Item>
-                { /* Shopping cart */}
+                <Menu.Item className="font-medium dropdown">
+                  <NavbarDropdown
+                    navList={navList}
+                    label="Company"
+                    filter={"company" as unknown as Pick<INavItem, "category">}
+                  />
+                </Menu.Item>
+                <Menu.Item className="font-medium dropdown">
+                  <NavbarDropdown
+                    navList={navList}
+                    label="Contact Us"
+                    filter={"contact" as unknown as Pick<INavItem, "category">}
+                  />
+                </Menu.Item>
                 <Menu.Item className="font-medium">
-                  {Boolean(cartState.is_cart_displayed) ? <ShoppingCartBadge
-                    onBadgeClick={handleCartPageRoute}/> : <Fragment/>}
+                  {Boolean(is_cart_displayed) ? (
+                    <ShoppingCartBadge onBadgeClick={handleCartPageRoute} />
+                  ) : (
+                    <Fragment />
+                  )}
                 </Menu.Item>
-                {/* UserProfile */}
                 <Menu.Item className="font-medium dropdown">
                   {isAuthenticated ? (
                     <UserProfileDropdownWrapper>
                       <Fragment>
-                      <Avatar>
-                        <AvatarImage src={user?.picture} />
-                        <AvatarFallback>{user?.name?.substring(0,1).toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                      <ChevronDown />
+                        <Avatar>
+                          <AvatarImage src={user?.picture} />
+                          <AvatarFallback>
+                            {user?.name?.substring(0, 1).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <ChevronDown />
                       </Fragment>
                     </UserProfileDropdownWrapper>
                   ) : (

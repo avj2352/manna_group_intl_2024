@@ -1,52 +1,49 @@
 import { FC, Fragment, useCallback, useEffect } from "react";
-import { fetchAssetListAPI, resetDelete } from "@/common/state/features/assets/asset.slice";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 import { AssetAdminDataTable } from "@/components/tables/assets/AssetAdmin.table";
 import { columns } from "@/components/tables/assets/manage-assets-table-column";
 import { useToast } from "@/hooks/use-toast";
-// ..custom
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
 import Loader from "@/components/loaders/Loader";
 import { IAssetRecord } from "@/common/interfaces";
 
 
 const AssetTableSection: FC = () => {
     const { toast } = useToast();
-    const dispatch = useAppDispatch();    
-    const assetState = useAppSelector((state) => state.asset);
-  
-    const fetchAssetListAPIHandler = useCallback(()=>{      
-      dispatch(fetchAssetListAPI());
+    const { asset_list, asset_list_status, asset_delete_status, fetchAssetListAPI, resetDelete } = useAssetStore();
+
+    const fetchAssetListAPIHandler = useCallback(()=>{
+      fetchAssetListAPI();
     },[]);
-  
+
     useEffect(()=>{
       fetchAssetListAPIHandler();
     },[]);
 
     useEffect(()=>{
-      if (assetState.asset_delete_status === "fulfilled") {
+      if (asset_delete_status === "fulfilled") {
         toast({
           variant: "default",
           title: "Success",
           description: `Asset record has been deleted!`,
         });
-        dispatch(resetDelete({}));
-        fetchAssetListAPIHandler();         
+        resetDelete();
+        fetchAssetListAPIHandler();
       }
-      if (assetState.asset_delete_status === "rejected") {
+      if (asset_delete_status === "rejected") {
         toast({
           variant: "danger",
           title: "Error",
           description: `Error deleting asset record!`,
         });
-        dispatch(resetDelete({}));
+        resetDelete();
       }
-    },[assetState.asset_delete_status]);
-  
-    const isLoading = assetState.asset_list_status === "initial" ||
-                      assetState.asset_list_status === "pending" ||
-                      assetState.asset_delete_status === "pending";
-  
-    const sortedList: IAssetRecord[] = [...assetState.asset_list].sort((a, b) => a.position - b.position);
+    },[asset_delete_status]);
+
+    const isLoading = asset_list_status === "initial" ||
+                      asset_list_status === "pending" ||
+                      asset_delete_status === "pending";
+
+    const sortedList: IAssetRecord[] = [...asset_list].sort((a, b) => a.position - b.position);
     
     return (<Fragment>
         <div className="flex flex-col text-base flex-start">

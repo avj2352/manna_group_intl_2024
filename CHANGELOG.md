@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.0.0
+- 04/11/2026
+- Bump version to 2.0.0 across UI, API, and Infrastructure
+- Refactor UI: replace Redux Toolkit + react-redux with Zustand across all state slices and consuming components
+
+## v0.6.1
+- 04/11/2026
+- Refactor UI: replace axios with native fetch API across all API service clients
+- Refactor UI: centralise all env variable access through `src/util/envConfig.ts`; Theme Menu Dropdown version now driven by `VITE_APP_VERSION`
+
 ## v0.6.0
 - 09/26/2025
 - Migrate database from AWS RDS to Turso

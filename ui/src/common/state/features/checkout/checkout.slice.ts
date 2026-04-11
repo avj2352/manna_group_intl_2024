@@ -1,5 +1,8 @@
+/**
+ * Checkout state store (Zustand)
+ */
+import { create } from "zustand";
 import { ICartInventory } from "@/common/interfaces";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type ICheckoutState = {
   checkout_items: number;
@@ -8,47 +11,28 @@ export type ICheckoutState = {
   is_cart_displayed: boolean;
 };
 
-export const initialState: ICheckoutState = {
+type CheckoutStore = ICheckoutState & {
+  reset: () => void;
+  setCheckoutCount: (count: number) => void;
+  setCartItems: (items: ICartInventory[]) => void;
+  resetCartItems: () => void;
+  setTotalPrice: (price: number) => void;
+  setIsCartDisplayed: (display: boolean) => void;
+};
+
+const initialState: ICheckoutState = {
   checkout_items: 0,
   cart_items: [],
   total_price: 0,
   is_cart_displayed: true,
 };
 
-export const CheckoutSlice = createSlice({
-  name: "checkoutSlice",
-  initialState,
-  reducers: {
-    reset: (state, _: PayloadAction<{}>) => {
-      state.checkout_items = 0;
-      state.cart_items = [];
-      state.total_price = 0;
-      state.is_cart_displayed = true;
-    },
-    setCheckoutCount: (state, action: PayloadAction<number>) => {
-      state.checkout_items = action.payload;
-    },
-    setCartItems: (state, action: PayloadAction<ICartInventory[]>) => {
-      state.cart_items = action.payload;
-    },
-    resetCartItems: (state, _: PayloadAction<{}>) => {
-      state.cart_items = [];
-    },
-    setTotalPrice: (state, action: PayloadAction<number>) => {
-      state.total_price = action.payload;
-    },
-    setIsCartDisplayed: (state, action: PayloadAction<boolean>) => {
-      state.is_cart_displayed = action.payload;
-    },
-  },
-});
-
-export default CheckoutSlice.reducer;
-export const {
-  reset,
-  setCheckoutCount,
-  setCartItems,
-  setTotalPrice,
-  resetCartItems,
-  setIsCartDisplayed,
-} = CheckoutSlice.actions;
+export const useCheckoutStore = create<CheckoutStore>((set) => ({
+  ...initialState,
+  reset: () => set(initialState),
+  setCheckoutCount: (count) => set({ checkout_items: count }),
+  setCartItems: (items) => set({ cart_items: items }),
+  resetCartItems: () => set({ cart_items: [] }),
+  setTotalPrice: (price) => set({ total_price: price }),
+  setIsCartDisplayed: (display) => set({ is_cart_displayed: display }),
+}));

@@ -1,12 +1,12 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // ..custom
 import { useToast } from "@/hooks/use-toast";
 import AddEditAssetForm from "@/components/forms/assets/AddEditAsset.form";
 import Loader from "@/components/loaders/Loader";
-import { IAssetRecord, IAssetRequestForm, IAssetRequestPayload } from "@/common/interfaces";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchAssetDetailsByIdAPI, fetchAssetUpdateFormAPI, resetUpdate } from "@/common/state/features/assets/asset.slice";
+import { IAssetRequestForm, IAssetRequestPayload } from "@/common/interfaces";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
+import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 import { useNavigate } from "react-router-dom";
 
 const EditAssetAdminPage: FC = () => {
@@ -14,50 +14,47 @@ const EditAssetAdminPage: FC = () => {
     const params = useParams();
     const { toast } = useToast();
     const navigate = useNavigate();
-    const assetState = useAppSelector(state => state.asset);
-    const authState = useAppSelector(state => state.auth);
-    
-    // ..actions
-    const dispatch = useAppDispatch();
-    
+    const { asset_detail_record, asset_update_status, asset_details_status, fetchAssetDetailsByIdAPI, fetchAssetUpdateFormAPI, resetUpdate } = useAssetStore();
+    const { token } = useAuthStore();
+
     const handleFormSubmit = (data: IAssetRequestForm) => {
         console.log('Data to update: ', data);
-        dispatch(fetchAssetUpdateFormAPI({
+        fetchAssetUpdateFormAPI({
             id: params.id,
-            token: authState.token, 
-            payload: data as IAssetRequestPayload 
-        }));
+            token,
+            payload: data as IAssetRequestPayload
+        });
     };
-    
+
     useEffect(() => {
-        if (assetState.asset_update_status === "initial" || assetState.asset_update_status === "pending") return;
-        if (assetState.asset_update_status === "rejected") {
+        if (asset_update_status === "initial" || asset_update_status === "pending") return;
+        if (asset_update_status === "rejected") {
             toast({
                 variant: "default",
                 title: "Error",
                 description: `Error updating Asset record!`,
-            });  
+            });
         } else {
             toast({
                 variant: "success",
                 title: "Success",
                 description: `Asset record updated!`,
-            }); 
-            dispatch(resetUpdate({}));
-            navigate("/admin/assets")           
+            });
+            resetUpdate();
+            navigate("/admin/assets");
         }
-    },[assetState.asset_update_status]);
+    },[asset_update_status]);
 
     useEffect(()=>{
         const {id} = params;
         if (!Boolean(id)) return;
-        dispatch(fetchAssetDetailsByIdAPI({
+        fetchAssetDetailsByIdAPI({
             id: params.id,
-            token: authState.token, 
-        }));
+            token,
+        });
     },[params]);
-    
-    const isLoading = assetState.asset_update_status === "pending" || assetState.asset_details_status === "pending";
+
+    const isLoading = asset_update_status === "pending" || asset_details_status === "pending";
     
     return (
         <section className="relative py-8 lg:py-24" id="asset-admin-page">
@@ -71,7 +68,7 @@ const EditAssetAdminPage: FC = () => {
             )}
             <AddEditAssetForm
                 formType="edit"
-                data={assetState.asset_detail_record}
+                data={asset_detail_record}
                 onFormSubmit={handleFormSubmit}/>
         </div>
         </section>

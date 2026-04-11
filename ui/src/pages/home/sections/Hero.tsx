@@ -3,7 +3,6 @@ import familyImg from "@/assets/images/landing/family.jpg";
 import logoImg from "@/assets/images/logo-img.png";
 import { StarIcon } from "lucide-react";
 import { Card } from "react-daisyui";
-import Keypoints from "./Keypoints";
 
 export const Hero = () => {
   return (
@@ -76,8 +75,6 @@ export const Hero = () => {
             </div>
           </div>
         </div>
-        {/* 4 statistics icons */}
-        <Keypoints />
       </div>
     </section>
   );

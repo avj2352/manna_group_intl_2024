@@ -12,10 +12,10 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { IPromotionRecord } from "@/common/interfaces";
-import { ArrowUpDown, Pencil, Eye, Trash } from "lucide-react";
+import { ArrowUpDown, Pencil, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchPromoDeleteAPI } from "@/common/state/features/promotions/promo.slice";
+import { usePromoStore } from "@/common/state/features/promotions/promo.slice";
+import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 
 // This type is used to define the shape of our data.
 export const columns: ColumnDef<IPromotionRecord>[] = [
@@ -60,8 +60,8 @@ export const columns: ColumnDef<IPromotionRecord>[] = [
     cell: ({ row }) => {
       const record: IPromotionRecord = row.original;
       const [isDisalogOpen, setIsDialogOpen] = useState(false);
-      const dispatch = useAppDispatch();
-      const authState = useAppSelector((state) => state.auth);
+      const { token } = useAuthStore();
+      const { fetchPromoDeleteAPI } = usePromoStore();
 
       return (
         <Fragment>
@@ -76,14 +76,10 @@ export const columns: ColumnDef<IPromotionRecord>[] = [
                 be undone
               </p>
               <Button
-                onClick={() =>
-                  dispatch(
-                    fetchPromoDeleteAPI({
-                      id: record.promotion_id,
-                      token: authState.token,
-                    })
-                  )
-                }
+                onClick={() => fetchPromoDeleteAPI({
+                  id: record.promotion_id,
+                  token,
+                })}
                 className="mt-4"
               >
                 Confirm Delete

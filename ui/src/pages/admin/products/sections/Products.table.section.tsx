@@ -1,25 +1,17 @@
-import { FC, Fragment, useEffect, useCallback, useState } from "react";
+import { FC, Fragment, useEffect, useCallback } from "react";
 // ..custom
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
+import { useProductStore } from "@/common/state/features/products/product.slice";
 import Loader from "@/components/loaders/Loader";
 import { columns } from "@/components/tables/products/manage-products-table-column";
 import { ProductsAdminTable } from "@/components/tables/products/ProductsAdmin.table";
-import {
-  fetchProductListAPI,
-  resetDelete,
-} from "@/common/state/features/products/product.slice";
 import { useToast } from "@/hooks/use-toast";
-import { IProductRecord } from "@/common/interfaces";
-import ProductPreviewSection from "@/pages/admin/products/sections/Product.preview.section";
 
 const ProductsTableSection: FC = () => {
   const { toast } = useToast();
-  const productState = useAppSelector((state) => state.products);
-  const [selectedProduct, setSelectedProduct] = useState<IProductRecord | undefined>(undefined);  
-  const dispatch = useAppDispatch();
+  const { product_list, product_list_status, product_delete_status, fetchProductListAPI, resetDelete } = useProductStore();
 
   const fetchProductListAPIHandler = useCallback(() => {
-    dispatch(fetchProductListAPI());
+    fetchProductListAPI();
   }, []);
 
   useEffect(() => {
@@ -27,29 +19,29 @@ const ProductsTableSection: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (productState.product_delete_status === "fulfilled") {
+    if (product_delete_status === "fulfilled") {
       toast({
         variant: "default",
         title: "Success",
         description: `Asset record has been deleted!`,
       });
-      dispatch(resetDelete({}));
+      resetDelete();
       fetchProductListAPIHandler();
     }
-    if (productState.product_delete_status === "rejected") {
+    if (product_delete_status === "rejected") {
       toast({
         variant: "danger",
         title: "Error",
         description: `Error deleting asset record!`,
       });
-      dispatch(resetDelete({}));
+      resetDelete();
     }
-  }, [productState.product_delete_status]);
+  }, [product_delete_status]);
 
   const isLoading =
-    productState.product_list_status === "initial" ||
-    productState.product_list_status === "pending" ||
-    productState.product_delete_status === "pending";
+    product_list_status === "initial" ||
+    product_list_status === "pending" ||
+    product_delete_status === "pending";
 
   return (
     <Fragment>
@@ -65,9 +57,9 @@ const ProductsTableSection: FC = () => {
         {!isLoading && (
           <ProductsAdminTable
             columns={columns}
-            data={productState.product_list}
+            data={product_list}
           />
-        )}        
+        )}
       </div>
     </Fragment>
   );

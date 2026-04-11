@@ -1,40 +1,38 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import axios from "axios";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ProtectedAPIClient from "./protected.api";
-
-vi.mock("axios");
 
 describe("ProtectedAPIClient", () => {
   let client: ProtectedAPIClient;
   const mockToken = "test_token";
 
   beforeEach(() => {
-    vi.resetAllMocks();
-    // Mock axios.create to return a mock instance
-    const mockAxiosInstance = {
-      interceptors: {
-        request: { use: vi.fn() },
-        response: { use: vi.fn() },
-      },
-      get: vi.fn(),
-    };
-    vi.mocked(axios.create).mockReturnValue(mockAxiosInstance as any);
-    client = new ProtectedAPIClient(mockToken, 'http://localhost:8000/auth');
+    client = new ProtectedAPIClient(mockToken, "http://localhost:8000/auth");
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   describe("constructor", () => {
-    it("should initialize with a token and create an axios instance", () => {
-      expect(client["token"]).toBe(mockToken);      
+    it("should initialize with a token and create a fetchClient", () => {
+      expect(client.token).toBe(mockToken);
+      expect(client.fetchClient).toBeDefined();
     });
 
-    it("should call setupInterceptors", () => {
-      const setupInterceptorsSpy = vi.spyOn(
-        ProtectedAPIClient.prototype as any,
-        "setupInterceptors"
+    it("should send Authorization header in requests", async () => {
+      const mockResponse = { ok: true, json: vi.fn().mockResolvedValue({ isAdmin: true }) };
+      vi.stubGlobal("fetch", vi.fn().mockResolvedValue(mockResponse));
+
+      await client.fetchClient.get("/check-admin");
+
+      expect(fetch).toHaveBeenCalledWith(
+        "http://localhost:8000/auth/check-admin",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${mockToken}`,
+          }),
+        })
       );
-      new ProtectedAPIClient(mockToken, 'http://localhost:8000/auth');
-      expect(setupInterceptorsSpy).toHaveBeenCalled();
     });
-  });  
-  
+  });
 });

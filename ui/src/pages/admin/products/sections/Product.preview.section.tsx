@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Card } from "react-daisyui";
-import { useAppSelector } from "@/common/state/store";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 import { addDecimalIfNotPresent } from "@/util/helper";
 import { ShoppingCart, ArrowRightIcon } from "lucide-react";
 import ProductThumbnailCarousel from "@/components/carousels/product/ProductThumbnailCarousel";
@@ -18,7 +18,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
   selectedProduct,
   isAdmin = false,
 }) => {  
-  const assetState = useAppSelector((state) => state.asset);
+  const { asset_list } = useAssetStore();
   const navigate = useNavigate();
 
   //..evt handlers
@@ -27,7 +27,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
   function getFilteredRecords() {
     let filteredRecords: IAssetRecord[] = [];
     for (const record of selectedProduct?.assets) {
-      const temp = assetState?.asset_list?.filter(
+      const temp = asset_list?.filter(
         (item: IAssetRecord) => item.asset_id === record
       );
       filteredRecords = [...filteredRecords, ...temp];

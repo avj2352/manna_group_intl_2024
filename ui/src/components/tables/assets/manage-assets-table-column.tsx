@@ -14,8 +14,8 @@ import {
 import { IAssetRecord } from "@/common/interfaces";
 import { ArrowUpDown, Pencil, Eye, Trash } from "lucide-react";
 import CommonAppDialog from "@/components/dialogs/CommonApp.dialog";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchAssetDeleteAPI, fetchAssetDetailsByIdAPI } from "@/common/state/features/assets/asset.slice";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
+import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 
 // This type is used to define the shape of our data.
 export const columns: ColumnDef<IAssetRecord>[] = [
@@ -70,14 +70,14 @@ export const columns: ColumnDef<IAssetRecord>[] = [
     header: "URL",
     cell: ({ row }) => {
       const item: IAssetRecord = row.original;
-      const dispatch = useAppDispatch();
-      const authState = useAppSelector((state) => state.auth);
+      const { token } = useAuthStore();
+      const { fetchAssetDetailsByIdAPI } = useAssetStore();
       return (
         <Button
-        onClick={() => dispatch(fetchAssetDetailsByIdAPI({
+        onClick={() => fetchAssetDetailsByIdAPI({
           id: item.asset_id,
-          token: authState.token
-        }))} 
+          token
+        })}
           variant="ghost">
           <Eye className="w-4 h-4 mr-2" />
         </Button>
@@ -91,8 +91,8 @@ export const columns: ColumnDef<IAssetRecord>[] = [
     cell: ({ row }) => {
       const record: IAssetRecord = row.original;
       const [isDisalogOpen, setIsDialogOpen] = useState(false);
-      const dispatch = useAppDispatch();
-      const authState = useAppSelector((state) => state.auth);
+      const { token } = useAuthStore();
+      const { fetchAssetDeleteAPI, fetchAssetDetailsByIdAPI: viewAsset } = useAssetStore();
 
 
       return (
@@ -106,10 +106,10 @@ export const columns: ColumnDef<IAssetRecord>[] = [
                     Are you sure you want to delete the asset ? This action cannot be undone
                   </p>
                   <Button
-                    onClick={() => dispatch(fetchAssetDeleteAPI({
+                    onClick={() => fetchAssetDeleteAPI({
                       id: record.asset_id,
-                      token: authState.token
-                    }))} 
+                      token
+                    })}
                     className="mt-4">Confirm Delete</Button>
                 </section>
           </CommonAppDialog>
@@ -124,10 +124,10 @@ export const columns: ColumnDef<IAssetRecord>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => dispatch(fetchAssetDetailsByIdAPI({
+              onClick={() => viewAsset({
                 id: record.asset_id,
-                token: authState.token
-              }))}
+                token
+              })}
             >
               <Eye className="w-4 h-4 mr-2" />
               View Asset

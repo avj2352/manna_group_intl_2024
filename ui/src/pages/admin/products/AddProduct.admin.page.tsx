@@ -3,58 +3,55 @@ import { FC, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AddEditProductForm from "@/components/forms/products/AddEditProduct.form";
 import Loader from "@/components/loaders/Loader";
-import { IProductRequestPayload, IProductRequestForm, IAssetRecord } from "@/common/interfaces";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
-import { fetchProductPostFormAPI, resetPost } from "@/common/state/features/products/product.slice";
+import { IProductRequestForm, IAssetRecord } from "@/common/interfaces";
+import { useProductStore } from "@/common/state/features/products/product.slice";
+import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 import { useNavigate } from "react-router-dom";
 
 const AddProductAdminPage: FC = () => {
     // ..states
     const { toast } = useToast();
     const navigate = useNavigate();
-    const productState = useAppSelector(state => state.products);
-    const authState = useAppSelector(state => state.auth);
-    
-    // ..actions
-    const dispatch = useAppDispatch();
-    
+    const { product_post_status, fetchProductPostFormAPI, resetPost } = useProductStore();
+    const { token } = useAuthStore();
+
     const handleFormSubmit = (data: any) => {
         console.log('Add Product form details: ', data);
         const record:IProductRequestForm = {
-            'name': data?.product_name ?? '', 
-            'description': data?.product_description ?? '', 
-            'content': data?.product_content ?? '', 
-            'assets': data?.asset_key?.map((item: IAssetRecord) => item.asset_id), 
-            'currency': data?.product_currency ?? 'usd', 
-            'price': data?.product_price ?? 0, 
+            'name': data?.product_name ?? '',
+            'description': data?.product_description ?? '',
+            'content': data?.product_content ?? '',
+            'assets': data?.asset_key?.map((item: IAssetRecord) => item.asset_id),
+            'currency': data?.product_currency ?? 'usd',
+            'price': data?.product_price ?? 0,
             'quantity': data?.product_quantity ?? 0
         };
-        dispatch(fetchProductPostFormAPI({
-            token: authState.token, 
+        fetchProductPostFormAPI({
+            token,
             payload: record
-        }));
+        });
     };
-    
+
     useEffect(() => {
-        if (productState.product_post_status === "initial" || productState.product_post_status === "pending") return;
-        if (productState.product_post_status === "rejected") {
+        if (product_post_status === "initial" || product_post_status === "pending") return;
+        if (product_post_status === "rejected") {
             toast({
                 variant: "default",
                 title: "Error",
                 description: `Error creating Product record!`,
-            });  
+            });
         } else {
             toast({
                 variant: "success",
                 title: "Success",
                 description: `New Product created!`,
-            }); 
-            dispatch(resetPost({}));
+            });
+            resetPost();
             navigate("/admin/products");
         }
-    },[productState.product_post_status]);
-    
-    const isLoading = productState.product_post_status === "pending";
+    },[product_post_status]);
+
+    const isLoading = product_post_status === "pending";
     
     return (
         <section className="relative py-8 lg:py-24" id="add-product-admin-page">

@@ -1,26 +1,24 @@
 import { FC, Fragment, useEffect } from "react";
 import AssetTableSection from "@/pages/admin/assets/sections/Assets.table.section";
-import { useAppDispatch, useAppSelector } from "@/common/state/store";
+import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 import AssetPreviewSection from "./sections/Asset.preview.section";
-import { resetDetails } from "@/common/state/features/assets/asset.slice";
 
 const AssetsAdminPage: FC = () => {
-  const assetState = useAppSelector(state => state.asset);
-  const dispatch = useAppDispatch();  
+  const { asset_detail_record, resetDetails } = useAssetStore();
 
   useEffect(()=>{
     return () => {
-      dispatch(resetDetails({}));
+      resetDetails();
     }
   },[]);
-  
+
   return (
     <section className="relative py-8 lg:py-24" id="asset-admin-page">
-      <div className="container relative z-10">        
+      <div className="container relative z-10">
         <AssetTableSection/>
-        {Boolean(assetState.asset_detail_record) ? <AssetPreviewSection 
-          imageSource={assetState.asset_detail_record.url}
-          imageDescription={assetState.asset_detail_record.description}/> : <Fragment/>}
+        {Boolean(asset_detail_record) ? <AssetPreviewSection
+          imageSource={asset_detail_record.url}
+          imageDescription={asset_detail_record.description}/> : <Fragment/>}
       </div>
     </section>
   );

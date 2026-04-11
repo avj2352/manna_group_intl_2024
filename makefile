@@ -12,6 +12,11 @@ help:
 	@echo '- verify: build application and run it locally'
 	@echo '- deploy: deploy to aws'
 
+# show project tree structure
+tree:
+	@echo "show project tree..."
+	tree . -L 4 -I node_modules -I build -I cdk.out -I __pycache__
+
 # cleanup dist and aws/build
 clean:
 	@echo 'cleanup ui'
@@ -42,24 +47,24 @@ server:
 # spin up ui in dev mode
 client:
 	@echo 'Starting develop instance..'
-	cd ui && npm run dev
+	cd ui && bun run dev
 	open http://localhost:5173
 
 shadcn:
 	@echo 'Add Shadcn component'
-	cd ui && npx shadcn@latest add
+	cd ui && bunx shadcn@latest add
 
 test:
 	@echo 'Test CDK resources..'
-	cd aws && npm run test
+	cd aws && bun run test
 
 # build application
 build:
-	cd ui && npm run build
+	cd ui && bun run build
 
 # build application and test the build locally on 8080	
 verify:
-	cd ui && npm run build
+	cd ui && bun run build
 	cd ui && npx http-server dist & sleep 2 && open http://localhost:8080
 
 # deploy to aws
@@ -69,7 +74,7 @@ deploy:
 	cd aws && rm -rf build
 	cd aws && mkdir build
 	@echo 'build ui bundle..'
-	cd ui && npm run build
+	cd ui && bun run build
 	@echo 'deploy..'
 	cd ui && mv build ../aws/
 	@echo 'deploy complete!'
