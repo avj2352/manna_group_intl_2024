@@ -43,3 +43,8 @@ class TagDAOException(Exception):
     def __init__(self, message="TagDAO Error! error calling tags db"):
         self.message = message
         super().__init__(self.message)
+
+class OrderDAOException(Exception):
+    def __init__(self, message="OrderDAO Error! error executing orders table operations"):
+        self.message = message
+        super().__init__(self.message)

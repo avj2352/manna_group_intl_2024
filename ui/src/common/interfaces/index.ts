@@ -60,6 +60,49 @@ export type ICartInventory = {
   count: number;
 };
 
+///////////// ORDERS & CHECKOUT //////////////////
+
+export type IOrderItem = {
+  product_id: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
+
+export type IShippingAddress = {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  contact: string;
+  email: string;
+};
+
+export type ICreatePaymentIntentRequest = {
+  items: IOrderItem[];
+  currency: string;
+  promo_code?: string;
+};
+
+export type ICreateOrderRequest = {
+  payment_intent_id: string;
+  name: string;
+  items: IOrderItem[];
+  shipping_address: IShippingAddress;
+  promo_code?: string;
+};
+
+export type IOrderRecord = {
+  order_id: string;
+  name: string;
+  email: string;
+  stripe_invoice: string;
+  total_amount: number;
+  order_date: string;
+  order_status: string;
+};
+
 ///////////// PROMOTIONS //////////////////
 
 export type IPromotionRecord = {

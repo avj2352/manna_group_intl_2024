@@ -8,6 +8,7 @@ from scalar_fastapi import get_scalar_api_reference
 from resources.auth import auth_router
 from resources.asset import asset_router
 from resources.files import files_router
+from resources.order import order_router
 from resources.product import product_router
 from resources.promotion import promo_router
 from util.about import config, description
@@ -87,3 +88,4 @@ app.include_router(router=asset_router, prefix='/assets', tags=["assets"])
 app.include_router(router=product_router, prefix='/products', tags=["products"])
 app.include_router(router=promo_router, prefix='/promotions', tags=["promotions"])
 app.include_router(router=files_router, prefix='/files', tags=["s3"])
+app.include_router(router=order_router, prefix='/orders', tags=["orders"])

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.1.0
+- 04/19/2026
+- Add Stripe payment integration: PaymentIntent creation, card confirmation, and order persistence across API and UI
+- API: new `/orders` resource with `POST /create-payment-intent`, `POST /`, `GET /`, `GET /my-orders` endpoints; added `stripe==15.0.1` dependency via uv
+- UI: implemented full checkout flow on `/shipping-address` (shipping address form + Stripe CardElement); Admin purchases page now fetches real orders from API
+
 ## v2.0.0
 - 04/11/2026
 - Bump version to 2.0.0 across UI, API, and Infrastructure

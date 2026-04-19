@@ -1,53 +1,64 @@
-// Component to define columns
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { IOrderRecord } from "@/common/interfaces";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+const statusColor: Record<string, string> = {
+  confirmed: "badge-success",
+  pending: "badge-warning",
+  failed: "badge-error",
+  processing: "badge-info",
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<IOrderRecord>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "order_date",
+    header: "Date",
+  },
+  {
+    accessorKey: "name",
+    header: "Customer",
   },
   {
     accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "amount",
+    accessorKey: "order_status",
+    header: "Status",
+    cell: ({ row }) => {
+      const s: string = row.getValue("order_status");
+      return (
+        <span className={`badge ${statusColor[s] ?? "badge-ghost"} capitalize`}>
+          {s}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "total_amount",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const cents: number = row.getValue("total_amount");
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount);
-
+      }).format(cents / 100);
       return <div className="font-medium text-right">{formatted}</div>;
     },
   },
-  // actions
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const order = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -59,16 +70,19 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(order.order_id)}
             >
-              Copy payment ID
+              Copy Order ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(order.stripe_invoice)}
+            >
+              Copy Stripe Invoice ID
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
 ];

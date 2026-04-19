@@ -18,4 +18,5 @@ dependencies = [
     "cryptography>=44.0.2",
     "cachetools>=5.5.2",
     "uvicorn>=0.34.0",
+    "stripe>=15.0.1",
 ]

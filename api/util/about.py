@@ -5,7 +5,7 @@ from fastapi.security import HTTPBasic
 from pydantic_settings import BaseSettings
 from typing import List, Any
 
-API_VERSION: str = "2.0.0"
+API_VERSION: str = "2.1.0"
 
 description: str = f"""
 <p>
@@ -45,6 +45,10 @@ class GlobalConfig(BaseSettings):
         {
             "name": "s3",
             "description": "Consists of API collection to create, update, read & delete files on Manna website",
+        },
+        {
+            "name": "orders",
+            "description": "Consists of API collection to create Stripe payment intents, confirm payments, and manage orders",
         }
     ]
     title: str = "Manna Group Intl API"

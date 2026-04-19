@@ -36,6 +36,9 @@ CACHE_MAX_SIZE = os.environ.get('CACHE_MAX_SIZE') or 6000
 # Encryption
 KEY_SIGNATURE = os.environ.get('KEY_SIGNATURE') or ""
 
+# Stripe (secret key - server side only)
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY') or None
+
 # get cc recipients list
 def get_email_cc_list() -> list:
     list_string = EMAIL_CC or ''    

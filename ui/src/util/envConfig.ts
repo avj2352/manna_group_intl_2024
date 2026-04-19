@@ -28,3 +28,5 @@ export const VITE_PROMOTIONS_API_URL =
   import.meta.env.VITE_PROMOTIONS_API_URL || "http://localhost:8000/promotions";
 export const VITE_FILES_API_URL =
   import.meta.env.VITE_FILES_API_URL || "http://localhost:8000/files";
+export const VITE_ORDERS_API_URL =
+  import.meta.env.VITE_ORDERS_API_URL || "http://localhost:8000/orders";
