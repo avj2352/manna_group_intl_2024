@@ -6,21 +6,34 @@ import uuid
 from typing import List
 from sqlalchemy.orm import Session, sessionmaker
 # custom
-from dao.sql_alchemy_models import Order, OrderProduct, OrderAddress, get_connection
-from models.order import CreateOrderRequest, OrderResponse
+from dao.sql_alchemy_models import Order, OrderProduct, OrderAddress, OrderLineItem, get_connection
+from models.order import CreateOrderRequest, OrderResponse, OrderLineItemResponse
 from exceptions.custom_exceptions import OrderDAOException
 from util.helper import get_current_timestamp
 
 engine = get_connection()
 
 
+def _fetch_line_items(session: Session, order_id: str) -> List[OrderLineItemResponse]:
+    rows = session.query(OrderLineItem).filter(OrderLineItem.order_id == order_id).all()
+    return [
+        OrderLineItemResponse(
+            product_id=r.product_id,
+            name=r.name,
+            price_cents=r.price_cents,
+            quantity=r.quantity,
+        )
+        for r in rows
+    ]
+
+
 def create_order(order: CreateOrderRequest, email: str, total_amount: int, payment_intent_id: str) -> OrderResponse:
     """
-    Persist a new order with its products and shipping address.
+    Persist a new order with its line items, products mapping, and shipping address.
     Returns an OrderResponse on success.
     """
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    SessionLocal = sessionmaker(bind=engine)
+    session = SessionLocal()
     try:
         order_id = str(uuid.uuid4())
         order_date = get_current_timestamp()
@@ -38,12 +51,26 @@ def create_order(order: CreateOrderRequest, email: str, total_amount: int, payme
         session.add(order_record)
         session.flush()
 
-        # Link products to the order
+        line_items: List[OrderLineItemResponse] = []
         for item in order.items:
+            price_cents = round(item.price * 100)
+            session.add(OrderLineItem(
+                order_id=order_id,
+                product_id=item.product_id,
+                name=item.name,
+                price_cents=price_cents,
+                quantity=item.quantity,
+            ))
+            # Legacy mapping kept for backwards compatibility
             for _ in range(item.quantity):
                 session.add(OrderProduct(order_id=order_id, product_id=item.product_id))
+            line_items.append(OrderLineItemResponse(
+                product_id=item.product_id,
+                name=item.name,
+                price_cents=price_cents,
+                quantity=item.quantity,
+            ))
 
-        # Save shipping address inline on the order
         addr = order.shipping_address
         session.add(OrderAddress(
             order_id=order_id,
@@ -68,6 +95,7 @@ def create_order(order: CreateOrderRequest, email: str, total_amount: int, payme
             total_amount=total_amount,
             order_date=order_date,
             order_status="confirmed",
+            items=line_items,
         )
     except Exception as err:
         session.rollback()
@@ -78,7 +106,7 @@ def create_order(order: CreateOrderRequest, email: str, total_amount: int, payme
 
 
 def get_all_orders() -> List[OrderResponse]:
-    """Fetch all orders (admin use)."""
+    """Fetch all orders with their line items (admin use)."""
     try:
         with Session(engine) as session:
             orders = session.query(Order).all()
@@ -91,6 +119,7 @@ def get_all_orders() -> List[OrderResponse]:
                     total_amount=o.total_amount or 0,
                     order_date=o.order_date or "",
                     order_status=o.order_status or "",
+                    items=_fetch_line_items(session, o.order_id),
                 )
                 for o in orders
             ]
@@ -100,7 +129,7 @@ def get_all_orders() -> List[OrderResponse]:
 
 
 def get_orders_by_email(email: str) -> List[OrderResponse]:
-    """Fetch orders for a specific customer email."""
+    """Fetch orders (with line items) for a specific customer email."""
     try:
         with Session(engine) as session:
             orders = session.query(Order).filter(Order.email == email).all()
@@ -113,6 +142,7 @@ def get_orders_by_email(email: str) -> List[OrderResponse]:
                     total_amount=o.total_amount or 0,
                     order_date=o.order_date or "",
                     order_status=o.order_status or "",
+                    items=_fetch_line_items(session, o.order_id),
                 )
                 for o in orders
             ]

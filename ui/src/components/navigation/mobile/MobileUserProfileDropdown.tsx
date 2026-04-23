@@ -19,7 +19,7 @@ const MobileUserProfileDropdown: FC<IMobileUserProfileDropdownProps> = ({ onClos
         </p>
       </Menu.Item>
       <Menu.Item className="pl-4" onClick={() => onClose(false)}>
-        <a href="#/company/gallery-section">
+        <a href="#/my-profile">
           <CreditCard className="w-4 h-4 mr-2" /> My Orders
         </a>
       </Menu.Item>

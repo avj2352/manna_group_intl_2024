@@ -205,7 +205,7 @@ class OrderProduct(Base):
     
 class OrderAddress(Base):
     __tablename__ = 'order_addresses'
-    
+
     id = Column(Integer, primary_key=True)
     order_id = Column(String, ForeignKey('orders.order_id'))
     type = Column(String(150), nullable=False)
@@ -216,6 +216,17 @@ class OrderAddress(Base):
     country = Column(String(300), nullable=False)
     contact = Column(String(300), nullable=False)
     email = Column(String(300), nullable=False)
+
+
+class OrderLineItem(Base):
+    __tablename__ = 'order_line_items'
+
+    id = Column(Integer, primary_key=True)
+    order_id = Column(String, ForeignKey('orders.order_id'))
+    product_id = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    price_cents = Column(Integer, nullable=False)
+    quantity = Column(Integer, nullable=False)
 
 class AssetProduct(Base):
     __tablename__ = 'asset_products'

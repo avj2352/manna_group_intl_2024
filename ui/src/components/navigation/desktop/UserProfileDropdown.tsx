@@ -52,6 +52,10 @@ const UserProfileDropdownWrapper: FC<{ children: ReactNode }> = ({ children }) =
             <ShoppingCart className="w-4 h-4 mr-2" />
             <span>My Cart</span>
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/my-profile")}>
+            <User className="w-4 h-4 mr-2" />
+            <span>My Orders</span>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         {isAdmin && (
           <Fragment>

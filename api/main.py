@@ -24,7 +24,7 @@ app = FastAPI(
     openapi_tags = config.tags_metadata
 )
 
-# migration - create tables
+# migration - create tables (safe: uses CREATE TABLE IF NOT EXISTS)
 # init()
 
 # logging config

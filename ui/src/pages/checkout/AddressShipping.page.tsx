@@ -8,7 +8,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "react-daisyui";
 import { ShoppingBag, CreditCard, Loader2 } from "lucide-react";
-import { toast } from "sonner";
 // custom
 import { VITE_STRIPE_KEY, VITE_ORDERS_API_URL } from "@/util/envConfig";
 import { useCheckoutStore } from "@/common/state/features/checkout/checkout.slice";
@@ -46,6 +45,8 @@ const CheckoutForm: FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
+  const [processingFee, setProcessingFee] = useState<number | null>(null);
+  const [grandTotal, setGrandTotal] = useState<number | null>(null);
 
   const {
     register,
@@ -85,6 +86,8 @@ const CheckoutForm: FC = () => {
         client_secret: string;
         payment_intent_id: string;
         amount: number;
+        subtotal: number;
+        processing_fee: number;
         currency: string;
       }>({
         items: orderItems,
@@ -92,7 +95,9 @@ const CheckoutForm: FC = () => {
         promo_code: formValues.promo_code || undefined,
       });
 
-      const { client_secret, payment_intent_id } = piResponse.data;
+      const { client_secret, payment_intent_id, processing_fee, amount } = piResponse.data;
+      setProcessingFee(processing_fee / 100);
+      setGrandTotal(amount / 100);
 
       // 2. Confirm card payment via Stripe.js
       const { error: stripeError, paymentIntent } =
@@ -107,17 +112,27 @@ const CheckoutForm: FC = () => {
         });
 
       if (stripeError) {
-        setCardError(stripeError.message ?? "Card payment failed");
+        navigate("/order-failure", {
+          state: {
+            error_code: stripeError.code ?? "card_error",
+            error_message: stripeError.message ?? "Card payment failed.",
+          },
+        });
         return;
       }
 
       if (paymentIntent?.status !== "succeeded") {
-        setCardError("Payment was not completed. Please try again.");
+        navigate("/order-failure", {
+          state: {
+            error_code: "payment_incomplete",
+            error_message: "Payment was not completed. Please try again.",
+          },
+        });
         return;
       }
 
       // 3. Create the order record in the database
-      await client.createOrder({
+      const orderResponse = await client.createOrder<{ message: { order_id: string } }>({
         payment_intent_id,
         name: formValues.name,
         items: orderItems,
@@ -133,15 +148,27 @@ const CheckoutForm: FC = () => {
         promo_code: formValues.promo_code || undefined,
       });
 
-      // 4. Clear the cart
+      // 4. Clear the cart only on success
       resetCartItems();
       setStoredValue([]);
 
-      toast.success("Order placed successfully! Thank you for your purchase.");
-      navigate("/");
+      navigate("/order-success", {
+        state: {
+          order_id: orderResponse.data.message?.order_id ?? payment_intent_id,
+          payment_intent_id,
+          total_amount: grandTotal ?? totalPrice,
+          name: formValues.name,
+          items: orderItems,
+        },
+      });
     } catch (err: any) {
       console.error("Checkout error:", err);
-      toast.error(err?.message ?? "Something went wrong. Please try again.");
+      navigate("/order-failure", {
+        state: {
+          error_code: "server_error",
+          error_message: err?.message ?? "Something went wrong. Please try again.",
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -259,9 +286,23 @@ const CheckoutForm: FC = () => {
             </div>
           ))}
           <div className="divider my-1" />
+          <div className="flex justify-between text-sm">
+            <span>Subtotal</span>
+            <span>${totalPrice.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between text-sm text-base-content/60">
+            <span>
+              Processing fee (3%)
+              {processingFee === null && (
+                <span className="ml-1 opacity-50 italic text-xs">— calculated at payment</span>
+              )}
+            </span>
+            <span>{processingFee !== null ? `$${processingFee.toFixed(2)}` : "—"}</span>
+          </div>
+          <div className="divider my-1" />
           <div className="flex justify-between font-bold">
             <span>Total</span>
-            <span>${totalPrice.toFixed(2)}</span>
+            <span>{grandTotal !== null ? `$${grandTotal.toFixed(2)}` : `$${(totalPrice * 1.03).toFixed(2)}`}</span>
           </div>
         </div>
 
@@ -298,7 +339,7 @@ const CheckoutForm: FC = () => {
             </Fragment>
           ) : (
             <Fragment>
-              <CreditCard className="w-4 h-4 mr-2" /> Pay ${totalPrice.toFixed(2)}
+              <CreditCard className="w-4 h-4 mr-2" /> Pay ${grandTotal !== null ? grandTotal.toFixed(2) : (totalPrice * 1.03).toFixed(2)}
             </Fragment>
           )}
         </Button>

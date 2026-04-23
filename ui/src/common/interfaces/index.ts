@@ -93,6 +93,13 @@ export type ICreateOrderRequest = {
   promo_code?: string;
 };
 
+export type IOrderLineItem = {
+  product_id: string;
+  name: string;
+  price_cents: number;
+  quantity: number;
+};
+
 export type IOrderRecord = {
   order_id: string;
   name: string;
@@ -101,6 +108,7 @@ export type IOrderRecord = {
   total_amount: number;
   order_date: string;
   order_status: string;
+  items: IOrderLineItem[];
 };
 
 ///////////// PROMOTIONS //////////////////

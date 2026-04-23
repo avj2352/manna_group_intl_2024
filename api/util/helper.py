@@ -44,7 +44,7 @@ def get_current_timestamp() -> str:
     utc_zone = pytz.utc
     current_time = datetime.now(utc_zone)
     # format
-    formatted_time = current_time.strftime("%d, %b %Y %H:%M:%S")
+    formatted_time = current_time.strftime("%Y-%m-%dT%H:%M:%SZ")
     return formatted_time
 
 # Check if the string matches 

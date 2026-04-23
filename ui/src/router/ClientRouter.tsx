@@ -13,6 +13,9 @@ export const ContactPage = lazy(() => import("@/pages/contact/Contact.page"));
 export const NotFoundPage = lazy(() => import("@/pages/400/NotFound.page"));
 export const ShoppingCartPage = lazy(() => import("@/pages/checkout/ShoppingCart.page"));
 export const AddressShippingPage = lazy(() => import("@/pages/checkout/AddressShipping.page"));
+export const OrderSuccessPage = lazy(() => import("@/pages/checkout/OrderSuccess.page"));
+export const OrderFailurePage = lazy(() => import("@/pages/checkout/OrderFailure.page"));
+export const UserProfilePage = lazy(() => import("@/pages/profile/UserProfile.page"));
 
 // ..admin
 export const AdminDashboardPage = lazy(
@@ -47,6 +50,9 @@ const ClientRouter: FC = () => {
         { element: <ContactPage />, path: "/contact/:id" },
         { element: <ShoppingCartPage/>, path: "/my-cart" },
         { element: <AddressShippingPage/>, path: '/shipping-address'},
+        { element: <OrderSuccessPage/>, path: '/order-success'},
+        { element: <OrderFailurePage/>, path: '/order-failure'},
+        { element: <UserProfilePage/>, path: '/my-profile'},
       ],
     },
     {

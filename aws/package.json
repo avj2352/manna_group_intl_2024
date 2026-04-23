@@ -1,7 +1,7 @@
 {
   "name": "manna_grp_intl",
   "description": "aws cloudformation kit for manna group international",
-  "version": "2.1.0",
+  "version": "2.2.3",
   "bin": {
     "manna_grp_intl": "bin/manna_grp_intl.js"
   },

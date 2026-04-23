@@ -36,6 +36,13 @@ class CreateOrderRequest(BaseModel):
     promo_code: Optional[str] = None
 
 
+class OrderLineItemResponse(BaseModel):
+    product_id: str
+    name: str
+    price_cents: int
+    quantity: int
+
+
 class OrderResponse(BaseModel):
     order_id: str
     name: str
@@ -44,3 +51,4 @@ class OrderResponse(BaseModel):
     total_amount: int
     order_date: str
     order_status: str
+    items: List[OrderLineItemResponse] = []

@@ -2,7 +2,7 @@
   "name": "manna_grp_intl",
   "description": "manna group internation ecommerce react app",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.2.3",
   "type": "module",
   "scripts": {
     "dev": "vite",

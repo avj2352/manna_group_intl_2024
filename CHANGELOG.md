@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v2.2.3
+- 04/22/2026
+- UI: fix greyed-out text in Admin Purchases order items dialog by replacing CSS variable classes with hardcoded inline color styles to bypass Radix portal theme isolation
+
+## v2.2.2
+- 04/22/2026
+- API: new `order_line_items` table (auto-migrated on startup) stores item name, price, qty per order; `OrderResponse` now includes `items[]`; both `get_all_orders` and `get_orders_by_email` join line items
+- UI: Order Success page lists items ordered; User Profile order cards have expandable item breakdown; Admin Purchases table has a "View" button per row that opens an item detail dialog
+
+## v2.2.1
+- 04/22/2026
+- API: add 3% processing fee to PaymentIntent amount; set Stripe `description` (order details) and `statement_descriptor` ("Manna Group Intl") on every transaction; update description after order creation with order ID
+- UI: checkout order summary now shows subtotal, processing fee line, and grand total; Pay button reflects the final charged amount
+
+## v2.2.0
+- 04/22/2026
+- UI: add Order Success page (`/order-success`), Order Failure page (`/order-failure`), and User Profile / My Orders page (`/my-profile`); cart is cleared only on successful payment; "My Orders" link added to desktop and mobile nav dropdowns
+
 ## v2.1.0
 - 04/19/2026
 - Add Stripe payment integration: PaymentIntent creation, card confirmation, and order persistence across API and UI
