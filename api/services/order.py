@@ -90,7 +90,7 @@ class OrderService:
             logging.error(f"Service: Error creating PaymentIntent: {err.__class__} - {err}")
             raise HTTPException(status_code=500, detail="Error creating payment intent")
 
-    def create_order(self, payload: CreateOrderRequest, email: str) -> OrderResponse:
+    def create_order(self, payload: CreateOrderRequest, email: str, login_type: str = "sso") -> OrderResponse:
         """
         Verify the Stripe PaymentIntent is succeeded, then persist the order.
         Updates the PaymentIntent description with full order details.
@@ -110,6 +110,7 @@ class OrderService:
                 email=email,
                 total_amount=total_cents,
                 payment_intent_id=payload.payment_intent_id,
+                login_type=login_type,
             )
 
             # Update PaymentIntent with full order details for Stripe dashboard visibility

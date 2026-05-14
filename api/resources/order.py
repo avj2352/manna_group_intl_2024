@@ -44,7 +44,27 @@ def create_order(
     user_details = f"{user}"
     user_info = auth_service.find_user_by_email_vendor(user_details)
     email = user_info.get("email", "")
-    return {"message": order_service.create_order(payload=payload, email=email)}
+    return {"message": order_service.create_order(payload=payload, email=email, login_type=payload.login_type)}
+
+
+@order_router.post("/guest/create-payment-intent")
+def guest_create_payment_intent(payload: CreatePaymentIntentRequest):
+    """
+    Create a Stripe PaymentIntent for guest (unauthenticated) checkout.
+    """
+    logging.debug("Route: guest create-payment-intent")
+    return order_service.create_payment_intent(payload)
+
+
+@order_router.post("/guest")
+def guest_create_order(payload: CreateOrderRequest):
+    """
+    Create an order for a guest checkout (no Auth0 token required).
+    Email is taken from the shipping address since there is no authenticated user.
+    """
+    logging.debug("Route: guest create_order")
+    email = payload.shipping_address.email
+    return {"message": order_service.create_order(payload=payload, email=email, login_type="guest")}
 
 
 @order_router.get("/", dependencies=[Depends(auth_lib.implicit_scheme)])

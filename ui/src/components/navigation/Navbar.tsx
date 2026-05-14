@@ -14,6 +14,7 @@ import { publicMobileNavList } from "@/components/navigation/mobile/mobile-nav.l
 import useLocalStorage from "@/hooks/use-localstorage";
 import ShoppingCartBadge from "@/components/badges/ShoppingCartBadge";
 import { useCheckoutStore } from "@/common/state/features/checkout/checkout.slice";
+import AuthChoiceDialog from "@/components/dialogs/AuthChoice.dialog";
 
 type INavbarProps = {
   navList: INavItem[];
@@ -22,8 +23,9 @@ type INavbarProps = {
 export const Navbar: FC<INavbarProps> = ({ navList }) => {
   const { storedValue } = useLocalStorage<IProductRecord[]>("products", []);
   const { is_cart_displayed, setCheckoutCount } = useCheckoutStore();
-  const { isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
   const [atTop, setAtTop] = useState(true);
+  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +47,10 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
 
   return (
     <Fragment>
+      <AuthChoiceDialog
+        open={isAuthDialogOpen}
+        onClose={() => setIsAuthDialogOpen(false)}
+      />
       <div
         id="navbar-wrapper"
         className={`container fixed inset-x-0 top-0 z-[60] backdrop-blur-sm transition-all duration-500 ${
@@ -114,7 +120,7 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     </UserProfileDropdownWrapper>
                   ) : (
                     <Button
-                      onClick={() => loginWithRedirect()}
+                      onClick={() => setIsAuthDialogOpen(true)}
                       size={"sm"}
                       color={"primary"}
                     >

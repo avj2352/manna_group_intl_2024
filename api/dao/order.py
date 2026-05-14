@@ -27,7 +27,7 @@ def _fetch_line_items(session: Session, order_id: str) -> List[OrderLineItemResp
     ]
 
 
-def create_order(order: CreateOrderRequest, email: str, total_amount: int, payment_intent_id: str) -> OrderResponse:
+def create_order(order: CreateOrderRequest, email: str, total_amount: int, payment_intent_id: str, login_type: str = "sso") -> OrderResponse:
     """
     Persist a new order with its line items, products mapping, and shipping address.
     Returns an OrderResponse on success.
@@ -47,6 +47,7 @@ def create_order(order: CreateOrderRequest, email: str, total_amount: int, payme
             order_date=order_date,
             order_type="online",
             order_status="confirmed",
+            login_type=login_type,
         )
         session.add(order_record)
         session.flush()
@@ -95,6 +96,7 @@ def create_order(order: CreateOrderRequest, email: str, total_amount: int, payme
             total_amount=total_amount,
             order_date=order_date,
             order_status="confirmed",
+            login_type=login_type,
             items=line_items,
         )
     except Exception as err:
@@ -119,6 +121,7 @@ def get_all_orders() -> List[OrderResponse]:
                     total_amount=o.total_amount or 0,
                     order_date=o.order_date or "",
                     order_status=o.order_status or "",
+                    login_type=o.login_type or "sso",
                     items=_fetch_line_items(session, o.order_id),
                 )
                 for o in orders
@@ -142,6 +145,7 @@ def get_orders_by_email(email: str) -> List[OrderResponse]:
                     total_amount=o.total_amount or 0,
                     order_date=o.order_date or "",
                     order_status=o.order_status or "",
+                    login_type=o.login_type or "sso",
                     items=_fetch_line_items(session, o.order_id),
                 )
                 for o in orders

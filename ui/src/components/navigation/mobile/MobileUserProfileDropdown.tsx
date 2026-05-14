@@ -8,7 +8,7 @@ type IMobileUserProfileDropdownProps = {
 };
 
 const MobileUserProfileDropdown: FC<IMobileUserProfileDropdownProps> = ({ onClose }) => {
-  const { isAdmin } = useAuthStore();
+  const { isAdmin, isGuest } = useAuthStore();
 
   return (
     <Fragment>
@@ -18,11 +18,13 @@ const MobileUserProfileDropdown: FC<IMobileUserProfileDropdownProps> = ({ onClos
           {isAdmin ? "(Admin)*" : "(User)"}
         </p>
       </Menu.Item>
-      <Menu.Item className="pl-4" onClick={() => onClose(false)}>
-        <a href="#/my-profile">
-          <CreditCard className="w-4 h-4 mr-2" /> My Orders
-        </a>
-      </Menu.Item>
+      {!isGuest && (
+        <Menu.Item className="pl-4" onClick={() => onClose(false)}>
+          <a href="#/my-profile">
+            <CreditCard className="w-4 h-4 mr-2" /> My Orders
+          </a>
+        </Menu.Item>
+      )}
       {isAdmin && (
         <Fragment>
           <Menu.Item className="pl-4" onClick={() => onClose(false)}>

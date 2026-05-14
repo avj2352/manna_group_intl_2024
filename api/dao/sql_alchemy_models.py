@@ -123,7 +123,7 @@ class Product(Base):
 
 class Order(Base):
     __tablename__ = 'orders'
-    
+
     id = Column(Integer, primary_key=True)
     order_id = Column(String, unique=True)
     name = Column(String)
@@ -132,8 +132,9 @@ class Order(Base):
     total_amount = Column(Integer)
     order_date = Column(String)
     order_type = Column(String)
-    order_status = Column(String)    
-    
+    order_status = Column(String)
+    login_type = Column(String, nullable=True, default="sso")
+
     def __repr__(self):
         return f"<Order(id={self.id}, \
             order_id='{self.order_id}', \
@@ -143,7 +144,8 @@ class Order(Base):
             total_amount='{self.total_amount}',\
             order_date='{self.order_date}',\
             order_type='{self.order_type}',\
-            order_status='{self.order_status}')>"
+            order_status='{self.order_status}',\
+            login_type='{self.login_type}')>"
 
 class Asset(Base):
     __tablename__ = 'assets'
@@ -277,6 +279,28 @@ def init() -> None:
     except Exception as err:
         logging.error(f"Error type: {err.__class__}")
         logging.error(f"Error message: {str(err)}")
+        raise TursoSQLException()
+
+
+def migrate_add_login_type() -> None:
+    """
+    Idempotent migration: add login_type column to orders table if it doesn't exist.
+    Safe to run on every startup.
+    """
+    import sqlalchemy as sa
+    try:
+        sqllite_db = f"sqlite+{TURSO_DATABASE_URL}/?secure=true"
+        _engine = create_engine(sqllite_db, connect_args={'auth_token': TURSO_AUTH_TOKEN}, echo=False)
+        with _engine.begin() as conn:
+            result = conn.execute(sa.text("PRAGMA table_info(orders)"))
+            columns = [row[1] for row in result.fetchall()]
+            if "login_type" not in columns:
+                conn.execute(sa.text("ALTER TABLE orders ADD COLUMN login_type TEXT DEFAULT 'sso'"))
+                logging.info("Migration: added login_type column to orders table")
+            else:
+                logging.debug("Migration: login_type column already exists in orders table")
+    except Exception as err:
+        logging.error(f"Migration error: {err.__class__} - {err}")
         raise TursoSQLException()
 
 

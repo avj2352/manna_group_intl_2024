@@ -16,6 +16,7 @@ export type IAuthState = {
   token: string;
   user: IUser | undefined;
   isAdmin: boolean;
+  isGuest: boolean;
 };
 
 type AuthStore = IAuthState & {
@@ -23,6 +24,7 @@ type AuthStore = IAuthState & {
   setUserDetails: (user: IUser) => void;
   setToken: (token: string) => void;
   setIsAdmin: (isAdmin: boolean) => void;
+  setIsGuest: (isGuest: boolean) => void;
   fetchUserAdminDetailsAPI: (params: { token: string }) => Promise<void>;
 };
 
@@ -31,6 +33,7 @@ const initialState: IAuthState = {
   token: "",
   user: undefined,
   isAdmin: false,
+  isGuest: false,
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -39,6 +42,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   setUserDetails: (user) => set({ user }),
   setToken: (token) => set({ token }),
   setIsAdmin: (isAdmin) => set({ isAdmin }),
+  setIsGuest: (isGuest) => set({ isGuest }),
   fetchUserAdminDetailsAPI: async ({ token }) => {
     set({ auth_status: "pending" });
     try {

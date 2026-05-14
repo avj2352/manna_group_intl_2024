@@ -6,18 +6,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 // ..custom
 import MobileUserProfileDropdown from "./MobileUserProfileDropdown";
 import { IMobileNavItem } from "@/common/interfaces";
+import AuthChoiceDialog from "@/components/dialogs/AuthChoice.dialog";
 
 type IMobileNavbarProps = {
   navItems: IMobileNavItem[];
 };
 
 const MobileNavbar: FC<IMobileNavbarProps> = ({navItems}) => {
-  const { isAuthenticated, loginWithRedirect, user, logout } = useAuth0();
+  const { isAuthenticated, user, logout } = useAuth0();
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [isUserDropdown, toggleUserDropdown] = useState<boolean>(false);
+  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
 
   return (
     <Fragment>
+      <AuthChoiceDialog
+        open={isAuthDialogOpen}
+        onClose={() => setIsAuthDialogOpen(false)}
+      />
       <div className="flex-none lg:hidden">
         <Drawer
           open={drawerOpened}
@@ -59,7 +65,7 @@ const MobileNavbar: FC<IMobileNavbarProps> = ({navItems}) => {
               ) : (
                 <Menu.Item className="font-medium dropdown">
                   <Button
-                    onClick={() => loginWithRedirect()}
+                    onClick={() => { setDrawerOpened(false); setIsAuthDialogOpen(true); }}
                     size={"sm"}
                     color={"primary"}
                   >

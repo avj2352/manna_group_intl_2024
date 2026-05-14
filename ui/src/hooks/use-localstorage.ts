@@ -1,6 +1,7 @@
 /**
  * React custom hook to store, retrieve and remove
- * JSON data
+ * JSON data — syncs across all hook instances in the same tab via CustomEvent,
+ * and across browser tabs via the native storage event.
  */
 
 import { useState, useEffect } from "react";
@@ -9,36 +10,57 @@ const PREFIX: string = `manna_`;
 
 function useLocalStorage<T>(key: string, initialValue: T) {
   const prefixKey: string = `${PREFIX}${key}`;
+  const eventName = `manna-ls-update:${prefixKey}`;
 
-  // Get from local storage then
-  // parse stored json or return initialValue
   const readValue = (): T => {
     if (typeof window === "undefined") {
       return initialValue;
     }
-
     try {
       const item = window.localStorage.getItem(prefixKey);
-      return item ? JSON.parse(item) : initialValue;
+      return item ? (JSON.parse(item) as T) : initialValue;
     } catch (error) {
       console.warn(`Error reading localStorage key "${prefixKey}":`, error);
       return initialValue;
     }
   };
 
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState<T>(readValue());
+  const [storedValue, setState] = useState<T>(readValue);
+
+  const setStoredValue = (value: T | ((prev: T) => T)) => {
+    const nextValue =
+      typeof value === "function"
+        ? (value as (prev: T) => T)(storedValue)
+        : value;
+    try {
+      window.localStorage.setItem(prefixKey, JSON.stringify(nextValue));
+    } catch (error) {
+      console.warn(`Error setting localStorage key "${prefixKey}":`, error);
+    }
+    setState(nextValue);
+    // Notify all other hook instances on this page
+    window.dispatchEvent(new CustomEvent(eventName));
+  };
 
   const removeStoredValue = () => {
     setStoredValue(initialValue);
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(prefixKey, JSON.stringify(storedValue));
-    }
-  }, [storedValue]);
+    // Fired when any hook instance on this page calls setStoredValue
+    const onSamePageUpdate = () => setState(readValue());
+    // Fired when a different browser tab writes to the same key
+    const onCrossTabUpdate = (e: StorageEvent) => {
+      if (e.key === prefixKey) setState(readValue());
+    };
+
+    window.addEventListener(eventName, onSamePageUpdate);
+    window.addEventListener("storage", onCrossTabUpdate);
+    return () => {
+      window.removeEventListener(eventName, onSamePageUpdate);
+      window.removeEventListener("storage", onCrossTabUpdate);
+    };
+  }, []);
 
   return { storedValue, setStoredValue, removeStoredValue };
 }

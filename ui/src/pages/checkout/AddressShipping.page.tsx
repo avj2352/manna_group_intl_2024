@@ -14,6 +14,7 @@ import { useCheckoutStore } from "@/common/state/features/checkout/checkout.slic
 import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 import { ICartInventory, IOrderItem } from "@/common/interfaces";
 import OrderAPIClient from "@/common/state/services/orders/order.api";
+import GuestOrderAPIClient from "@/common/state/services/orders/guest-order.api";
 import useLocalStorage from "@/hooks/use-localstorage";
 import { IProductRecord } from "@/common/interfaces";
 
@@ -22,6 +23,7 @@ const stripePromise = loadStripe(VITE_STRIPE_KEY);
 // Zod schema for the shipping address form
 const shippingSchema = z.object({
   name: z.string().min(2, "Full name is required"),
+  email: z.string().optional(),
   street: z.string().min(3, "Street address is required"),
   city: z.string().min(2, "City is required"),
   state: z.string().min(2, "State is required"),
@@ -33,29 +35,59 @@ const shippingSchema = z.object({
 
 type ShippingFormValues = z.infer<typeof shippingSchema>;
 
+const guestShippingSchema = shippingSchema.extend({
+  email: z.string().email("Valid email is required"),
+});
+
 // ── Inner form component (must be inside <Elements>) ──────────────────────────
 const CheckoutForm: FC = () => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
 
-  const { cart_items, resetCartItems } = useCheckoutStore();
-  const { token, user } = useAuthStore();
-  const { setStoredValue } = useLocalStorage<IProductRecord[]>("products", []);
+  const { cart_items, resetCartItems, setCartItems, setCheckoutCount } = useCheckoutStore();
+  const { token, user, isGuest } = useAuthStore();
+  const { storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>("products", []);
+
+  // Hydrate cart from localStorage on direct navigation / page refresh
+  useEffect(() => {
+    if (cart_items.length === 0 && storedValue.length > 0) {
+      const grouped = storedValue.reduce(
+        (acc: { item: IProductRecord; count: number }[], item: IProductRecord) => {
+          const existing = acc.find((i) => i.item.product_id === item.product_id);
+          if (existing) { existing.count += 1; } else { acc.push({ item, count: 1 }); }
+          return acc;
+        },
+        []
+      );
+      setCartItems(grouped);
+      setCheckoutCount(storedValue.length);
+    }
+  }, []);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
   const [processingFee, setProcessingFee] = useState<number | null>(null);
   const [grandTotal, setGrandTotal] = useState<number | null>(null);
 
+  const { user: auth0User } = useAuth0();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset: resetForm,
   } = useForm<ShippingFormValues>({
-    resolver: zodResolver(shippingSchema),
+    resolver: zodResolver(isGuest ? guestShippingSchema : shippingSchema),
     defaultValues: { country: "US" },
   });
+
+  // Prefill name from Auth0 profile only for authenticated (non-guest) users
+  useEffect(() => {
+    if (!isGuest && auth0User?.name) {
+      resetForm((prev) => ({ ...prev, name: auth0User.name ?? "" }));
+    }
+  }, [auth0User?.name, isGuest]);
 
   // Build order items from cart
   const orderItems: IOrderItem[] = cart_items.map((ci: ICartInventory) => ({
@@ -70,6 +102,20 @@ const CheckoutForm: FC = () => {
     0
   );
 
+  // Derive login_type from Auth0 sub (e.g. "google-oauth2|..." → "google")
+  const deriveLoginType = (): string => {
+    if (isGuest) return "guest";
+    const sub = auth0User?.sub ?? "";
+    if (sub.startsWith("google-oauth2")) return "google";
+    if (sub.startsWith("github")) return "github";
+    if (sub.startsWith("facebook")) return "facebook";
+    if (sub.startsWith("twitter")) return "twitter";
+    if (sub.startsWith("windowslive")) return "microsoft";
+    if (sub.startsWith("linkedin")) return "linkedin";
+    if (sub.startsWith("auth0")) return "auth0";
+    return "sso";
+  };
+
   const onSubmit = async (formValues: ShippingFormValues) => {
     if (!stripe || !elements) return;
     const cardElement = elements.getElement(CardElement);
@@ -78,8 +124,13 @@ const CheckoutForm: FC = () => {
     setIsSubmitting(true);
     setCardError(null);
 
+    const loginType = deriveLoginType();
+
     try {
-      const client = new OrderAPIClient(token, VITE_ORDERS_API_URL);
+      // Use guest client (no auth header) or authenticated client
+      const client = isGuest
+        ? new GuestOrderAPIClient(VITE_ORDERS_API_URL)
+        : new OrderAPIClient(token, VITE_ORDERS_API_URL);
 
       // 1. Create PaymentIntent on the server
       const piResponse = await client.createPaymentIntent<{
@@ -106,7 +157,7 @@ const CheckoutForm: FC = () => {
             card: cardElement,
             billing_details: {
               name: formValues.name,
-              email: user?.email,
+              email: isGuest ? formValues.email : user?.email,
             },
           },
         });
@@ -135,6 +186,7 @@ const CheckoutForm: FC = () => {
       const orderResponse = await client.createOrder<{ message: { order_id: string } }>({
         payment_intent_id,
         name: formValues.name,
+        login_type: loginType,
         items: orderItems,
         shipping_address: {
           street: formValues.street,
@@ -143,7 +195,7 @@ const CheckoutForm: FC = () => {
           zip: formValues.zip,
           country: formValues.country,
           contact: formValues.contact,
-          email: user?.email ?? "",
+          email: isGuest ? formValues.email : (user?.email ?? ""),
         },
         promo_code: formValues.promo_code || undefined,
       });
@@ -191,6 +243,11 @@ const CheckoutForm: FC = () => {
       {/* ── Left column: Shipping address ── */}
       <div className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">Shipping Information</h2>
+        {isGuest && (
+          <div className="rounded-lg bg-base-200 px-4 py-2 text-sm text-base-content/70">
+            Checking out as <span className="font-semibold">Guest</span> — your order won't appear in "My Orders".
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium">Full Name</label>
@@ -201,6 +258,18 @@ const CheckoutForm: FC = () => {
           />
           {errors.name && <p className="text-xs text-error">{errors.name.message}</p>}
         </div>
+
+        {isGuest && (
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">Email Address</label>
+            <input
+              {...register("email")}
+              placeholder="jane@example.com"
+              className="input input-bordered w-full"
+            />
+            {errors.email && <p className="text-xs text-error">{errors.email.message}</p>}
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium">Street Address</label>
@@ -348,17 +417,19 @@ const CheckoutForm: FC = () => {
   );
 };
 
-// ── Page wrapper: loads Stripe and gates on auth ──────────────────────────────
+// ── Page wrapper: loads Stripe; allows authenticated users and guests ─────────
 const AddressShippingPage: FC = () => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated } = useAuth0();
+  const { isGuest } = useAuthStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      loginWithRedirect();
+    if (!isAuthenticated && !isGuest) {
+      navigate("/my-cart", { replace: true });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isGuest]);
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated && !isGuest) return null;
 
   return (
     <div className="relative py-8 lg:py-16" id="checkout-page">

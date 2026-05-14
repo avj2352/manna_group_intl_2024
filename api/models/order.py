@@ -31,6 +31,7 @@ class CreatePaymentIntentRequest(BaseModel):
 class CreateOrderRequest(BaseModel):
     payment_intent_id: str
     name: str
+    login_type: str = "sso"
     items: List[OrderItemModel]
     shipping_address: ShippingAddressModel
     promo_code: Optional[str] = None
@@ -51,4 +52,5 @@ class OrderResponse(BaseModel):
     total_amount: int
     order_date: str
     order_status: str
+    login_type: str = "sso"
     items: List[OrderLineItemResponse] = []

@@ -170,7 +170,7 @@ export const ShoppingCardItem: FC<IShoppingCardProps> = ({ item, onChangeQuantit
           </h1>
           <div className="flex flex-col items-start justify-between mt-4">
             <p className="mr-4 text-base">
-              Unit price: <span className="font-bold">${item.item.price}</span>
+              Unit price: <span className="font-bold">${Number(item.item.price).toFixed(2)}</span>
             </p>
             <div className="flex items-center mt-2">
               <span className="mr-2 font-bold">Quantity: </span>
@@ -180,7 +180,7 @@ export const ShoppingCardItem: FC<IShoppingCardProps> = ({ item, onChangeQuantit
         </div>
       </section>
       <section className="flex items-center">
-        <p className="mr-4 text-xl font-bold lg:text-3xl">${item.count * item.item.price}</p>
+        <p className="mr-4 text-xl font-bold lg:text-3xl">${(item.count * Number(item.item.price)).toFixed(2)}</p>
         <Button
           onClick={handleItemDelete}
           variant="destructive" size="icon" className="text-3xl">

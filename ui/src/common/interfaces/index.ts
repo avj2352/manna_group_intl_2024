@@ -88,6 +88,7 @@ export type ICreatePaymentIntentRequest = {
 export type ICreateOrderRequest = {
   payment_intent_id: string;
   name: string;
+  login_type: string;
   items: IOrderItem[];
   shipping_address: IShippingAddress;
   promo_code?: string;
@@ -108,6 +109,7 @@ export type IOrderRecord = {
   total_amount: number;
   order_date: string;
   order_status: string;
+  login_type: string;
   items: IOrderLineItem[];
 };
 

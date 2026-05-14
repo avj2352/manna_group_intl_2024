@@ -58,6 +58,19 @@ export const columns: ColumnDef<IOrderRecord>[] = [
     },
   },
   {
+    accessorKey: "login_type",
+    header: "Login Type",
+    cell: ({ row }) => {
+      const t: string = row.getValue("login_type") ?? "sso";
+      const isGuest = t === "guest";
+      return (
+        <span className={`badge ${isGuest ? "badge-warning" : "badge-info"} capitalize`}>
+          {t}
+        </span>
+      );
+    },
+  },
+  {
     accessorKey: "total_amount",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {

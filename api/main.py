@@ -12,8 +12,7 @@ from resources.order import order_router
 from resources.product import product_router
 from resources.promotion import promo_router
 from util.about import config, description
-# migration
-# from dao.sql_alchemy_models import init
+# from dao.sql_alchemy_models import migrate_add_login_type
 
 
 # Create the APP
@@ -24,8 +23,8 @@ app = FastAPI(
     openapi_tags = config.tags_metadata
 )
 
-# migration - create tables (safe: uses CREATE TABLE IF NOT EXISTS)
-# init()
+# migrations (idempotent - safe on every startup)
+# migrate_add_login_type()
 
 # logging config
 logging.basicConfig(

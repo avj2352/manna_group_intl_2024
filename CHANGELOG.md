@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.3.0
+- 05/13/2026
+- UI: Added "Continue as Guest" checkout flow — cart now shows a modal with SSO login or Guest options; guest users fill all fields (including email) manually, skip "My Orders" in the dropdown, and complete the same Stripe checkout flow
+- API: Added guest order endpoints (`POST /orders/guest/create-payment-intent`, `POST /orders/guest`) requiring no auth token; added `login_type` field to orders (values: "guest", "google", "github", "auth0", etc.); idempotent DB migration adds `login_type` column on startup
+- Admin: Purchases table now shows a "Login Type" badge per order
+
+## v2.2.4
+- 04/26/2026
+- UI: Rebuild shopping cart with real-time localStorage sync (badge updates on add/delete without page refresh); login prompt deferred to Checkout button click (browsing cart no longer requires auth); checkout form prefills user name from Auth0 profile
+
 ## v2.2.3
 - 04/22/2026
 - UI: fix greyed-out text in Admin Purchases order items dialog by replacing CSS variable classes with hardcoded inline color styles to bypass Radix portal theme isolation
