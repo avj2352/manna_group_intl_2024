@@ -1,12 +1,13 @@
 import { IMobileNavItem } from "@/common/interfaces";
-import { 
-    User, 
-    ShoppingBag, 
-    Building, 
-    PhoneCall,    
+import {
+    User,
+    ShoppingBag,
+    Building,
+    PhoneCall,
+    BriefcaseIcon,
     File,
     BaggageClaim,
-    Ticket, 
+    Ticket,
 } from "lucide-react";
 
 export const publicMobileNavList: IMobileNavItem[] = [
@@ -37,7 +38,14 @@ export const publicMobileNavList: IMobileNavItem[] = [
         scrollId: '',
         category: 'mobile',
         icon: <PhoneCall/>,
-    },    
+    },
+    {
+        link: '#/careers',
+        label: 'Careers',
+        scrollId: '',
+        category: 'mobile',
+        icon: <BriefcaseIcon/>,
+    },
 ];
 
 export const adminMobileNavList: IMobileNavItem[] = [

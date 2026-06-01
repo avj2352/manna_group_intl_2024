@@ -2,7 +2,7 @@ import { Fragment, FC, useEffect, useState } from "react";
 import { Button, Menu, Navbar as Nav } from "react-daisyui";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // ..custom
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { INavItem } from "@/common/interfaces/index";
@@ -90,6 +90,9 @@ export const Navbar: FC<INavbarProps> = ({ navList }) => {
                     label="Company"
                     filter={"company" as unknown as Pick<INavItem, "category">}
                   />
+                </Menu.Item>
+                <Menu.Item className="font-medium">
+                  <Link to="/careers">Careers</Link>
                 </Menu.Item>
                 <Menu.Item className="font-medium dropdown">
                   <NavbarDropdown

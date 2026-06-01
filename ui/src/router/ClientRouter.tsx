@@ -16,6 +16,7 @@ export const AddressShippingPage = lazy(() => import("@/pages/checkout/AddressSh
 export const OrderSuccessPage = lazy(() => import("@/pages/checkout/OrderSuccess.page"));
 export const OrderFailurePage = lazy(() => import("@/pages/checkout/OrderFailure.page"));
 export const UserProfilePage = lazy(() => import("@/pages/profile/UserProfile.page"));
+export const CareersPage = lazy(() => import("@/pages/careers/Careers.page"));
 
 // ..admin
 export const AdminDashboardPage = lazy(
@@ -53,6 +54,7 @@ const ClientRouter: FC = () => {
         { element: <OrderSuccessPage/>, path: '/order-success'},
         { element: <OrderFailurePage/>, path: '/order-failure'},
         { element: <UserProfilePage/>, path: '/my-profile'},
+        { element: <CareersPage />, path: '/careers' },
       ],
     },
     {

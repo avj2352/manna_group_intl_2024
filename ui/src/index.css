@@ -115,3 +115,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* DaisyUI uses [data-theme="dark"], not .dark — sync shadcn --primary to cyan for dark mode */
+[data-theme="dark"] {
+  --primary: 189 94% 43%;
+  --primary-foreground: 0 0% 9%;
+}

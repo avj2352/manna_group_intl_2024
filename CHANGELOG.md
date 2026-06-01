@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v2.5.0
+- 05/29/2026
+- UI: Restored missing `tailwind.config.js` and `postcss.config.js`; added `react-daisyui` to Tailwind content paths to fix 450 missing CSS classes (including `menu-horizontal`, DaisyUI component variants); added `theme.container` with `center: true` and responsive padding to match live site layout
+- UI: Fixed dark mode icon color — added `[data-theme="dark"]` CSS override setting `--primary` to cyan (`hsl(189 94% 43%)`), aligning DaisyUI's theme switching with shadcn CSS variables site-wide
+- UI: Added Careers page (`/careers`) with job listings content, mailto apply link, and "Now Hiring" overlay card; wired into desktop navbar (between Company and Contact Us), desktop nav list, and mobile nav drawer
+- UI: Added "Careers" navbar link between Company and Contact Us using React Router `<Link>`
+- UI: Updated promotional video embed URL to `https://www.youtube.com/embed/8PV9ToQ0AoI`
+- UI: Fixed `NorthAmericaMapChart` crash — rewrote `Geographies` render prop from v3 API (`outline`/`borders`) to v1 API (`{ geographies }`) matching installed `react-simple-maps@1.0.0`
+- API: Fixed S3 image 403 errors — removed `ACL: "public-read"` from `upload_fileobj` (blocked by `BlockPublicAcls: true` on bucket); changed `upload_file` return value from bare S3 URL to object key, consistent with presigned URL pattern used at read time
+- API: Deployed to `fly.io` with updated secrets including corrected `STRIPE_SECRET_KEY`
+
 ## v2.3.0
 - 05/13/2026
 - UI: Added "Continue as Guest" checkout flow — cart now shows a modal with SSO login or Guest options; guest users fill all fields (including email) manually, skip "My Orders" in the dropdown, and complete the same Stripe checkout flow

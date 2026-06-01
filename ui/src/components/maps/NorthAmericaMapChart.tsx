@@ -29,19 +29,16 @@ const NorthAmeraMapChart: FC = () => {
   return (
     <ComposableMap projection="geoAlbersUsa" className="w-100">
       <Geographies geography={geoUrl}>
-        {(props: any) => (
-          <>
+        {({ geographies }) =>
+          geographies.map((geo) => (
             <Geography
-              geography={(props?.outline as any) ?? undefined}
+              key={geo.rsmKey}
+              geography={geo}
               fill={mapBackgroundColor}
-            />
-            <Geography
-              geography={props?.borders ?? undefined}
-              fill="none"
               stroke={mapStrokeColor}
             />
-          </>
-        )}
+          ))
+        }
       </Geographies>
       {markers.map(({ name, coordinates, markerOffset }) => (
         <Marker key={name} coordinates={[coordinates[0], coordinates[1]]}>

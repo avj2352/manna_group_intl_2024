@@ -133,9 +133,9 @@ class FileService:
             logging.debug(file.content_type)
             # upload to aws s3
             bucket.upload_fileobj(
-                file.file, file.filename, ExtraArgs={"ACL": "public-read"}
+                file.file, file.filename
             )
-            return f"https://{bucket_name}.s3.amazonaws.com/{file.filename}"
+            return file.filename
         except ValueError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="invalid type name"

@@ -88,8 +88,8 @@ export const publicNavList: INavItem[] = [
   },
   {
     label: "Careers",
-    link: "/contact",
-    scrollId: "contact-us-section",
+    link: "/careers",
+    scrollId: "careers-section",
     category: "contact",
   },
 ];

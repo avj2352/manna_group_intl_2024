@@ -11,7 +11,7 @@ export const PromoVideoSection: FC = () => {
             <iframe
               width="560"
               height="315"
-              src="https://www.youtube.com/embed/S_ryB8MyyzI?si=1MEyv4qJJ2AvXCES&rel=0"
+              src="https://www.youtube.com/embed/8PV9ToQ0AoI?rel=0"
               title="MANNA promotional video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               referrerPolicy="strict-origin-when-cross-origin"
