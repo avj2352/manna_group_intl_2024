@@ -41,6 +41,7 @@ Document every change / feature introducd, as a markdown file `.md` and save it 
 - To update the version of the UI, update the `VITE_APP_VERSION` field, in the env variable `.env` file, and the `version` field under `package.json`, both files located under `ui` folder.
 - To update the version of the API, update `version` field under the `GlobalConfig` under `app/about.py`
 - To update the vrsion of the AWS, update `version` field under `package.json`, located under `aws` folder
-- Kepp all three modules - API, UI & Infrastructure versions in sync.
+- Keep all three modules - API, UI & Infrastructure versions in sync.
+- Update the badge "version" in README.md to be in sync with above version changes.
 - Using semantic versioning, For eg: `1.3.1` gets updated as `1.3.2`. similarly `1.3.9` gets updated as `1.4.0` unless a specific version is specified.
 - Update the file `CHANGELOG.md` with the version number, date stamp & provide a brief, one liner point changes.
