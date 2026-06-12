@@ -1,5 +1,5 @@
 import businessShakeImg from "@/assets/images/landing/business_shake.jpg";
-import { BriefcaseIcon, ComponentIcon, MailIcon } from "lucide-react";
+import { BriefcaseIcon, CalendarIcon, ComponentIcon, MailIcon } from "lucide-react";
 import { Card } from "react-daisyui";
 
 const CareersPage = () => {
@@ -57,6 +57,13 @@ const CareersPage = () => {
                 <span className="badge badge-outline text-xs">Full-Time</span>
                 <span className="badge badge-outline text-xs">Union, NJ</span>
                 <span className="badge badge-outline text-xs">$182,300 – $200,000 / yr</span>
+              </div>
+
+              <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-lg bg-primary/10 border border-primary/20 w-fit">
+                <CalendarIcon className="size-4 text-primary shrink-0" />
+                <span className="text-sm font-semibold text-primary">
+                  This job ad is valid from May 27th, 2026 – June 27th, 2026
+                </span>
               </div>
 
               <p className="text-sm text-base-content/80 leading-relaxed">

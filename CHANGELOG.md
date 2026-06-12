@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.5.1
+- 06/11/2026
+- UI: Added job validity date range ("May 27th, 2026 – June 27th, 2026") to the Clinical Marketing and Training Manager listing on the Careers page, highlighted with a primary-colored badge and calendar icon
+
 ## v2.5.0
 - 05/29/2026
 - UI: Restored missing `tailwind.config.js` and `postcss.config.js`; added `react-daisyui` to Tailwind content paths to fix 450 missing CSS classes (including `menu-horizontal`, DaisyUI component variants); added `theme.container` with `center: true` and responsive padding to match live site layout
