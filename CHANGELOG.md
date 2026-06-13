@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.5.2
+- 13/11/2026
+- UI: Updated "Careers.page.tsx"
+- UI: Added Text - *or send an email titled: "Application: Clinical Marketing and Training Manager" to femiaade2@gmail.com
+
+
 ## v2.5.1
 - 06/11/2026
 - UI: Added job validity date range ("May 27th, 2026 – June 27th, 2026") to the Clinical Marketing and Training Manager listing on the Careers page, highlighted with a primary-colored badge and calendar icon

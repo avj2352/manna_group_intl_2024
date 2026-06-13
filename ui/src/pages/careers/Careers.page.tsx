@@ -81,14 +81,16 @@ const CareersPage = () => {
                 <li>Minimum BSc. in Nursing or Hospital Administration.</li>
               </ul>
 
-              <div className="mt-6">
+              <div className="mt-6 flex flex-wrap">
                 <a
                   href="mailto:femiaade2@gmail.com?subject=Application: Clinical Marketing and Training Manager"
                   className="btn btn-primary btn-sm gap-2"
                 >
-                  <MailIcon size={14} />
-                  Apply via Email
+                  <MailIcon size={14} />Apply via Email
                 </a>
+                <p className="text-sm text-base-content/80 leading-relaxed mt-4 italic">
+                  *or send an email titled: "Application: Clinical Marketing and Training Manager" to <strong>femiaade2@gmail.com</strong>
+                </p>
               </div>
             </div>
 

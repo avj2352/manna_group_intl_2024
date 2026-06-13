@@ -1,11 +1,12 @@
 """
 About the application
 """
+
 from fastapi.security import HTTPBasic
 from pydantic_settings import BaseSettings
 from typing import List, Any
 
-API_VERSION: str = "2.5.1"
+API_VERSION: str = "2.5.2"
 
 description: str = f"""
 <p>
@@ -21,11 +22,13 @@ description: str = f"""
 </p>
 """
 
+
 class GlobalConfig(BaseSettings):
     """
     Global configuration for environment
     """
-    tags_metadata: List[Any]  = [        
+
+    tags_metadata: List[Any] = [
         {
             "name": "authentication",
             "description": "Consists of API collection to authenticate & authorize users",
@@ -49,10 +52,11 @@ class GlobalConfig(BaseSettings):
         {
             "name": "orders",
             "description": "Consists of API collection to create Stripe payment intents, confirm payments, and manage orders",
-        }
+        },
     ]
     title: str = "Manna Group Intl API"
-    version: str = API_VERSION    
+    version: str = API_VERSION
+
 
 config = GlobalConfig()
 security = HTTPBasic()
