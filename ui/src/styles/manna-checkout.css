@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Marcellus&display=swap');
+
+/* ============================================================
+   MANNA Group International — Checkout
+   Aligned to the live site system (style.css):
+   flat + outlined · navy borders · sky image backing ·
+   #E8500A price accent · canonical drawer-checkout CTA
+   ============================================================ */
+
+:root{
+  --navy:#15153A;
+  --cream:#FDFAE7;
+  --card:#FFF;
+  --sky:#AEE0F7;
+  --yellow:#E8FF00;      /* --cities */
+  --orange:#F97316;      /* site --orange */
+  --price:#E8500A;       /* drawer price accent */
+  --line:rgba(21,21,58,.22);
+  --line-solid:#15153A;
+  --muted:rgba(21,21,58,.55);
+  --text:#0a1628;
+  --radius:16px;
+}
+
+#checkout-page{
+  min-height:100vh;
+  background:var(--cream);
+  font-family:'Outfit',sans-serif;
+  color:var(--navy);
+  padding:clamp(110px,14vh,140px) clamp(24px,6vw,80px) clamp(48px,7vw,80px); /* top clears floating nav */
+}
+
+#checkout-page .container{max-width:1240px!important;margin:auto!important;padding:0!important;}
+
+#checkout-page h1{
+  font-family:'Marcellus',serif;
+  font-size:clamp(38px,5vw,56px);
+  font-weight:400;
+  letter-spacing:-.01em;
+  margin-bottom:clamp(28px,4vw,44px);
+  color:var(--navy);
+}
+/* markup carries .text-brand-gradient — keep it solid navy */
+#checkout-page .text-brand-gradient{
+  background:none;-webkit-text-fill-color:currentColor;color:var(--navy);
+}
+
+#checkout-page form{
+  display:grid!important;
+  grid-template-columns:1.25fr .75fr;
+  gap:28px!important;
+  align-items:start;
+}
+#checkout-page form>div{
+  background:var(--card);
+  border:1.5px solid var(--line-solid);
+  border-radius:var(--radius);
+  padding:clamp(24px,3vw,36px);
+  display:flex;flex-direction:column;gap:18px;
+}
+@media(min-width:993px){
+  #checkout-page form>div:last-child{position:sticky;top:120px;}
+}
+
+/* section titles — match .mgi-drawer-title */
+#checkout-page h2{
+  font-family:'Marcellus',serif;
+  font-size:clamp(22px,2.4vw,28px);
+  font-weight:400;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--navy);
+  margin-bottom:4px;
+}
+
+#checkout-page label{
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:600;color:var(--navy);
+  letter-spacing:.01em;
+}
+
+/* inputs — outlined, navy focus */
+#checkout-page .input,#checkout-page input.input-bordered{
+  width:100%;
+  background:#fff!important;
+  border:1.5px solid var(--line)!important;
+  border-radius:10px!important;
+  padding:14px 16px;
+  color:var(--navy);
+  font-family:'Outfit',sans-serif;font-size:15px;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+#checkout-page .input::placeholder{color:rgba(21,21,58,.35);}
+#checkout-page .input:focus,#checkout-page input:focus{
+  border-color:var(--navy)!important;
+  box-shadow:0 0 0 4px rgba(21,21,58,.06);
+  outline:none;
+}
+#checkout-page .text-error{color:var(--price)!important;font-size:12.5px;font-weight:600;}
+
+/* guest banner — sky tint */
+#checkout-page .bg-base-200{
+  background:var(--sky)!important;
+  border:1.5px solid var(--line-solid);
+  border-radius:10px;
+  color:var(--navy)!important;
+}
+
+/* order summary card */
+#checkout-page .border-base-300{
+  border:1.5px solid var(--line-solid)!important;
+  border-radius:12px;
+  background:#fff;
+}
+#checkout-page .divider{margin:6px 0!important;}
+#checkout-page .divider::before,#checkout-page .divider::after{background:var(--line)!important;}
+#checkout-page .text-base-content\/60{color:var(--muted)!important;}
+#checkout-page .border-base-300 .justify-between{font-size:15px;}
+
+/* grand total — matches drawer total weight, price accent on amount */
+#checkout-page .border-base-300 .font-bold{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:var(--navy);}
+#checkout-page .border-base-300 .font-bold span:last-child{color:var(--price);font-size:20px;}
+
+/* product rows — mirror .mgi-drawer-item */
+.summary-product{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1.5px solid var(--line);}
+.summary-product:last-child{border-bottom:none;}
+.summary-product img{
+  width:80px;height:80px;object-fit:contain;
+  border-radius:8px;background:var(--sky);padding:6px;
+  border:1.5px solid var(--line);
+}
+.summary-product-info{flex:1;min-width:0;}
+.summary-product-info h4{
+  margin:0;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:var(--navy);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.summary-product-info p{margin-top:4px;font-size:14px;color:var(--muted);}
+.summary-product strong{margin-left:auto;font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--price);white-space:nowrap;}
+
+/* stripe card field */
+.StripeElement{padding:16px;border:1.5px solid var(--line);border-radius:10px;background:#fff;transition:border-color .2s ease,box-shadow .2s ease;}
+.StripeElement--focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(21,21,58,.06);}
+
+/* buttons — canonical .mgi-drawer-checkout pill */
+#checkout-page .btn-primary{
+  border-radius:999px;
+  border:2px solid var(--navy)!important;
+  background:var(--navy)!important;
+  color:var(--cream)!important;
+  font-family:'Outfit',sans-serif;
+  font-size:16px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:0 32px;height:54px;
+  transition:background .25s ease,color .25s ease;
+}
+#checkout-page form .btn-primary{width:100%;height:58px;}
+#checkout-page .btn-primary:hover{background:var(--cream)!important;color:var(--navy)!important;}
+#checkout-page .btn-primary:disabled,#checkout-page .btn-primary[disabled]{
+  background:#DAD5C7!important;border-color:#DAD5C7!important;color:#9A968A!important;cursor:not-allowed;
+}
+
+/* empty cart */
+#checkout-page .py-16{min-height:52vh;justify-content:center;}
+
+@media(max-width:992px){
+  #checkout-page form{grid-template-columns:1fr;gap:20px!important;}
+  #checkout-page h1{text-align:center;}
+  #checkout-page .grid-cols-2{gap:12px;}
+}

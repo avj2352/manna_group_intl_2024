@@ -1,3 +1,5 @@
+import "@/styles/manna-checkout.css";
+
 import { FC, Fragment, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +19,26 @@ import OrderAPIClient from "@/common/state/services/orders/order.api";
 import GuestOrderAPIClient from "@/common/state/services/orders/guest-order.api";
 import useLocalStorage from "@/hooks/use-localstorage";
 import { IProductRecord } from "@/common/interfaces";
+
+const PRODUCT_IMAGES: Record<string, string> = {
+  calcunix:
+    "https://hunnydeescloset.com/wp-content/uploads/2023/10/ChatGPT-Image-Jun-6-2026-12_53_18-PM.png",
+
+  menoseg:
+    "https://hunnydeescloset.com/wp-content/uploads/2023/10/ChatGPT-Image-Jun-6-2026-12_57_01-PM.png",
+
+  prosanteplus:
+    "https://hunnydeescloset.com/wp-content/uploads/2023/10/ChatGPT-Image-Jun-6-2026-12_56_13-PM.png",
+
+  manaliv:
+    "https://hunnydeescloset.com/wp-content/uploads/2023/10/ChatGPT-Image-Jun-6-2026-12_59_21-PM.png",
+};
+
+const normalizeValue = (value: unknown): string => {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+};
 
 const stripePromise = loadStripe(VITE_STRIPE_KEY);
 
@@ -348,12 +370,39 @@ const CheckoutForm: FC = () => {
         <h2 className="text-xl font-semibold">Order Summary</h2>
 
         <div className="rounded-lg border border-base-300 p-4 flex flex-col gap-2">
-          {cart_items.map((ci: ICartInventory, idx: number) => (
-            <div key={idx} className="flex justify-between text-sm">
-              <span>{ci.item.name} × {ci.count}</span>
-              <span>${(Number(ci.item.price) * ci.count).toFixed(2)}</span>
-            </div>
-          ))}
+       {cart_items.map((ci: ICartInventory, idx: number) => {
+  const image =
+    PRODUCT_IMAGES[
+      normalizeValue(ci.item.product_id || ci.item.name)
+    ] ||
+    PRODUCT_IMAGES[
+      normalizeValue(ci.item.name)
+    ];
+
+  return (
+    <div
+      key={idx}
+      className="summary-product"
+    >
+      <img
+        src={image}
+        alt={ci.item.name}
+      />
+
+      <div className="summary-product-info">
+        <h4>{ci.item.name}</h4>
+
+        <p>
+          Qty: {ci.count}
+        </p>
+      </div>
+
+      <strong>
+        ${(Number(ci.item.price) * ci.count).toFixed(2)}
+      </strong>
+    </div>
+  );
+})}
           <div className="divider my-1" />
           <div className="flex justify-between text-sm">
             <span>Subtotal</span>

@@ -21,16 +21,10 @@ const ShoppingCartPage: FC = () => {
   const { storedValue, setStoredValue } = useLocalStorage<IProductRecord[]>("products", []);
   const { cart_items, setCartItems, setCheckoutCount } = useCheckoutStore();
 
-  const handleCheckout = () => {
-    if (isAuthenticated) {
-      setIsGuest(false);
-      navigate('/shipping-address');
-    } else if (isGuest) {
-      navigate('/shipping-address');
-    } else {
-      setIsLoginDialogOpen(true);
-    }
-  };
+ const handleCheckout = () => {
+  setIsGuest(true);
+  navigate("/shipping-address");
+};
 
   const handleItemQtityChanged = (it: ICartInventory) => {
     const temp = cart_items.map((i: ICartInventory) => {

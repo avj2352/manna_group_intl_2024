@@ -45,7 +45,8 @@ const ClientRouter: FC = () => {
       ),
       children: [
         { element: <HomePage />, index: true },
-        { element: <AboutPage />, path: "/about/:id" },
+        { element: <AboutPage />, path: "/about" },
+{ element: <AboutPage />, path: "/about/:id" },
         { element: <CompanyPage />, path: "/company/:id" },
         { element: <ProductPage />, path: "/products/:id" },
         { element: <ContactPage />, path: "/contact/:id" },
@@ -54,7 +55,8 @@ const ClientRouter: FC = () => {
         { element: <OrderSuccessPage/>, path: '/order-success'},
         { element: <OrderFailurePage/>, path: '/order-failure'},
         { element: <UserProfilePage/>, path: '/my-profile'},
-        { element: <CareersPage />, path: '/careers' },
+        { element: <CareersPage />, path: "/career" },
+{ element: <CareersPage />, path: "/careers" },
       ],
     },
     {

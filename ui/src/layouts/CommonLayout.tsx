@@ -1,7 +1,14 @@
-import { Fragment, FC, ReactNode, useCallback, useEffect } from "react";
-// ..custom
-import Navbar from "@/components/navigation/Navbar";
-import { publicNavList } from "@/components/navigation/desktop/desktop-nav.list";
+
+
+import {
+  Fragment,
+  FC,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from "react";
+
+// Custom
 import { useProductStore } from "@/common/state/features/products/product.slice";
 import { useAssetStore } from "@/common/state/features/assets/asset.slice";
 
@@ -15,21 +22,21 @@ const CommonLayout: FC<ICommonLayoutProps> = ({ children }) => {
 
   const fetchProductListAPIHandler = useCallback(() => {
     fetchProductListAPI();
-  }, []);
+  }, [fetchProductListAPI]);
 
   const fetchAssetListAPIHandler = useCallback(() => {
     fetchAssetListAPI();
-  }, []);
+  }, [fetchAssetListAPI]);
 
   useEffect(() => {
     fetchAssetListAPIHandler();
     fetchProductListAPIHandler();
+
     console.log("Fetched assets and products");
-  }, []);
+  }, [fetchAssetListAPIHandler, fetchProductListAPIHandler]);
 
   return (
     <Fragment>
-      <Navbar navList={publicNavList} />
       <div className="pt-0 lg:pt-0">{children}</div>
     </Fragment>
   );
