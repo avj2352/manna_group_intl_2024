@@ -1,0 +1,516 @@
+/* ============================================
+   PRODUCT DETAIL PAGE — REACT VERSION
+   Matches the MANNA homepage styling
+   ============================================ */
+
+.product-detail-page {
+  min-height: 100vh;
+  background: var(--cream, #fdfae7);
+  color: #15153a;
+}
+
+/* ============================================
+   PRODUCT HERO
+   ============================================ */
+
+.pd-hero {
+  background: var(--cream, #fdfae7);
+  padding: 150px 5% 90px;
+  cursor: default;
+}
+
+/* ============================================
+   BREADCRUMB
+   ============================================ */
+
+.pd-breadcrumb {
+  width: min(1300px, 100%);
+  margin: 0 auto 36px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(21, 21, 58, 0.5);
+}
+
+.pd-breadcrumb a {
+  color: #15153a;
+  text-decoration: none;
+}
+
+.pd-breadcrumb a:hover {
+  color: #e8500a;
+}
+
+.pd-breadcrumb span:last-child {
+  color: #e8500a;
+}
+
+/* ============================================
+   PRODUCT LAYOUT
+   ============================================ */
+
+.pd-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(36px, 5vw, 80px);
+  align-items: start;
+  width: min(1300px, 100%);
+  margin: 0 auto;
+}
+
+/* ============================================
+   PRODUCT IMAGE
+   ============================================ */
+
+.pd-media {
+  position: sticky;
+  top: 120px;
+}
+
+.pd-panel {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 48vw, 620px);
+  border: 1.5px solid #101010;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-panel.blue {
+  background: #aee0f7;
+}
+
+.pd-panel.cream {
+  background: #f4ecd4;
+}
+
+.pd-panel.green {
+  background: #dcefd5;
+}
+
+.pd-panel.peach {
+  background: #ffd9ae;
+}
+
+.pd-panel img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 72%;
+  max-height: 80%;
+  object-fit: contain;
+  transition: transform 0.45s ease;
+}
+
+.pd-panel:hover img {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.pd-panel .mgi-tag {
+  top: 22px;
+  left: 22px;
+}
+
+/* ============================================
+   PRODUCT INFORMATION
+   ============================================ */
+
+.pd-info {
+  min-width: 0;
+}
+
+.pd-title {
+  margin: 0 0 14px;
+  font-family: "Marcellus", serif;
+  font-size: clamp(40px, 5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #252525;
+}
+
+.pd-price {
+  margin: 0 0 20px;
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 800;
+  color: #e75b45;
+}
+
+.pd-lede {
+  max-width: 540px;
+  margin: 0 0 26px;
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.55;
+  color: #3d3d5c;
+}
+
+/* ============================================
+   BENEFITS
+   ============================================ */
+
+.pd-benefits {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pd-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: "Outfit", sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 500;
+  color: #252525;
+}
+
+.pd-benefits svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  margin-top: 1px;
+  padding: 3px;
+  color: #15153a;
+  background: var(--mint, #beebc9);
+  border-radius: 50%;
+}
+
+/* ============================================
+   ADD TO CART
+   ============================================ */
+
+.pd-add-btn {
+  position: static;
+  width: 100%;
+  max-width: 420px;
+  min-height: 62px;
+  padding: 0 24px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  border: 2px solid #15153a;
+  background: #15153a;
+  color: #fdfae7;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.pd-add-btn .mgi-plus {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.pd-add-btn .mgi-addlabel {
+  font-family: "Outfit", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pd-add-btn:hover:not(:disabled) {
+  background: #fdfae7;
+  color: #15153a;
+  transform: none;
+}
+
+.pd-add-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.pd-add-btn.mgi-added {
+  background: #27ae60;
+  border-color: #27ae60;
+  color: #ffffff;
+}
+
+/* ============================================
+   TRUST BADGES
+   ============================================ */
+
+.pd-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 36px;
+}
+
+.pd-badges span {
+  padding: 8px 12px;
+  border: 1.5px solid #15153a;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #15153a;
+  font-family: "Outfit", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   ACCORDIONS
+   ============================================ */
+
+.pd-accordions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pd-accordions details {
+  border: 1.5px solid #15153a;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.pd-accordions summary {
+  position: relative;
+  padding: 18px 54px 18px 22px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  color: #15153a;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pd-accordions summary::-webkit-details-marker {
+  display: none;
+}
+
+.pd-accordions summary::after {
+  content: "+";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.pd-accordions details[open] summary::after {
+  content: "—";
+}
+
+.pd-accordion-body {
+  padding: 0 22px 20px;
+  color: #4b4b4b;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ============================================
+   RELATED PRODUCTS
+   ============================================ */
+
+.pd-related {
+  background: var(--cream, #fdfae7);
+  padding-top: 80px;
+  padding-bottom: 100px;
+}
+
+.pd-related .mgi-products-head {
+  margin-bottom: 36px;
+}
+
+.pd-related-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pd-related .mgi-card {
+  min-width: 0;
+}
+
+.pd-related-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.pd-related-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pd-related .mgi-card-top {
+  width: 100%;
+  height: 360px;
+}
+
+.pd-related .mgi-card-top img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 76%;
+  max-height: 82%;
+  object-fit: contain;
+}
+
+.pd-related .mgi-card h3 {
+  color: #15153a;
+}
+
+.pd-related .mgi-card:hover .mgi-card-top img {
+  transform: scale(1.03);
+}
+
+/* ============================================
+   FOOTER FIXES
+   ============================================ */
+
+.product-detail-page .mgi-footer {
+  width: 100%;
+}
+
+.product-detail-page .mgi-footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.product-detail-page .mgi-footer-social a {
+  color: #fdfae7;
+  text-decoration: none;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+}
+
+.product-detail-page .mgi-footer-social a:hover {
+  opacity: 0.7;
+}
+
+/* ============================================
+   TABLET
+   ============================================ */
+
+@media (max-width: 1100px) {
+  .pd-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .pd-hero {
+    padding: 120px 24px 60px;
+  }
+
+  .pd-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-media {
+    position: static;
+  }
+
+  .pd-panel {
+    height: clamp(340px, 80vw, 480px);
+  }
+
+  .pd-title {
+    margin-top: 6px;
+  }
+
+  .pd-related {
+    padding-top: 60px;
+    padding-bottom: 80px;
+  }
+}
+
+/* ============================================
+   MOBILE
+   ============================================ */
+
+@media (max-width: 650px) {
+  .pd-hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .pd-breadcrumb {
+    margin-bottom: 24px;
+    font-size: 11px;
+    gap: 7px;
+  }
+
+  .pd-panel {
+    height: 390px;
+  }
+
+  .pd-panel img {
+    max-width: 80%;
+    max-height: 82%;
+  }
+
+  .pd-title {
+    font-size: clamp(36px, 12vw, 52px);
+  }
+
+  .pd-lede {
+    font-size: 17px;
+  }
+
+  .pd-add-btn {
+    max-width: 100%;
+  }
+
+  .pd-badges {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .pd-badges span {
+    text-align: center;
+  }
+
+  .pd-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-related .mgi-card-top {
+    height: 400px;
+  }
+
+  .product-detail-page .mgi-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .pd-panel:hover img {
+    transform: none;
+  }
+
+  .pd-related .mgi-card:hover .mgi-card-top img {
+    transform: none;
+  }
+}

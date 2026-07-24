@@ -1,13 +1,17 @@
+import { ScrollToTop } from "@/components/scroll-to-top";
+
+import { PageTransition } from "@/components/PageTransition"; 
+
+
 import { Fragment, useEffect, useCallback } from "react";
 import { HashRouter } from "react-router-dom";
-import Footer from "@/components/navigation/Footer";
+
 import { ThemeToggler } from "@/components/ThemeToggler";
 import { Toaster } from "@/components/ui/toaster";
 import { Theme, useTheme } from "react-daisyui";
 import { useAuth0 } from "@auth0/auth0-react";
 //..custom
 import ClientRouter from "@/router/ClientRouter";
-import { publicNavList } from "@/components/navigation/desktop/desktop-nav.list";
 import { useAuthStore } from "@/common/state/features/auth/auth.slice";
 import { VIT_AUTH0_AUDIENCE } from "@/util/envConfig";
 
@@ -41,17 +45,18 @@ function App() {
   }, [isAuthenticated]);
 
   return (
-    <Fragment>
-      <Theme dataTheme={theme}>
-        <HashRouter>
-          <ClientRouter />
-          <Toaster />
-          <ThemeToggler />
-          <Footer navList={publicNavList} />
-        </HashRouter>
-      </Theme>
-    </Fragment>
-  );
+  <Fragment>
+    <Theme dataTheme={theme}>
+      <HashRouter>
+  <PageTransition />
+
+  <ClientRouter />
+  <Toaster />
+  <ThemeToggler />
+</HashRouter>
+    </Theme>
+  </Fragment>
+);
 }
 
 export default App;
