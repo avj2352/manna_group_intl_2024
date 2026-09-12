@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v2.5.4
+- 09/11/2026
+- API: Fixed delete product failing silently due to `order_products` FK constraint — now deletes order-product and asset-product join records before removing the product row; returns HTTP 500 on failure instead of 200 with `"failure"` message
+- API: Fixed delete product DAO not actually removing the product record from the database
+- UI: Fixed incorrect toast messages on product and promotion delete pages (was showing "Asset record" instead of "Product"/"Promotion")
+- UI: Consolidated all per-resource API URL env variables to derive from single `VITE_API_URL` base
+- UI: Removed unused `card3d` dependency (package no longer available on npm)
+
 ## v2.5.2
 - 13/11/2026
 - UI: Updated "Careers.page.tsx"

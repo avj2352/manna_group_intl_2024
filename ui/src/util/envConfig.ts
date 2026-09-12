@@ -15,18 +15,12 @@ export const VIT_AUTH0_AUDIENCE = import.meta.env.VITE_AUTH0_AUDIENCE || "";
 export const VITE_STRIPE_KEY = import.meta.env.VITE_STRIPE_KEY || "";
 
 // api
-export const VITE_API_URL = import.meta.env.VITE_API_URL || "";
-export const VITE_SWAGGER_DOCS =
-  import.meta.env.VITE_SWAGGER_DOCS || "http://localhost:8000/docs";
-export const VITE_AUTH_API_URL =
-  import.meta.env.VITE_AUTH_API_URL || "http://localhost:8000/auth";
-export const VITE_ASSETS_API_URL =
-  import.meta.env.VITE_ASSETS_API_URL || "http://localhost:8000/assets";
-export const VITE_PRODUCTS_API_URL =
-  import.meta.env.VITE_PRODUCTS_API_URL || "http://localhost:8000/products";
-export const VITE_PROMOTIONS_API_URL =
-  import.meta.env.VITE_PROMOTIONS_API_URL || "http://localhost:8000/promotions";
-export const VITE_FILES_API_URL =
-  import.meta.env.VITE_FILES_API_URL || "http://localhost:8000/files";
-export const VITE_ORDERS_API_URL =
-  import.meta.env.VITE_ORDERS_API_URL || "http://localhost:8000/orders";
+export const VITE_API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:8000";
+export const VITE_SWAGGER_DOCS = `${VITE_API_URL}/docs`;
+export const VITE_AUTH_API_URL = `${VITE_API_URL}/auth`;
+export const VITE_ASSETS_API_URL = `${VITE_API_URL}/assets`;
+export const VITE_PRODUCTS_API_URL = `${VITE_API_URL}/products`;
+export const VITE_PROMOTIONS_API_URL = `${VITE_API_URL}/promotions`;
+export const VITE_FILES_API_URL = `${VITE_API_URL}/files`;
+export const VITE_ORDERS_API_URL = `${VITE_API_URL}/orders`;

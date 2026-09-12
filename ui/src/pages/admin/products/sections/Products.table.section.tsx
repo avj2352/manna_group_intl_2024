@@ -23,7 +23,7 @@ const ProductsTableSection: FC = () => {
       toast({
         variant: "default",
         title: "Success",
-        description: `Asset record has been deleted!`,
+        description: `Product has been deleted!`,
       });
       resetDelete();
       fetchProductListAPIHandler();
@@ -32,7 +32,7 @@ const ProductsTableSection: FC = () => {
       toast({
         variant: "danger",
         title: "Error",
-        description: `Error deleting asset record!`,
+        description: `Error deleting product!`,
       });
       resetDelete();
     }

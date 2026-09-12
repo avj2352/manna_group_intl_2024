@@ -6,7 +6,7 @@ from typing import Optional, List
 import logging
 from sqlalchemy.orm import Session, sessionmaker
 # custom
-from dao.sql_alchemy_models import (Asset, Product, AssetProduct, get_connection)
+from dao.sql_alchemy_models import (Asset, Product, AssetProduct, OrderProduct, get_connection)
 from util.helper import get_current_timestamp
 from models.product import ProductModel, ProductResponseModel
 from models.asset import AssetModel
@@ -148,19 +148,23 @@ def delete_product_by_id(product_id: str) -> bool:
     logging.debug(f"DAO -> delete by product id: {product_id}")
     try:
         with Session(engine) as session:
-            asset_product_record = session\
+            order_product_records = session\
+                        .query(OrderProduct)\
+                        .filter_by(product_id=product_id).all()
+            for record in order_product_records:
+                session.delete(record)
+            asset_product_records = session\
                         .query(AssetProduct)\
-                        .filter_by(product_id=product_id).first()
-            if not asset_product_record:
-                logging.info(f"No records found in AssetProducts table for product_id: {product_id}")
-            else:
-                session.delete(asset_product_record)
+                        .filter_by(product_id=product_id).all()
+            for record in asset_product_records:
+                session.delete(record)
             product_record = session\
                         .query(Product)\
                         .filter_by(product_id=product_id).first()
             if not product_record:
                 logging.info(f"No records found in Products table for product id: {product_id}")
-            # commit delete
+                return False
+            session.delete(product_record)
             session.commit()
             return True
     except Exception as err:
