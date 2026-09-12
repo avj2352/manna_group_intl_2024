@@ -26,7 +26,7 @@ const PromotionTableSection: FC = () => {
         toast({
           variant: "default",
           title: "Success",
-          description: `Asset record has been deleted!`,
+          description: `Promotion has been deleted!`,
         });
         resetDelete();
         fetchPromoListAPIHandler();
@@ -35,7 +35,7 @@ const PromotionTableSection: FC = () => {
         toast({
           variant: "danger",
           title: "Error",
-          description: `Error deleting asset record!`,
+          description: `Error deleting promotion!`,
         });
         resetDelete();
       }

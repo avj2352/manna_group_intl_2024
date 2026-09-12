@@ -2,7 +2,7 @@
   "name": "manna_grp_intl",
   "description": "manna group internation ecommerce react app",
   "private": true,
-  "version": "2.5.2",
+  "version": "2.5.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -32,7 +32,6 @@
     "@stripe/stripe-js": "^1.0.0",
     "@tanstack/react-table": "^8.20.5",
     "@testing-library/user-event": "^13.5.0",
-    "card3d": "^2.6.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",

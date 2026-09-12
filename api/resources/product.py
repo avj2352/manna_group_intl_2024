@@ -57,4 +57,6 @@ def delete_product_by_id(product_id: str, user:Auth0User = Security(auth_lib.get
     if not auth_service.check_user_is_admin(user_details):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Not an Admin")
     result = product_service.delete_product_record_by_id(product_id=product_id)
+    if result == "failure":
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete product")
     return {"message": result}

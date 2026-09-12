@@ -1,6 +1,6 @@
 # https://hub.docker.com/_/python
 # Build stage - compile dependencies
-FROM python:3.11-slim-bullseye AS builder
+FROM python:3.11-slim-bookworm AS builder
 
 ENV PYTHONUNBUFFERED=True
 WORKDIR /build
@@ -22,7 +22,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # Runtime stage - minimal image
-FROM python:3.11-slim-bullseye
+FROM python:3.11-slim-bookworm
 
 ENV PYTHONUNBUFFERED=True
 ENV APP_HOME=/api
