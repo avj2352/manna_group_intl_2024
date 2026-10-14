@@ -38,7 +38,7 @@ function useLocalStorageObject(key: string, initialValue = {}) {
   // Function to remove a key-value pair from the object
   const removeValue = (itemKey: string) => {
     setStoredObject((prevObject: unknown) => {
-      const newObject = { ...(prevObject as Object) };
+      const newObject = { ...(prevObject as Record<string, unknown>) };
       delete newObject[itemKey];
       return newObject;
     });

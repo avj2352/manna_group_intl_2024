@@ -32,8 +32,8 @@ const AdminDashboardPage: FC = () => {
       <div className="container relative z-10">        
         <AssetTableSection/>
         {Boolean(asset_detail_record) ? <AssetPreviewSection
-          imageSource={asset_detail_record.url}
-          imageDescription={asset_detail_record.description}/> : <Fragment/>}
+          imageSource={asset_detail_record?.url ?? ""}
+          imageDescription={asset_detail_record?.description ?? ""}/> : <Fragment/>}
       </div>
     </section>
   );

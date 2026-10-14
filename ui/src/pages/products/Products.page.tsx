@@ -8,9 +8,6 @@ import { useProductStore } from "@/common/state/features/products/product.slice"
 import { IProductRecord } from "@/common/interfaces";
 import useLocalStorage from "@/hooks/use-localstorage";
 
-import { Navigation } from "@/pages/home/redesign/navigation";
-import "@/styles/manna-redesign.css";
-
 import { PRODUCTS } from "./product-data";
 import "./product.css";
 
@@ -144,9 +141,7 @@ const ProductsPage: FC = () => {
   }
 
   return (
-    <main className="manna-redesign product-detail-page">
-      <Navigation />
-
+    <main className="product-detail-page">
       {/* PRODUCT HERO */}
       <section className="pd-hero" id={product.id}>
         <nav className="pd-breadcrumb" aria-label="Breadcrumb">

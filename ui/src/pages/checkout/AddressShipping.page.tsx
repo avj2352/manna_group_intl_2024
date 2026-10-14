@@ -217,7 +217,7 @@ const CheckoutForm: FC = () => {
           zip: formValues.zip,
           country: formValues.country,
           contact: formValues.contact,
-          email: isGuest ? formValues.email : (user?.email ?? ""),
+          email: isGuest ? (formValues.email ?? "") : (user?.email ?? ""),
         },
         promo_code: formValues.promo_code || undefined,
       });

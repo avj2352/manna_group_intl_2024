@@ -9,7 +9,7 @@ const ContactPage: FC = () => {
   const { id } = useParams();
   
   useEffect(()=>{
-    if (Boolean(id) && id !== "") {      
+    if (id && id !== "") {
       document.getElementById(id)?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
@@ -56,13 +56,30 @@ const ContactPage: FC = () => {
                 </div>
                 <div>
                   <p className="text-base font-medium">Contact Us online</p>
-                  <p className="mt-1 text-base-content/80">
-                    <strong>Email:</strong> <br />
-                    info@mannagroupintl.com, <br />
-                    customercare@mannagroupintl.com, <br />
-                    sales@mannagroupintl.com <br />
-                    <strong>Call:</strong> +1 (877) 638 1437
-                  </p>
+                  <div className="mt-1 text-base-content/80 space-y-2">
+                    <p className="font-medium">Email us directly:</p>
+                    <ul className="space-y-1">
+                      <li className="flex flex-col">
+                        <a href="mailto:sales@mannagroupintl.com" className="text-primary hover:underline font-medium">
+                          sales@mannagroupintl.com
+                        </a>
+                        <span className="text-xs text-base-content/60">Product inquiries, pricing & purchase orders — George Varges</span>
+                      </li>
+                      <li className="flex flex-col">
+                        <a href="mailto:hr@mannagroupintl.com" className="text-primary hover:underline font-medium">
+                          hr@mannagroupintl.com
+                        </a>
+                        <span className="text-xs text-base-content/60">Careers, partnerships & general employment inquiries — George Varges</span>
+                      </li>
+<li className="flex flex-col">
+                        <a href="mailto:femiaade@mannagroupintl.com" className="text-primary hover:underline font-medium">
+                          femiaade@mannagroupintl.com
+                        </a>
+                        <span className="text-xs text-base-content/60">Medical, clinical & nutraceutical product questions — Dr. Femi Aade</span>
+                      </li>
+                    </ul>
+                    <p className="pt-1"><strong>Call:</strong> +1 (877) 638 1437</p>
+                  </div>
                 </div>
               </div>
             </div>

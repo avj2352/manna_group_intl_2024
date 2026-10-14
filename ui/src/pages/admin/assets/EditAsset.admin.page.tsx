@@ -20,7 +20,7 @@ const EditAssetAdminPage: FC = () => {
     const handleFormSubmit = (data: IAssetRequestForm) => {
         console.log('Data to update: ', data);
         fetchAssetUpdateFormAPI({
-            id: params.id,
+            id: params.id ?? "",
             token,
             payload: data as IAssetRequestPayload
         });
@@ -49,7 +49,7 @@ const EditAssetAdminPage: FC = () => {
         const {id} = params;
         if (!Boolean(id)) return;
         fetchAssetDetailsByIdAPI({
-            id: params.id,
+            id: params.id ?? "",
             token,
         });
     },[params]);

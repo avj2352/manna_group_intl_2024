@@ -1,12 +1,5 @@
-import "@/styles/manna-redesign.css";
-
-
-import logoImg from "@/assets/images/logo-img.png";
-
 import { useEffect, useRef } from "react";
 import "./about.css";
-import { Navigation } from "../home/redesign/navigation";
-import Footer from "../home/redesign/footer";
 
 type TeamMember = {
   name: string;
@@ -112,8 +105,6 @@ const wheelRef = useRef<HTMLDivElement | null>(null);
 
  return (
   <main className="about-page">
-    <Navigation />
-
     <section className="about-section">
         <div className="about-stack">
           <article className="about-card">
@@ -318,7 +309,6 @@ const wheelRef = useRef<HTMLDivElement | null>(null);
           </div>
         </div>
       </section>
-      <Footer />
     </main>
   );
 };

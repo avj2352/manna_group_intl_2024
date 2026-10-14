@@ -82,7 +82,7 @@ const AddEditAssetForm: FC<IAddEditAssetFormProps> = ({
   useEffect(()=>{return () => handleReset()},[]);
 
   useEffect(()=>{
-    if (!Boolean(data)) return;
+    if (!data) return;
     form.setValue("asset_key", data.asset_key);
     form.setValue("asset_type", data.asset_type);
     form.setValue("position", Number(data.position));

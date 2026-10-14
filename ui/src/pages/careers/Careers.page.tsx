@@ -1,17 +1,8 @@
-import "@/styles/manna-redesign.css";
-
-
-
-
-import { Navigation } from "../home/redesign/navigation";
-import Footer from "../home/redesign/footer";
 import "./career.css";
 
 const CareersPage = () => {
   return (
     <main className="careers-page">
-      <Navigation />
-
       <header className="careers-header">
         <span className="eyebrow">Join Our Team</span>
 
@@ -82,7 +73,6 @@ const CareersPage = () => {
         </div>
       </section>
 
-      <Footer />
     </main>
   );
 };

@@ -11,13 +11,13 @@ const CompanyPage: FC = () => {
   const { id } = useParams();
   
   useEffect(()=>{
-    if (Boolean(id) && id !== "") {
+    if (id && id !== "") {
       console.log('Found id element: ', document.getElementById(id));
       document.getElementById(id)?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
         inline: 'nearest'
-      });    
+      });
     }
   },[id]);
 

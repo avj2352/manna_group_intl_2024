@@ -1,6 +1,4 @@
-import { ScrollToTop } from "@/components/scroll-to-top";
-
-import { PageTransition } from "@/components/PageTransition"; 
+import { PageTransition } from "@/components/PageTransition";
 
 
 import { Fragment, useEffect, useCallback } from "react";
@@ -22,7 +20,7 @@ function App() {
   const { setUserDetails, setToken, fetchUserAdminDetailsAPI } = useAuthStore();
 
   const checkUserDetails = useCallback(async () => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !user) return;
     const accessToken = await getAccessTokenSilently({
       authorizationParams: {
         audience,
@@ -30,9 +28,9 @@ function App() {
       },
     });
     setUserDetails({
-      name: user.name,
-      email: user.email,
-      profilePic: user.picture,
+      name: user.name ?? "",
+      email: user.email ?? "",
+      profilePic: user.picture ?? "",
     });
     if (accessToken) {
       setToken(accessToken);

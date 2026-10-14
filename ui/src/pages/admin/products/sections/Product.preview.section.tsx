@@ -66,7 +66,7 @@ const ProductPreviewSection: FC<IProductPreviewSectionProps> = ({
           </p>
           <section className="flex justify-center lg:justify-end">
             <Button
-              onClick={() => onAddCart(selectedProduct)}
+              onClick={() => onAddCart?.(selectedProduct)}
               disabled={isAdmin}
               color={"primary"}
               size={"sm"}
