@@ -1,2 +1,5 @@
 # All files require approval from avj2352 before a PR can be merged
 * @avj2352
+
+# Explicitly protect repo configuration — changes require avj2352 approval
+.github/ @avj2352
