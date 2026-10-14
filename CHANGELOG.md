@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.5.6
+- 10/14/2026
+- UI: Updated Careers page content and styling
+- UI: Updated Contact Us page with clickable email aliases
+
 ## v2.5.5
 - 10/14/2026
 - AWS: Added email alias forwarding stack — SES receipt rules, S3 temporary storage, Lambda forwarder for admin@, sales@, hr@, george@, femiaade@ mannagroupintl.com aliases redirecting to Gmail

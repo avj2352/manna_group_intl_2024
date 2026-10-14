@@ -68,7 +68,7 @@ const CareersPage = () => {
           <p className="apply-note">
             *or send an email titled: &quot;Application: Clinical Marketing
             and Training Manager&quot; to{" "}
-            <strong>femiaade2@gmail.com</strong>
+            <strong>femiaade@mannagroupintl.com</strong>
           </p>
         </div>
       </section>

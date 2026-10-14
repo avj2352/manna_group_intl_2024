@@ -6,7 +6,7 @@ from fastapi.security import HTTPBasic
 from pydantic_settings import BaseSettings
 from typing import List, Any
 
-API_VERSION: str = "2.5.5"
+API_VERSION: str = "2.5.6"
 
 description: str = f"""
 <p>

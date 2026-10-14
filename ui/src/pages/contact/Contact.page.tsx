@@ -63,19 +63,19 @@ const ContactPage: FC = () => {
                         <a href="mailto:sales@mannagroupintl.com" className="text-primary hover:underline font-medium">
                           sales@mannagroupintl.com
                         </a>
-                        <span className="text-xs text-base-content/60">Product inquiries, pricing & purchase orders — George Varges</span>
+                        <span className="text-xs text-base-content/60">Product inquiries, pricing & purchase orders.</span>
                       </li>
                       <li className="flex flex-col">
                         <a href="mailto:hr@mannagroupintl.com" className="text-primary hover:underline font-medium">
                           hr@mannagroupintl.com
                         </a>
-                        <span className="text-xs text-base-content/60">Careers, partnerships & general employment inquiries — George Varges</span>
+                        <span className="text-xs text-base-content/60">Careers, partnerships & general employment inquiries.</span>
                       </li>
 <li className="flex flex-col">
                         <a href="mailto:femiaade@mannagroupintl.com" className="text-primary hover:underline font-medium">
                           femiaade@mannagroupintl.com
                         </a>
-                        <span className="text-xs text-base-content/60">Medical, clinical & nutraceutical product questions — Dr. Femi Aade</span>
+                        <span className="text-xs text-base-content/60">Medical, clinical & nutraceutical product questions.</span>
                       </li>
                     </ul>
                     <p className="pt-1"><strong>Call:</strong> +1 (877) 638 1437</p>

@@ -30,7 +30,7 @@ const CommonLayout: FC<ICommonLayoutProps> = ({ children }) => {
   return (
     <Fragment>
       <Navbar navList={publicNavList} />
-      <div className="pt-0 lg:pt-0">{children}</div>
+      <div className="pt-0 lg:pt-0 min-h-screen">{children}</div>
     </Fragment>
   );
 };

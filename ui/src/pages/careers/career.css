@@ -14,7 +14,6 @@
     }
     .careers-header .eyebrow{
       display:inline-block;
-      font-family:'Outfit',sans-serif;
       font-size:0.8rem;
       font-weight:600;
       letter-spacing:0.14em;
@@ -23,14 +22,12 @@
       margin-bottom:14px;
     }
     .careers-header h1{
-      font-family:'Marcellus',serif;
       font-size:clamp(2.4rem,5vw,3.6rem);
       color:var(--mgi-navy);
       margin-bottom:16px;
       text-transform:uppercase;
     }
     .careers-header p{
-      font-family:'Outfit',sans-serif;
       font-size:clamp(1rem,1.6vw,1.15rem);
       color:#3d3d5c;
       line-height:1.6;
@@ -67,7 +64,6 @@
       color:var(--mgi-navy);
       padding:12px 18px;
       border-radius:14px;
-      font-family:'Outfit',sans-serif;
       font-weight:700;
       box-shadow:0 8px 24px rgba(0,0,0,0.18);
     }
@@ -89,7 +85,6 @@
     }
 
     .job-card{
-      font-family:'Outfit',sans-serif;
       background:#fff;
       border:1px solid rgba(21,21,58,0.08);
       border-radius:20px;
@@ -114,7 +109,6 @@
       font-size:1.2rem;
     }
     .job-card h2{
-      font-family:'Marcellus',serif;
       font-size:1.35rem;
       color:var(--mgi-navy);
     }
