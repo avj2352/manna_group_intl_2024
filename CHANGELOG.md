@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.5.5
+- 10/14/2026
+- AWS: Added email alias forwarding stack — SES receipt rules, S3 temporary storage, Lambda forwarder for admin@, sales@, hr@, george@, femiaade@ mannagroupintl.com aliases redirecting to Gmail
+
 ## v2.5.4
 - 09/11/2026
 - API: Fixed delete product failing silently due to `order_products` FK constraint — now deletes order-product and asset-product join records before removing the product row; returns HTTP 500 on failure instead of 200 with `"failure"` message

@@ -6,6 +6,8 @@ import { AppDnsStack } from "../lib/dns/dns-stack";
 import { DBStack } from "../lib/db/pg-stack";
 import { AssetsStack } from "../lib/storage/s3-stack";
 import { ApiEcsStack } from "../lib/containers/fastapi-ecs-stack";
+import { EmailForwardingStack } from "../lib/email/email-forwarding-stack";
+import { EMAIL_ALIASES } from "../lib/email/email-aliases";
 
 const app = new cdk.App();
 
@@ -50,4 +52,12 @@ new AssetsStack(app, `${PRODUCT_NAME}AssetStack`, {
 //..create ecs deployment
 new ApiEcsStack(app, `${PRODUCT_NAME}ApiEcsStack`, {
   env: { ...env },
+});
+
+//..email alias forwarding via SES
+new EmailForwardingStack(app, `${PRODUCT_NAME}EmailForwardingStack`, {
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: "us-east-1" },
+  hostedZone,
+  apexDomain,
+  emailAliases: EMAIL_ALIASES,
 });
