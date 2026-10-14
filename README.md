@@ -8,6 +8,48 @@ OTC pharmaceuticals & Essential Oils. This is the new version of the website
 - [Current Website](https://mannagroupintl.com/)
 - [Deployed API](https://manna-grp-intl-api.fly.dev/docs)
 
+## Contributing
+
+We welcome contributions to the Manna Group International project! To keep the codebase healthy and maintain a high standard of quality, please follow the simple workflow below. It only takes a few extra steps and makes a big difference for the whole team. 🙌
+
+### Workflow
+
+1. **Create a new branch** for your changes — whether you're working on the UI, the API, or the infrastructure. Please don't commit directly to `master`.
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   # or for bug fixes
+   git checkout -b fix/your-fix-description
+   ```
+
+2. **Make your changes** on that branch, commit often, and push to the remote when ready.
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+3. **Open a Pull Request** targeting `master`. Give it a clear title and a short description of what changed and why. This is the team's chance to catch anything before it goes live.
+
+4. **Wait for review and approval.** Once your PR is approved by `avj2352`, it will be merged into `master` and your contribution becomes part of the project. 🎉
+
+### Branch Naming Conventions
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| New feature | `feature/<name>` | `feature/email-aliases` |
+| Bug fix | `fix/<name>` | `fix/navbar-missing` |
+| Refactor | `refactor/<name>` | `refactor/auth-flow` |
+| Documentation | `docs/<name>` | `docs/api-endpoints` |
+
+### A Few Ground Rules
+
+- Branch names `master` and `main` are reserved — please don't use them
+- All PRs require at least **1 approving review** before they can be merged
+- If new commits are pushed to an open PR after it has been approved, the approval is reset and a fresh review is needed
+- Keep PRs focused — one feature or fix per PR makes reviewing much easier for everyone
+
+---
+
 ## Important Links
 
 - [PostHog - Product analytics tool free](https://us.posthog.com/project/113825/products)
